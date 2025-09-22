@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yggdrasil_app/src/view/screens/startup_screen.dart';
 import 'src/shared/themes/theme.dart';
 import 'src/shared/themes/app_typography.dart';
 
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
       themeMode: ThemeMode.light,
       theme: theme.light(),
       darkTheme: theme.dark(),
-      home: const MyHomePage(title: 'YggDrasil Demo Home Page'),
+      home: StartupScreen(),
     );
   }
 }
