@@ -11,19 +11,37 @@ class StartupScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-              children: [Text('Bem vindo ao'), Text("YggDrasil")],
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(style: TextStyle(fontSize: 38.0), 'Bem vindo ao'),
+                Text(
+                  style: TextStyle(
+                    fontSize: 38.0,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                  "YggDrasil",
+                ),
+              ],
             ),
             Text("Monitore a vida e se junte a revolução verde"),
             Image(image: AssetImage('assets/images/logo-yggdrasil.png')),
             ElevatedButton(onPressed: () {}, child: Text("Criar Conta")),
             Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
 
               children: [
                 Text('Já tem uma conta?'),
-                TextButton(onPressed: () {}, child: Text("Entrar")),
+                TextButton(
+                  onPressed: () {},
+                  child: Text(
+                    style: TextStyle(
+                      decoration: TextDecoration.underline,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    "Entrar",
+                  ),
+                ),
               ],
             ),
           ],
