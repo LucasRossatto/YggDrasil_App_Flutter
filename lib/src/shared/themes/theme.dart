@@ -8,7 +8,7 @@ class MaterialTheme {
   static ColorScheme lightScheme() {
     return const ColorScheme(
       brightness: Brightness.light,
-      primary: Color(0xff006d34),
+      primary: Color.fromRGBO(5, 223, 114, 1),
       surfaceTint: Color(0xff006d34),
       onPrimary: Color(0xffffffff),
       primaryContainer: Color(0xff05df72),
@@ -26,14 +26,14 @@ class MaterialTheme {
       errorContainer: Color(0xffffdad6),
       onErrorContainer: Color(0xff93000a),
       surface: Color(0xfffcf8f8),
-      onSurface: Color(0xff1c1b1b),
+      onSurface: Color.fromRGBO(11, 12, 13, 1),
       onSurfaceVariant: Color(0xff444748),
       outline: Color(0xff747878),
       outlineVariant: Color(0xffc4c7c7),
       shadow: Color(0xff000000),
       scrim: Color(0xff000000),
       inverseSurface: Color(0xff313030),
-      inversePrimary: Color(0xff18e376),
+      inversePrimary: Color.fromRGBO(5, 223, 114, 1),
       primaryFixed: Color(0xff62ff96),
       onPrimaryFixed: Color(0xff00210b),
       primaryFixedDim: Color(0xff18e376),
@@ -88,7 +88,7 @@ class MaterialTheme {
       shadow: Color(0xff000000),
       scrim: Color(0xff000000),
       inverseSurface: Color(0xff313030),
-      inversePrimary: Color(0xff18e376),
+      inversePrimary: Color.fromRGBO(5, 223, 114, 1),
       primaryFixed: Color(0xff007e3d),
       onPrimaryFixed: Color(0xffffffff),
       primaryFixedDim: Color(0xff00622e),
@@ -173,7 +173,7 @@ class MaterialTheme {
   static ColorScheme darkScheme() {
     return const ColorScheme(
       brightness: Brightness.dark,
-      primary: Color(0xff46fc8b),
+      primary: Color.fromRGBO(5, 223, 114, 1),
       surfaceTint: Color(0xff18e376),
       onPrimary: Color(0xff003918),
       primaryContainer: Color(0xff05df72),
@@ -191,7 +191,7 @@ class MaterialTheme {
       errorContainer: Color(0xff93000a),
       onErrorContainer: Color(0xffffdad6),
       surface: Color(0xff141313),
-      onSurface: Color(0xffe5e2e1),
+      onSurface: Color.fromARGB(255, 255, 255, 255),
       onSurfaceVariant: Color(0xffc4c7c7),
       outline: Color(0xff8e9192),
       outlineVariant: Color(0xff444748),
@@ -228,7 +228,7 @@ class MaterialTheme {
   static ColorScheme darkMediumContrastScheme() {
     return const ColorScheme(
       brightness: Brightness.dark,
-      primary: Color(0xff46fc8b),
+      primary: Color.fromRGBO(5, 223, 114, 1),
       surfaceTint: Color(0xff18e376),
       onPrimary: Color(0xff002e12),
       primaryContainer: Color(0xff05df72),
