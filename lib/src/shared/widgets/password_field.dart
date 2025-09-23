@@ -49,8 +49,8 @@ class _PasswordFieldState extends State<PasswordField> {
             hintText: widget.hint,
             suffixIcon: IconButton(
               icon: Icon(
-                color: Theme.of(context).colorScheme.secondary,
-                _obscureText ? Icons.visibility_off_outlined : Icons.visibility_off_outlined,
+                color: Theme.of(context).colorScheme.outline,
+                _obscureText ? Icons.visibility_off_outlined : Icons.visibility_outlined,
               ),
               onPressed: () {
                 setState(() {
