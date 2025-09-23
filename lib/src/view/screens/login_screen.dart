@@ -96,7 +96,7 @@ class screen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 24),
 
                   Container(
                     decoration: BoxDecoration(
@@ -109,7 +109,7 @@ class screen extends StatelessWidget {
                         padding: const EdgeInsets.all(20.0),
                         child: Column(
                           children: [
-                            SizedBox(height: 20),
+                            SizedBox(height: 24),
 
                             Text(
                               "Bem vindo de volta",
@@ -119,15 +119,15 @@ class screen extends StatelessWidget {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            SizedBox(height: 20),
+                            SizedBox(height: 24),
 
                             Text(
                               "Entre para explorar nosso aplicativo",
                               style: TextStyle(
-                                color: Theme.of(context).colorScheme.secondary,
+                                color: Theme.of(context).colorScheme.outline,
                               ),
                             ),
-                            SizedBox(height: 20),
+                            SizedBox(height: 24),
 
                             AppTextField(
                               controller: _emailController,
@@ -143,7 +143,7 @@ class screen extends StatelessWidget {
                                 return null;
                               },
                             ),
-                            SizedBox(height: 20),
+                            SizedBox(height: 24),
 
                             PasswordField(
                               controller: _passwordController,
@@ -156,9 +156,9 @@ class screen extends StatelessWidget {
                                 return null;
                               },
                             ),
-                            SizedBox(height: 12),
+                            SizedBox(height: 24),
                             ManterContectadoCheckbox(),
-                            SizedBox(height: 12),
+                            SizedBox(height: 24),
                             LoginButton(
                               isLoading: _isLoading,
                               onPressed: () {
@@ -166,7 +166,7 @@ class screen extends StatelessWidget {
                               },
                             ),
 
-                            SizedBox(height: 20),
+                            SizedBox(height: 24),
 
                             Row(
                               children: [
@@ -278,8 +278,8 @@ class LoginButton extends StatelessWidget {
           padding: const EdgeInsets.all(20.0),
           child: isLoading
               ? SizedBox(
-                  height: 20,
-                  width: 20,
+                  height: 17,
+                  width: 17,
                   child: CircularProgressIndicator(
                     strokeWidth: 2,
                     valueColor: AlwaysStoppedAnimation<Color>(
