@@ -19,7 +19,6 @@ class UsuarioModel extends Equatable{
       email: json['email'] ?? '',
     );
   }
-
   // Converter o objeto para JSON (para enviar para a API)
   Map<String, dynamic> toJson() {
     return {

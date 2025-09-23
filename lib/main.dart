@@ -1,10 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:yggdrasil_app/src/view/screens/startup_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:yggdrasil_app/src/view/screens/login_screen.dart';
+import 'package:yggdrasil_app/src/viewmodel/usuario_viewmodel.dart';
 import 'src/shared/themes/theme.dart';
 import 'src/shared/themes/app_typography.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
-  runApp(const MyApp());
+Future<void> main() async {
+  // Certifique-se de carregar o dotenv
+  await dotenv.load(fileName: ".env");
+
+  runApp(
+    MultiProvider(
+      providers: [ChangeNotifierProvider(create: (_) => UsuarioViewModel())],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -20,7 +31,7 @@ class MyApp extends StatelessWidget {
       themeMode: ThemeMode.light,
       theme: theme.light(),
       darkTheme: theme.dark(),
-      home: StartupScreen(),
+      home: LoginScreen(),
     );
   }
 }
