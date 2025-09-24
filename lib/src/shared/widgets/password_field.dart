@@ -62,6 +62,7 @@ class _PasswordFieldState extends State<PasswordField> {
             fillColor: theme.colorScheme.surface,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide(color: theme.colorScheme.secondary)
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
