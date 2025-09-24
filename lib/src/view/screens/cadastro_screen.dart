@@ -151,7 +151,10 @@ class _CadastroScreenState extends State<CadastroScreen> {
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return "Confirme sua senha";
+                                } else if(value != _senhaController.text) {
+                                  return 'As senhas não coincidem';
                                 }
+                          
                                 return null;
                               },
                             ),
