@@ -23,4 +23,19 @@ class UsuarioViewModel extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  Future<void> cadastrarUsuario(String nome, String email, String senha) async {
+    isLoading = true;
+    erro = null;
+    notifyListeners();
+
+    try {
+      usuario = await _repo.cadastrarUsuario(nome, email, senha);
+    } catch (e) {
+      erro = e.toString();
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
 }
