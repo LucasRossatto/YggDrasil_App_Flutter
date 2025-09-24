@@ -1,5 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:yggdrasil_app/src/view/screens/cadastro_screen.dart';
+import 'package:yggdrasil_app/src/view/screens/login_screen.dart';
 
 class StartupScreen extends StatelessWidget {
   const StartupScreen({super.key});
@@ -101,7 +103,12 @@ class StartupScreen extends StatelessWidget {
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (_) => CadastroScreen()),
+                        );
+                      },
                       style: ButtonStyle(
                         shape: WidgetStateProperty.all(
                           RoundedRectangleBorder(
@@ -130,7 +137,12 @@ class StartupScreen extends StatelessWidget {
                         ),
                       ),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (_) => LoginScreen()),
+                          );
+                        },
                         child: Text(
                           "Entrar",
                           style: TextStyle(
