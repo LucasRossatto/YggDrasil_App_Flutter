@@ -18,13 +18,9 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
-
   RegExp get _emailRegex => RegExp(r'^\S+@\S+$');
-
   final _emailController = TextEditingController();
-
   final _senhaController = TextEditingController();
-
   final bool _isLoading = false;
 
   @override
@@ -180,7 +176,6 @@ class screen extends StatelessWidget {
                                     ),
                                   );
                                 } catch (e) {
-                                  // Tratar erro de login
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text("Erro ao logar: $e"),
@@ -232,9 +227,9 @@ class BlurGradient2 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Positioned(
       top: 200,
-      right: 0,
+      left: 300,
       child: ImageFiltered(
-        imageFilter: ImageFilter.blur(sigmaX: 60, sigmaY: 60),
+        imageFilter: ImageFilter.blur(sigmaX: 130, sigmaY: 130),
         child: Container(
           width: 400,
           height: 400,
@@ -263,10 +258,10 @@ class BlurGradient1 extends StatelessWidget {
       top: 0,
       left: 0,
       child: ImageFiltered(
-        imageFilter: ImageFilter.blur(sigmaX: 60, sigmaY: 60),
+        imageFilter: ImageFilter.blur(sigmaX: 130, sigmaY: 130),
         child: Container(
           width: 200,
-          height: 200,
+          height: 300,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             gradient: RadialGradient(
@@ -282,7 +277,6 @@ class BlurGradient1 extends StatelessWidget {
     );
   }
 }
-
 class LoginButton extends StatelessWidget {
   final VoidCallback onPressed;
   final bool isLoading;
@@ -306,7 +300,7 @@ class LoginButton extends StatelessWidget {
             Theme.of(context).colorScheme.primary,
           ),
         ),
-        onPressed: isLoading ? null : onPressed, // desabilita enquanto carrega
+        onPressed: isLoading ? null : onPressed,
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: isLoading
