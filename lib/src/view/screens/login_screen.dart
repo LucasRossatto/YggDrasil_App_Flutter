@@ -5,6 +5,8 @@ import 'package:provider/provider.dart';
 import 'package:yggdrasil_app/src/shared/widgets/app_text_field.dart';
 import 'package:yggdrasil_app/src/shared/widgets/manter_contectado_checkbox.dart';
 import 'package:yggdrasil_app/src/shared/widgets/password_field.dart';
+import 'package:yggdrasil_app/src/view/screens/cadastro_screen.dart';
+import 'package:yggdrasil_app/src/view/screens/startup_screen.dart';
 import 'package:yggdrasil_app/src/viewmodel/usuario_viewmodel.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -21,7 +23,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   final _emailController = TextEditingController();
 
-  final _passwordController = TextEditingController();
+  final _senhaController = TextEditingController();
 
   final bool _isLoading = false;
 
@@ -33,7 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
         formKey: _formKey,
         emailController: _emailController,
         emailRegex: _emailRegex,
-        passwordController: _passwordController,
+        senhaController: _senhaController,
         isLoading: _isLoading,
       ),
     );
@@ -46,18 +48,18 @@ class screen extends StatelessWidget {
     required GlobalKey<FormState> formKey,
     required TextEditingController emailController,
     required RegExp emailRegex,
-    required TextEditingController passwordController,
+    required TextEditingController senhaController,
     required bool isLoading,
   }) : _formKey = formKey,
        _emailController = emailController,
        _emailRegex = emailRegex,
-       _passwordController = passwordController,
+       _senhaController = senhaController,
        _isLoading = isLoading;
 
   final GlobalKey<FormState> _formKey;
   final TextEditingController _emailController;
   final RegExp _emailRegex;
-  final TextEditingController _passwordController;
+  final TextEditingController _senhaController;
   final bool _isLoading;
 
   @override
@@ -146,7 +148,7 @@ class screen extends StatelessWidget {
                             SizedBox(height: 24),
 
                             PasswordField(
-                              controller: _passwordController,
+                              controller: _senhaController,
                               label: "Digite sua senha",
                               extraLabel: "Senha",
                               validator: (value) {
@@ -161,8 +163,30 @@ class screen extends StatelessWidget {
                             SizedBox(height: 24),
                             LoginButton(
                               isLoading: _isLoading,
-                              onPressed: () {
-                                vm.login("teste@gmail.com", "123456");
+                              onPressed: () async {
+                                final email = _emailController.text.trim();
+                                final senha = _senhaController.text.trim();
+
+                                try {
+                                  final usuario = await vm.login(email, senha);
+
+                                  // Navega para a tela HomeScreen
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) =>
+                                          //HomeScreen(usuario: usuario),
+                                          StartupScreen(),
+                                    ),
+                                  );
+                                } catch (e) {
+                                  // Tratar erro de login
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text("Erro ao logar: $e"),
+                                    ),
+                                  );
+                                }
                               },
                             ),
 
@@ -172,7 +196,16 @@ class screen extends StatelessWidget {
                               children: [
                                 Text("Ainda não possui uma conta?"),
                                 TextButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) =>
+                                            //HomeScreen(usuario: usuario),
+                                            CadastroScreen(),
+                                      ),
+                                    );
+                                  },
                                   child: Text("Criar conta"),
                                 ),
                               ],
