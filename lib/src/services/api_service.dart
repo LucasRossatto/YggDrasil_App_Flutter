@@ -9,13 +9,22 @@ class ApiService {
   ApiService({http.Client? client}) : client = client ?? http.Client();
 
   Future<Map<String, dynamic>> get(String endpoint) async {
-    final url = Uri.parse('$baseUrl$endpoint');
+    final url = Uri.parse(baseUrl).replace(path: endpoint);
     final response = await client.get(url);
-    return _handleResponse(response);
+    if (response.statusCode == 200) {
+      return _handleResponse(response);
+    } else {
+      throw Exception(
+        "Erro na requisição: ${response.statusCode} ${response.body}",
+      );
+    }
   }
 
-  Future<Map<String, dynamic>> post(String endpoint, Map<String, dynamic> body) async {
-    final url = Uri.parse('$baseUrl$endpoint');
+  Future<Map<String, dynamic>> post(
+    String endpoint,
+    Map<String, dynamic> body,
+  ) async {
+    final url = Uri.parse(baseUrl).replace(path: endpoint);
     final response = await client.post(
       url,
       headers: {"Content-Type": "application/json"},
