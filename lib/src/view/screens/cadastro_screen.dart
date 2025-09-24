@@ -24,13 +24,12 @@ class _CadastroScreenState extends State<CadastroScreen> {
   final _confirmarSenhaController = TextEditingController();
 
   bool _isLoading = false;
-
   RegExp get _emailRegex => RegExp(r'^\S+@\S+$');
 
   @override
   Widget build(BuildContext context) {
     final vm = context.watch<UsuarioViewModel>();
-    
+
     return Scaffold(
       body: Stack(
         children: [
@@ -151,10 +150,10 @@ class _CadastroScreenState extends State<CadastroScreen> {
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return "Confirme sua senha";
-                                } else if(value != _senhaController.text) {
+                                } else if (value != _senhaController.text) {
                                   return 'As senhas não coincidem';
                                 }
-                          
+
                                 return null;
                               },
                             ),
@@ -174,16 +173,15 @@ class _CadastroScreenState extends State<CadastroScreen> {
                                     email,
                                     senha,
                                   );
-                                  AlertDialog(title: Text(nomeCompleto));
-                                  // Navega para a tela HomeScreen
-                                  Navigator.push(
+
+                                  CustomSnackBar.show(
                                     context,
-                                    MaterialPageRoute(
-                                      builder: (_) =>
-                                          //HomeScreen(usuario: usuario),
-                                          StartupScreen(),
-                                    ),
+                                    message: "Cadastro realizado com sucesso!",
+                                    icon: Icons.check,
+                                    backgroundColor: Theme.of(context).colorScheme.onSurfaceVariant,
                                   );
+
+                               
                                 } catch (e) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
