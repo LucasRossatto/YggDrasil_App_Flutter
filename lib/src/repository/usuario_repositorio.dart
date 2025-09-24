@@ -17,7 +17,7 @@ class UsuarioRepositorio {
   Future<UsuarioModel> login(String email, String senha) async {
     final encodedEmail = Uri.encodeComponent(email);
     final encodedSenha = Uri.encodeComponent(senha);
-    final data = await _api.get("GetLogin/$encodedEmail,$encodedSenha");
+    final data = await _api.get("/GetLogin/$encodedEmail,$encodedSenha");
     return UsuarioModel.fromJson(data);
   }
 }
