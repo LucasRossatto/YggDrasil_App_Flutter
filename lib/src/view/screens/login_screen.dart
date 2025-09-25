@@ -205,7 +205,7 @@ class screen extends StatelessWidget {
                                       Navigator.pushReplacement(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (_) => HomeScreen(usuario: UsuarioModel),
+                                          builder: (_) => HomeScreen(usuario: "teste"),
                                         ),
                                       ),
                                     );
