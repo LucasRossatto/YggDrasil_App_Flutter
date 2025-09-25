@@ -90,11 +90,15 @@ class StartupScreen extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 16),
-                      Text(
-                        "Monitore a vida e se junte à revolução verde",
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          color: Theme.of(context).colorScheme.onSurface,
+                     SizedBox(
+                        width: double.infinity,
+                        child: Text(
+                          "Monitore a vida e se junte à revolução verde",
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                            fontSize: 18.0,
+                            color: Theme.of(context).colorScheme.onSurface,
+                          ),
                         ),
                       ),
 
