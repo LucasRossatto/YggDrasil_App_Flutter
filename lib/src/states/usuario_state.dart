@@ -1,8 +1,10 @@
 import 'package:flutter/foundation.dart';
+import 'package:yggdrasil_app/src/models/wallet_model.dart';
 import '../models/usuario_model.dart';
 
 class UsuarioState extends ChangeNotifier {
   UsuarioModel _usuario = UsuarioModel.init();
+  WalletModel _wallet = WalletModel.int();
   bool _logado = false;
 
   // Getters
@@ -10,8 +12,9 @@ class UsuarioState extends ChangeNotifier {
   bool get logado => _logado;
 
   // Login ou set manual do usuário
-  void setUsuario(UsuarioModel usuario) {
+  void setUsuario(UsuarioModel usuario, WalletModel wallet, Future pushReplacement) {
     _usuario = usuario;
+    _wallet = wallet;
     _logado = true;
     notifyListeners();
   }
