@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:yggdrasil_app/src/states/usuario_state.dart';
 import 'package:yggdrasil_app/src/view/screens/cadastro_screen.dart';
 import 'package:yggdrasil_app/src/view/screens/startup_screen.dart';
 import 'package:yggdrasil_app/src/viewmodel/usuario_viewmodel.dart';
@@ -13,7 +14,7 @@ Future<void> main() async {
 
   runApp(
     MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => UsuarioViewModel())],
+      providers: [ChangeNotifierProvider(create: (_) => UsuarioState())],
       child: const MyApp(),
     ),
   );
@@ -32,7 +33,7 @@ class MyApp extends StatelessWidget {
       themeMode: ThemeMode.dark,
       theme: theme.light(),
       darkTheme: theme.dark(),
-      home: CadastroScreen(),
+      home: StartupScreen(),
     );
   }
 }
