@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 class WalletModel extends Equatable {
-  final String id;
+  final int id;
   final int usuarioId;
   final String key;
   final int yggCoin;
@@ -19,7 +19,7 @@ class WalletModel extends Equatable {
 
   factory WalletModel.int() {
     return WalletModel(
-      id: '',
+      id: 0,
       usuarioId: 0,
       key: '',
       yggCoin: 0,
@@ -30,12 +30,12 @@ class WalletModel extends Equatable {
 
   factory WalletModel.fromJson(Map<String, dynamic> json) {
     return WalletModel(
-      id: json['id'] ?? '',
+      id: json['id'] ?? 0,
       usuarioId: json['usuarioId'] ?? '',
       key: json['key'] ?? '',
-      yggCoin: json['yggCoin'] ?? '',
-      scc: json['scc'] ?? '',
-      status: json['status'] ?? '',
+      yggCoin: json['yggCoin'] ?? 0,
+      scc: json['scc'] ?? 0,
+      status: json['status'] ?? 0,
     );
   }
 
@@ -51,7 +51,7 @@ class WalletModel extends Equatable {
   }
 
   WalletModel copyWith({
-    String? id,
+    int? id,
     int? usuarioId,
     String? key,
     int? yggCoin,
