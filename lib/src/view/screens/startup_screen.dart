@@ -65,9 +65,8 @@ class StartupScreen extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Container(
+                      SizedBox(
                         width: double.infinity,
-                        padding: const EdgeInsets.only(left: 16),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -91,22 +90,19 @@ class StartupScreen extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 16),
-                      Container(
-                        padding: const EdgeInsets.only(left: 16),
-                        child: Text(
-                          "Monitore a vida e se junte à revolução verde",
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            color: Theme.of(context).colorScheme.onSurface,
-                          ),
+                      Text(
+                        "Monitore a vida e se junte à revolução verde",
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          color: Theme.of(context).colorScheme.onSurface,
                         ),
                       ),
 
-                      const SizedBox(height: 42),
+                      const SizedBox(height: 48),
 
                       Image.asset('assets/images/logo-yggdrasil.png'),
 
-                      const SizedBox(height: 42),
+                      const SizedBox(height: 48),
 
                       SizedBox(
                         width: double.infinity,
@@ -140,7 +136,7 @@ class StartupScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                      
+
                       const SizedBox(height: 22),
 
                       Row(
