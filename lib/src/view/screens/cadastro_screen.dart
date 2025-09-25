@@ -1,11 +1,9 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:yggdrasil_app/src/shared/widgets/app_text_field.dart';
 import 'package:yggdrasil_app/src/shared/widgets/password_field.dart';
-import 'package:yggdrasil_app/src/view/screens/custom_snackbar.dart';
+import 'package:yggdrasil_app/src/shared/widgets/custom_snackbar.dart';
 import 'package:yggdrasil_app/src/view/screens/login_screen.dart';
-import 'package:yggdrasil_app/src/view/screens/startup_screen.dart';
 import 'package:yggdrasil_app/src/viewmodel/usuario_viewmodel.dart';
 
 class CadastroScreen extends StatefulWidget {
@@ -28,7 +26,7 @@ class _CadastroScreenState extends State<CadastroScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final vm = context.watch<UsuarioViewModel>();
+    final vm = UsuarioViewModel();
 
     return Scaffold(
       body: Stack(
@@ -168,7 +166,7 @@ class _CadastroScreenState extends State<CadastroScreen> {
                                     .trim();
                                 final String nomeCompleto = "$nome $sobrenome";
                                 try {
-                                  final usuario = await vm.cadastrarUsuario(
+                                  await vm.cadastrarUsuario(
                                     nomeCompleto,
                                     email,
                                     senha,
@@ -178,15 +176,27 @@ class _CadastroScreenState extends State<CadastroScreen> {
                                     context,
                                     message: "Cadastro realizado com sucesso!",
                                     icon: Icons.check,
-                                    backgroundColor: Theme.of(context).colorScheme.onSurfaceVariant,
+                                    backgroundColor: Theme.of(
+                                      context,
+                                    ).colorScheme.onSurfaceVariant,
                                   );
 
-                               
-                                } catch (e) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text("Erro ao logar: $e"),
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) =>
+                                          LoginScreen(),
                                     ),
+                                  );
+                                } catch (e) {
+
+                                   CustomSnackBar.show(
+                                    context,
+                                    message: "Erro ao Criar conta: $e",
+                                    icon: Icons.error_outline_outlined,
+                                    backgroundColor: Theme.of(
+                                      context,
+                                    ).colorScheme.onSurfaceVariant,
                                   );
                                 }
                               },
