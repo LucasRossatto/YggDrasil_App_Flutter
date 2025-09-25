@@ -2,25 +2,29 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:yggdrasil_app/src/models/usuario_model.dart';
+import 'package:yggdrasil_app/src/models/wallet_model.dart';
 import 'package:yggdrasil_app/src/shared/widgets/app_text_field.dart';
 import 'package:yggdrasil_app/src/shared/widgets/manter_contectado_checkbox.dart';
 import 'package:yggdrasil_app/src/shared/widgets/password_field.dart';
+import 'package:yggdrasil_app/src/states/usuario_state.dart';
 import 'package:yggdrasil_app/src/view/screens/cadastro_screen.dart';
+import 'package:yggdrasil_app/src/shared/widgets/custom_snackbar.dart';
+import 'package:yggdrasil_app/src/view/screens/home_screen.dart';
 import 'package:yggdrasil_app/src/view/screens/startup_screen.dart';
 import 'package:yggdrasil_app/src/viewmodel/usuario_viewmodel.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class LoginScreen extends StatelessWidget {
+  LoginScreen({super.key});
 
-  @override
-  State<LoginScreen> createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
+
   RegExp get _emailRegex => RegExp(r'^\S+@\S+$');
+
   final _emailController = TextEditingController();
+
   final _senhaController = TextEditingController();
+
   final bool _isLoading = false;
 
   @override
@@ -157,6 +161,7 @@ class screen extends StatelessWidget {
                             SizedBox(height: 24),
                             ManterContectadoCheckbox(),
                             SizedBox(height: 24),
+
                             LoginButton(
                               isLoading: _isLoading,
                               onPressed: () async {
@@ -164,22 +169,63 @@ class screen extends StatelessWidget {
                                 final senha = _senhaController.text.trim();
 
                                 try {
-                                  final usuario = await vm.login(email, senha);
-
-                                  // Navega para a tela HomeScreen
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (_) =>
-                                          //HomeScreen(usuario: usuario),
-                                          StartupScreen(),
-                                    ),
+                                  final idUsuario = await vm.login(
+                                    email,
+                                    senha,
                                   );
+                                  if (idUsuario == null) {
+                                    CustomSnackBar.show(
+                                      context,
+                                      message: "Nome e email incorretos",
+                                      backgroundColor: Theme.of(
+                                        context,
+                                      ).colorScheme.errorContainer,
+                                      icon: Icons.error,
+                                    );
+                                  }
+                                  final res = await vm.getInformacoesUsuario(
+                                    idUsuario.toString(),
+                                  );
+
+                                  if (res != null) {
+                                    context.read<UsuarioState>().setUsuario(
+                                     UsuarioModel(
+                                        id: res.usuario.id,
+                                        nome: res.usuario.nome,
+                                        email: res.usuario.email,
+                                      ),
+                                      WalletModel(
+                                        id: res.wallet.id,
+                                        usuarioId: res.wallet.usuarioId,
+                                        key: res.wallet.key,
+                                        yggCoin: res.wallet.yggCoin,
+                                        scc: res.wallet.scc,
+                                        status: res.wallet.status,
+                                      ),
+                                      Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (_) => HomeScreen(usuario: UsuarioModel),
+                                        ),
+                                      ),
+                                    );
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                          "Usuário ou senha inválidos",
+                                        ),
+                                      ),
+                                    );
+                                  }
                                 } catch (e) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text("Erro ao logar: $e"),
-                                    ),
+                                  CustomSnackBar.show(
+                                    context,
+                                    message: "Nome e email incorretos",
+                                    backgroundColor: Theme.of(
+                                      context,
+                                    ).colorScheme.errorContainer,
+                                    icon: Icons.error,
                                   );
                                 }
                               },
@@ -277,6 +323,7 @@ class BlurGradient1 extends StatelessWidget {
     );
   }
 }
+
 class LoginButton extends StatelessWidget {
   final VoidCallback onPressed;
   final bool isLoading;
