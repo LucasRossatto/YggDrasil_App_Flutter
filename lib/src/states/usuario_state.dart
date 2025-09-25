@@ -9,6 +9,7 @@ class UsuarioState extends ChangeNotifier {
 
   // Getters
   UsuarioModel get usuario => _usuario;
+  WalletModel get wallet => _wallet;
   bool get logado => _logado;
 
   // Login ou set manual do usuário
@@ -38,6 +39,7 @@ class UsuarioState extends ChangeNotifier {
   // Logout
   void logout() {
     _usuario = UsuarioModel.init();
+    _wallet = WalletModel.int();
     _logado = false;
     notifyListeners();
   }
