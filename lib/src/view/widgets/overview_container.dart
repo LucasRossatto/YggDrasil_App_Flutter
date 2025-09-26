@@ -23,7 +23,7 @@ class OverviewContainer extends StatelessWidget {
             children: [
               Card(
                 theme: theme,
-                svgAsset: '/assets/Icons/Icone_SCC.svg',
+                svgAsset: 'assets/Icons/Icone_SCC.svg',
                 onTap: () {},
                 label: "SCC",
                 value: wallet.scc.toString(),
@@ -31,7 +31,7 @@ class OverviewContainer extends StatelessWidget {
               ),
               Card(
                 theme: theme,
-                svgAsset: '/assets/Icons/Icone_arvores.svg',
+                svgAsset: 'assets/Icons/Icone_arvores.svg',
                 onTap: () {},
                 label: "Árvores Tageadas",
                 value: '12',
@@ -48,46 +48,78 @@ class OverviewContainer extends StatelessWidget {
             ],
           ),
         ),
-        Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(18),
-            border: Border.all(color: theme.colorScheme.secondary),
-          ),
-          padding: EdgeInsets.symmetric(horizontal: 16),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SvgPicture.asset(
-                '/assets/Icons/Icone_YGG.svg',
-                width: 24,
-                height: 24,
-              ),
-              Column(
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 18),
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(18),
+              border: Border.all(color: theme.colorScheme.secondary),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 14),
+              child: Row(
+                spacing: 60,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("YGG"),
-                  Text(
-                    wallet.yggCoin.toString(),
-                    style: TextStyle(color: theme.colorScheme.primary),
+                  Row(
+                    spacing: 10,
+                    children: [
+                      SvgPicture.asset(
+                        'assets/Icons/Icone_YGG.svg',
+                        width: 39,
+                        height: 39,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text("YGG", style: TextStyle(fontSize: 18)),
+                          Text(
+                            wallet.yggCoin.toString(),
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                              color: theme.colorScheme.primary,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
-                ],
-              ),
 
-              Container(),
-              SvgPicture.asset(
-                '/assets/Icons/Icone_YGGTAGG.svg',
-                width: 24,
-                height: 24,
-              ),
-              Column(
-                children: [
-                  Text("YGGTags"),
-                  Text(
-                    wallet.yggCoin.toString(),
-                    style: TextStyle(color: theme.colorScheme.primary),
+                  Container(
+                    width: 1,
+                    height: 50,
+                    color: theme.colorScheme.secondary,
+                  ),
+                  Row(
+                    spacing: 10,
+                    children: [
+                      SvgPicture.asset(
+                        'assets/Icons/Icone_YGGTAGG.svg',
+                        width: 37,
+                        height: 23,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text("YGGTags", style: TextStyle(fontSize: 18)),
+                          Text(
+                            wallet.yggCoin.toString(),
+                            style: TextStyle(
+                              color: theme.colorScheme.primary,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ],
               ),
-            ],
+            ),
           ),
         ),
       ],
@@ -143,7 +175,6 @@ class Card extends StatelessWidget {
                   width: 31,
                   height: 31,
                   // ignore: deprecated_member_use
-                  color: valueColor,
                 ),
               const SizedBox(height: 4),
               Text(
