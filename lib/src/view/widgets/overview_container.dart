@@ -33,7 +33,7 @@ class OverviewContainer extends StatelessWidget {
                 theme: theme,
                 svgAsset: 'assets/Icons/Icone_arvores.svg',
                 onTap: () {},
-                label: "Árvores Tageadas",
+                label: "Árvores tags",
                 value: '12',
                 valueColor: theme.colorScheme.primary,
               ),
@@ -168,7 +168,7 @@ class Card extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               if (iconData != null)
-                Icon(iconData, size: 22, color: valueColor)
+                Icon(iconData, size: 31, color: valueColor)
               else if (svgAsset != null)
                 SvgPicture.asset(
                   svgAsset!,

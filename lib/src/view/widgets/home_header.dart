@@ -96,19 +96,19 @@ class HomeHeader extends StatelessWidget {
                     theme: theme,
                     onTap: () {},
                     svgAsset: 'assets/icons/Icone_carbono.svg',
-                    label: 'Adicionar Tag',
+                    label: 'Registrar Emissão',
                   ),
                   NavigationCard(
                     theme: theme,
                     onTap: () {},
                     iconData: Icons.search_rounded,
-                    label: 'Inspecionar Árvore',
+                    label: 'Ler tag de Árvore',
                   ),
                   NavigationCard(
                     theme: theme,
                     onTap: () {},
                     svgAsset: 'assets/icons/Transação_YCC.svg',
-                    label: 'Transferir',
+                    label: 'Receber/Transferir',
                   ),
                 ],
               ),
@@ -144,8 +144,8 @@ class NavigationCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: SizedBox(
-        width: 88,
-        height: 84,
+        width: 90,
+        height: 90,
         child: Container(
           decoration: BoxDecoration(
             color: theme.colorScheme.surface,
@@ -153,6 +153,7 @@ class NavigationCard extends StatelessWidget {
           ),
           padding: const EdgeInsets.all(14),
           child: Column(
+            spacing: 3,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               if (iconData != null)
@@ -171,6 +172,7 @@ class NavigationCard extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 12,
                   color: theme.colorScheme.onSurface,
+                  height: 1.0
                 ),
               ),
             ],
