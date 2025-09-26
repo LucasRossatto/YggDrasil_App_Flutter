@@ -11,20 +11,15 @@ import 'package:yggdrasil_app/src/states/usuario_state.dart';
 import 'package:yggdrasil_app/src/view/screens/cadastro_screen.dart';
 import 'package:yggdrasil_app/src/shared/widgets/custom_snackbar.dart';
 import 'package:yggdrasil_app/src/view/screens/home_screen.dart';
-import 'package:yggdrasil_app/src/view/screens/startup_screen.dart';
 import 'package:yggdrasil_app/src/viewmodel/usuario_viewmodel.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
 
   final _formKey = GlobalKey<FormState>();
-
   RegExp get _emailRegex => RegExp(r'^\S+@\S+$');
-
   final _emailController = TextEditingController();
-
   final _senhaController = TextEditingController();
-
   final bool _isLoading = false;
 
   @override
@@ -189,7 +184,7 @@ class screen extends StatelessWidget {
 
                                   if (res != null) {
                                     context.read<UsuarioState>().setUsuario(
-                                     UsuarioModel(
+                                      UsuarioModel(
                                         id: res.usuario.id,
                                         nome: res.usuario.nome,
                                         email: res.usuario.email,
@@ -205,7 +200,8 @@ class screen extends StatelessWidget {
                                       Navigator.pushReplacement(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (_) => HomeScreen(usuario: "teste"),
+                                          builder: (_) =>
+                                              HomeScreen(usuario: res.usuario),
                                         ),
                                       ),
                                     );

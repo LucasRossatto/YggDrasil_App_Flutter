@@ -21,7 +21,7 @@ class _CadastroScreenState extends State<CadastroScreen> {
   final _senhaController = TextEditingController();
   final _confirmarSenhaController = TextEditingController();
 
-  bool _isLoading = false;
+  final bool _isLoading = false;
   RegExp get _emailRegex => RegExp(r'^\S+@\S+$');
 
   @override

@@ -13,7 +13,7 @@ Future<void> main() async {
   runApp(
     MultiProvider(
       providers: [ChangeNotifierProvider(create: (_) => UsuarioState())],
-      child: const MyApp(),
+      child: MyApp(),
     ),
   );
 }
