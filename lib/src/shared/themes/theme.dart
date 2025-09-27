@@ -9,7 +9,7 @@ class MaterialTheme {
     return const ColorScheme(
       brightness: Brightness.light,
       primary: Color.fromRGBO(5, 223, 114, 1),
-      surfaceTint: Color(0xff006d34),
+      surfaceTint: Color(0xFF25C45E),
       onPrimary: Color(0xffffffff),
       primaryContainer: Color(0xff05df72),
       onPrimaryContainer: Color(0xff005d2b),
@@ -174,7 +174,7 @@ class MaterialTheme {
     return const ColorScheme(
       brightness: Brightness.dark,
       primary: Color.fromRGBO(5, 223, 114, 1),
-      surfaceTint: Color(0xff18e376),
+      surfaceTint: Color(0xFF25C45E),
       onPrimary: Color(0xff003918),
       primaryContainer: Color(0xff05df72),
       onPrimaryContainer: Color(0xff005d2b),
@@ -229,7 +229,7 @@ class MaterialTheme {
     return const ColorScheme(
       brightness: Brightness.dark,
       primary: Color.fromRGBO(5, 223, 114, 1),
-      surfaceTint: Color(0xff18e376),
+      surfaceTint: Color(0xFF25C45E),
       onPrimary: Color(0xff002e12),
       primaryContainer: Color(0xff05df72),
       onPrimaryContainer: Color(0xff003c1a),
