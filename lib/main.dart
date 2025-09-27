@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:yggdrasil_app/src/models/usuario_model.dart';
 import 'package:yggdrasil_app/src/states/usuario_state.dart';
 import 'package:yggdrasil_app/src/view/screens/home_screen.dart';
-import 'package:yggdrasil_app/src/view/screens/startup_screen.dart';
 import 'src/shared/themes/theme.dart';
 import 'src/shared/themes/app_typography.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
