@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:yggdrasil_app/src/models/usuario_model.dart';
 import 'package:yggdrasil_app/src/states/usuario_state.dart';
+import 'package:yggdrasil_app/src/view/screens/home_screen.dart';
 import 'package:yggdrasil_app/src/view/screens/startup_screen.dart';
 import 'src/shared/themes/theme.dart';
 import 'src/shared/themes/app_typography.dart';
@@ -26,12 +28,17 @@ class MyApp extends StatelessWidget {
     TextTheme textTheme = createTextTheme(context, "Poppins", "Poppins");
 
     MaterialTheme theme = MaterialTheme(textTheme);
+    final usuarioMock = UsuarioModel(
+      id: 1,
+      nome: "Lucas Rossatto",
+      email: "lucas.rossatto@example.com",
+    );
     return MaterialApp(
       title: 'YggDrasil Demo',
-      themeMode: ThemeMode.dark,
+      themeMode: ThemeMode.light,
       theme: theme.light(),
       darkTheme: theme.dark(),
-      home: StartupScreen(),
+      home: HomeScreen(usuario: usuarioMock),
     );
   }
 }

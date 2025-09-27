@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:yggdrasil_app/src/models/wallet_model.dart';
+import 'package:yggdrasil_app/src/view/screens/transferir_screen.dart';
 
 class HomeHeader extends StatelessWidget {
   final String nome;
   final String email;
   final ThemeData theme;
-  const HomeHeader({super.key, required this.nome, required this.email, required this.theme});
+  const HomeHeader({
+    super.key,
+    required this.nome,
+    required this.email,
+    required this.theme,
+  });
 
   String getInicialNome(String? nome) {
     if (nome == null || nome.isEmpty) return "";
@@ -42,7 +49,10 @@ class HomeHeader extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: theme.colorScheme.onPrimaryFixedVariant,
                         shape: BoxShape.circle,
-                        border: Border.all(color: theme.colorScheme.surface, width: 1),
+                        border: Border.all(
+                          color: theme.colorScheme.surface,
+                          width: 1,
+                        ),
                       ),
                       child: Center(
                         child: Text(
@@ -106,7 +116,22 @@ class HomeHeader extends StatelessWidget {
                   ),
                   NavigationCard(
                     theme: theme,
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute<void>(
+                          builder: (context) => TransferScreen(
+                            carteira: WalletModel(
+                              id: 1,
+                              usuarioId: 101,
+                              key: "mocked-key-123",
+                              yggCoin: 500,
+                              scc: 250,
+                              status: 1, // exemplo: 1 = ativo, 0 = inativo
+                            ),
+                          ),
+                        ),
+                      );
+                    },
                     svgAsset: 'assets/icons/Transação_YCC.svg',
                     label: 'Receber/Transferir',
                   ),
@@ -172,7 +197,7 @@ class NavigationCard extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 12,
                   color: theme.colorScheme.onSurface,
-                  height: 1.0
+                  height: 1.0,
                 ),
               ),
             ],
