@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:yggdrasil_app/src/models/usuario_model.dart';
+import 'package:yggdrasil_app/src/models/wallet_model.dart';
 import 'package:yggdrasil_app/src/states/usuario_state.dart';
 import 'package:yggdrasil_app/src/view/widgets/home_header.dart';
 import 'package:yggdrasil_app/src/view/widgets/overview_container.dart';
@@ -9,36 +10,43 @@ import 'package:yggdrasil_app/src/view/widgets/qr_code.dart';
 
 class HomeScreen extends StatelessWidget {
   final UsuarioModel usuario;
+  final WalletModel wallet;
 
-  const HomeScreen({super.key, required this.usuario});
+  const HomeScreen({super.key, required this.usuario, required this.wallet});
   void _showBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
+      useSafeArea: true,
+      showDragHandle: true,
+      isScrollControlled: true,
+      backgroundColor: Theme.of(context).colorScheme.surface,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+      ),
       builder: (BuildContext context) {
-        return Container(
-          alignment: Alignment.center,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
-            child: Column(
-              children: [
-                Text(
-                  'Carteira',
-                  style: TextStyle(
-                    fontSize: 22,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
+        return Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'Carteira',
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  color: Theme.of(context).colorScheme.primary,
                 ),
-                Text(
-                  "Este é seu código para receber Yggcoins ou SCC por Transferência",
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Theme.of(context).colorScheme.secondary,
-                  ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                "Este é seu código para receber Yggcoins ou SCC por Transferência",
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
                 ),
-                SizedBox(height: 20),
-                WalletQrCode(),
-              ],
-            ),
+              ),
+              const SizedBox(height: 24),
+              WalletQrCode(walletKey: wallet.key),
+              const SizedBox(height: 24),
+            ],
           ),
         );
       },
@@ -101,7 +109,12 @@ class HomeScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            HomeHeader(nome: usuario.nome, email: usuario.email, theme: theme),
+            HomeHeader(
+              nome: usuario.nome,
+              email: usuario.email,
+              theme: theme,
+              wallet: wallet,
+            ),
             OverviewContainer(theme: theme, wallet: wallet),
           ],
         ),
