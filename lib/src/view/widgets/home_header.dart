@@ -6,12 +6,13 @@ import 'package:yggdrasil_app/src/view/screens/transferir_screen.dart';
 class HomeHeader extends StatelessWidget {
   final String nome;
   final String email;
+  final WalletModel wallet;
   final ThemeData theme;
   const HomeHeader({
     super.key,
     required this.nome,
     required this.email,
-    required this.theme,
+    required this.theme, required this.wallet,
   });
 
   String getInicialNome(String? nome) {
@@ -73,14 +74,14 @@ class HomeHeader extends StatelessWidget {
                         Text(
                           nome,
                           style: TextStyle(
-                            color: theme.colorScheme.onInverseSurface,
+                            color: theme.colorScheme.surface,
                             fontSize: 14,
                           ),
                         ),
                         Text(
                           email,
                           style: TextStyle(
-                            color: theme.colorScheme.secondary,
+                            color: theme.colorScheme.surface,
                             fontSize: 10,
                           ),
                         ),
@@ -90,7 +91,7 @@ class HomeHeader extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 10),
             Padding(
               padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
               child: Row(
@@ -120,14 +121,7 @@ class HomeHeader extends StatelessWidget {
                       Navigator.of(context).push(
                         MaterialPageRoute<void>(
                           builder: (context) => TransferScreen(
-                            carteira: WalletModel(
-                              id: 1,
-                              usuarioId: 101,
-                              key: "mocked-key-123",
-                              yggCoin: 500,
-                              scc: 250,
-                              status: 1, // exemplo: 1 = ativo, 0 = inativo
-                            ),
+                            carteira: wallet
                           ),
                         ),
                       );
@@ -154,9 +148,9 @@ class NavigationCard extends StatelessWidget {
     this.svgAsset,
     required this.label,
   }) : assert(
-         iconData != null || svgAsset != null,
-         'Você precisa passar um IconData ou um caminho de SVG',
-       );
+          iconData != null || svgAsset != null,
+          'Você precisa passar um IconData ou um caminho de SVG',
+        );
 
   final ThemeData theme;
   final VoidCallback onTap;
@@ -166,38 +160,50 @@ class NavigationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final cardSize = screenWidth * 0.21; // 20% da largura da tela
+
     return GestureDetector(
       onTap: onTap,
       child: SizedBox(
-        width: 90,
-        height: 90,
+        width: cardSize,
+        height: cardSize,
         child: Container(
           decoration: BoxDecoration(
             color: theme.colorScheme.surface,
             borderRadius: BorderRadius.circular(8),
+            border: Border.all(color: theme.colorScheme.outline),
           ),
-          padding: const EdgeInsets.all(14),
+          padding: EdgeInsets.all(cardSize * 0.15), // padding proporcional
           child: Column(
             spacing: 3,
+            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               if (iconData != null)
-                Icon(iconData, size: 22, color: theme.colorScheme.onSurface)
+                Icon(
+                  iconData,
+                  size: cardSize * 0.3,
+                  color: theme.colorScheme.onSurface,
+                )
               else if (svgAsset != null)
                 SvgPicture.asset(
                   svgAsset!,
-                  width: 22,
-                  height: 22,
+                  width: cardSize * 0.3,
+                  height: cardSize * 0.3,
                   // ignore: deprecated_member_use
                   color: theme.colorScheme.onSurface,
                 ),
-              const SizedBox(height: 4),
-              Text(
-                label,
-                style: TextStyle(
-                  fontSize: 12,
-                  color: theme.colorScheme.onSurface,
-                  height: 1.0,
+              Flexible(
+                child: Text(
+                  label,
+                  textAlign: TextAlign.start,
+                  style: TextStyle(
+                    fontSize: cardSize * 0.12,
+                    color: theme.colorScheme.onSurface,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  maxLines: 2,
                 ),
               ),
             ],
