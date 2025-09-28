@@ -7,14 +7,17 @@ import 'package:yggdrasil_app/src/view/widgets/transferir_button.dart';
 class SccTransferirForm extends StatelessWidget {
   final int carteiraId;
   final int carteiraSaldo;
-  final _carteidaDestino = TextEditingController();
-  final _quantidadeScc = TextEditingController();
   final VoidCallback abrirScanner;
+  final TextEditingController carteiraDestinoController;
+  final TextEditingController quantidadeController;
 
-  SccTransferirForm({
+  const SccTransferirForm({
     super.key,
     required this.carteiraId,
-    required this.carteiraSaldo, required this.abrirScanner,
+    required this.carteiraSaldo,
+    required this.abrirScanner,
+    required this.carteiraDestinoController,
+    required this.quantidadeController,
   });
 
   @override
@@ -29,7 +32,7 @@ class SccTransferirForm extends StatelessWidget {
             icone: SvgPicture.asset('assets/Icons/Icone_SCC.svg'),
             titulo: "Carteira SCC",
             subtitulo: "Saldo disponível SCC",
-            saldo: "$carteiraSaldo",
+            saldo: carteiraSaldo.toString(),
             onTap: () {},
           ),
           SizedBox(height: 20),
@@ -41,7 +44,7 @@ class SccTransferirForm extends StatelessWidget {
               SizedBox(
                 width: MediaQuery.of(context).size.width - 110,
                 child: AppTextField(
-                  controller: _carteidaDestino,
+                  controller: carteiraDestinoController,
                   label: "Carteira Destinada",
                   extraLabel: "Carteira Destinada",
                   hint: "Digite a carteira de destino ou escaneie o QR Code",
@@ -73,7 +76,7 @@ class SccTransferirForm extends StatelessWidget {
           SizedBox(height: 20),
           AppTextField(
             keyboardType: TextInputType.number,
-            controller: _quantidadeScc,
+            controller: quantidadeController,
             label: "Valor",
             extraLabel: "Quantidade de SCC",
             hint: "Insira o valor a ser transferido",

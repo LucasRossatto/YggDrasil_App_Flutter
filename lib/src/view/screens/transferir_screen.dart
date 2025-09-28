@@ -21,10 +21,14 @@ class _TransferScreenState extends State<TransferScreen> {
     final carteiraUsuario = widget.carteira;
 
     final TextEditingController carteiraDestino = TextEditingController();
+    final TextEditingController quantidadeYgg = TextEditingController();
+    final TextEditingController quantidadeScc = TextEditingController();
 
     @override
     void dispose() {
       carteiraDestino.dispose();
+      quantidadeYgg.dispose();
+      quantidadeScc.dispose();
       super.dispose();
     }
 
@@ -32,10 +36,8 @@ class _TransferScreenState extends State<TransferScreen> {
       final result = await Navigator.of(
         context,
       ).push<String>(MaterialPageRoute(builder: (_) => const ScannerScreen()));
-      if (result != null) {
-        setState(() {
-          carteiraDestino.text = result; // preenche automaticamente
-        });
+      if (result != null && result.isNotEmpty) {
+        carteiraDestino.text = result; //  Atualiza o campo diretamente
       }
     }
 
@@ -83,12 +85,16 @@ class _TransferScreenState extends State<TransferScreen> {
                       carteiraId: carteiraUsuario.id,
                       carteiraSaldo: carteiraUsuario.yggCoin,
                       abrirScanner: abrirScanner,
+                      carteiraDestinoController: carteiraDestino,
+                      quantidadeController: quantidadeYgg,
                     )
                   : SccTransferirForm(
                       key: const ValueKey('SCCForm'),
                       carteiraId: carteiraUsuario.id,
                       carteiraSaldo: carteiraUsuario.scc,
                       abrirScanner: abrirScanner,
+                      carteiraDestinoController: carteiraDestino,
+                      quantidadeController: quantidadeScc,
                     ),
             ),
           ),

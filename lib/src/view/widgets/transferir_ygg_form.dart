@@ -9,14 +9,16 @@ class YggTransferirForm extends StatelessWidget {
   final int carteiraSaldo;
   final VoidCallback abrirScanner;
 
-  final _carteidaDestino = TextEditingController();
-  final _quantidadeYgg = TextEditingController();
+  final TextEditingController  carteiraDestinoController;
+  final TextEditingController quantidadeController;
 
-  YggTransferirForm({
+  const YggTransferirForm({
     super.key,
     required this.carteiraId,
     required this.carteiraSaldo,
     required this.abrirScanner,
+    required this.carteiraDestinoController,
+    required this.quantidadeController,
   });
 
   @override
@@ -43,7 +45,7 @@ class YggTransferirForm extends StatelessWidget {
               SizedBox(
                 width: MediaQuery.of(context).size.width - 110,
                 child: AppTextField(
-                  controller: _carteidaDestino,
+                  controller: carteiraDestinoController,
                   label: "Carteira Destinada",
                   extraLabel: "Carteira Destinada",
                   hint: "Digite a carteira de destino ou escaneie o QR Code",
@@ -75,7 +77,7 @@ class YggTransferirForm extends StatelessWidget {
           SizedBox(height: 20),
           AppTextField(
             keyboardType: TextInputType.number,
-            controller: _quantidadeYgg,
+            controller: quantidadeController,
             label: "Valor",
             extraLabel: "Quantidade de YGG",
             hint: "Insira o valor a ser transferido",
