@@ -13,10 +13,12 @@ class OverviewContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+          padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04, vertical: screenWidth * 0.025,),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -49,7 +51,7 @@ class OverviewContainer extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 18),
+          padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.045),
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(18),
@@ -58,29 +60,29 @@ class OverviewContainer extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 14),
               child: Row(
-                spacing: 60,
+                spacing: screenWidth * 0.15,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Row(
-                    spacing: 10,
+                    spacing: screenWidth * 0.02,
                     children: [
                       SvgPicture.asset(
                         'assets/Icons/Icone_YGG.svg',
-                        width: 39,
-                        height: 39,
+                        width: screenWidth * 0.09,
+                        height: screenWidth * 0.09,
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text("YGG", style: TextStyle(fontSize: 18)),
+                          Text("YGG", style: TextStyle(fontSize: screenWidth * 0.045)),
                           Text(
                             wallet.yggCoin.toString(),
                             textAlign: TextAlign.start,
                             style: TextStyle(
                               color: theme.colorScheme.primary,
-                              fontSize: 16,
+                              fontSize: screenWidth * 0.04,
                             ),
                           ),
                         ],
@@ -90,7 +92,7 @@ class OverviewContainer extends StatelessWidget {
 
                   Container(
                     width: 1,
-                    height: 50,
+                    height: screenWidth * 0.06,
                     color: theme.colorScheme.outline,
                   ),
                   Row(
@@ -98,19 +100,19 @@ class OverviewContainer extends StatelessWidget {
                     children: [
                       SvgPicture.asset(
                         'assets/Icons/Icone_YGGTAGG.svg',
-                        width: 37,
-                        height: 23,
+                        width: screenWidth * 0.09,
+                        height: screenWidth * 0.045,
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text("YGGTags", style: TextStyle(fontSize: 18)),
+                          Text("YGGTags", style: TextStyle(fontSize: screenWidth * 0.045,)),
                           Text(
                             wallet.yggCoin.toString(),
                             style: TextStyle(
                               color: theme.colorScheme.primary,
-                              fontSize: 16,
+                              fontSize: screenWidth * 0.04,
                             ),
                           ),
                         ],
@@ -152,40 +154,46 @@ class Card extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+
     return GestureDetector(
       onTap: onTap,
       child: SizedBox(
-        width: 120,
-        height: 114,
-        child: Container(
-          decoration: BoxDecoration(
-            color: theme.colorScheme.surface,
-            borderRadius: BorderRadius.circular(8),
-            border: BoxBorder.all(color: theme.colorScheme.outline),
-          ),
-          padding: const EdgeInsets.all(14),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (iconData != null)
-                Icon(iconData, size: 31, color: valueColor)
-              else if (svgAsset != null)
-                SvgPicture.asset(
-                  svgAsset!,
-                  width: 31,
-                  height: 31,
-                  // ignore: deprecated_member_use
+        width: screenWidth * 0.28,
+        height: height * 0.13,
+        child: AspectRatio(
+          aspectRatio: 1.05,
+          child: Container(
+            decoration: BoxDecoration(
+              color: theme.colorScheme.surface,
+              borderRadius: BorderRadius.circular(8),
+              border: BoxBorder.all(color: theme.colorScheme.outline),
+            ),
+            padding: const EdgeInsets.all(14),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (iconData != null)
+                  Icon(iconData, size: screenWidth * 0.07, color: valueColor)
+                else if (svgAsset != null)
+                  SvgPicture.asset(
+                    svgAsset!,
+                    width: screenWidth * 0.07,
+                    height: screenWidth * 0.07,
+                    // ignore: deprecated_member_use
+                  ),
+              SizedBox(height: height * 0.01),
+                Text(
+                  label,
+                  style: TextStyle(
+                    fontSize:  screenWidth * 0.03,
+                    color: theme.colorScheme.onSurface,
+                  ),
                 ),
-              const SizedBox(height: 4),
-              Text(
-                label,
-                style: TextStyle(
-                  fontSize: 12,
-                  color: theme.colorScheme.onSurface,
-                ),
-              ),
-              Text(value, style: TextStyle(fontSize: 20, color: valueColor)),
-            ],
+                Text(value, style: TextStyle(fontSize: screenWidth * 0.045, color: valueColor)),
+              ],
+            ),
           ),
         ),
       ),

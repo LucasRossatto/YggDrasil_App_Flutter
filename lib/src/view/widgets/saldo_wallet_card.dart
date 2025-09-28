@@ -41,7 +41,7 @@ class SaldoWalletCard extends StatelessWidget {
               color:
                   theme.colorScheme.surface, // mesmo fillColor do AppTextField
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: theme.colorScheme.secondary),
+              border: Border.all(color: theme.colorScheme.outline),
             ),
             child: Row(
               children: [

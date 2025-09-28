@@ -24,14 +24,6 @@ class _TransferScreenState extends State<TransferScreen> {
     final TextEditingController quantidadeYgg = TextEditingController();
     final TextEditingController quantidadeScc = TextEditingController();
 
-    @override
-    void dispose() {
-      carteiraDestino.dispose();
-      quantidadeYgg.dispose();
-      quantidadeScc.dispose();
-      super.dispose();
-    }
-
     void abrirScanner() async {
       final result = await Navigator.of(
         context,
@@ -55,11 +47,11 @@ class _TransferScreenState extends State<TransferScreen> {
             },
 
             borderRadius: BorderRadius.circular(18),
-            borderColor: theme.colorScheme.outline,
+            borderColor: theme.colorScheme.secondary,
             selectedBorderColor: theme.colorScheme.surfaceTint,
             selectedColor: theme.colorScheme.surface,
             fillColor: theme.colorScheme.surfaceTint,
-            color: theme.colorScheme.outline,
+            color: theme.colorScheme.secondary,
             constraints: const BoxConstraints(minHeight: 40, minWidth: 100),
             children: const [
               Padding(
