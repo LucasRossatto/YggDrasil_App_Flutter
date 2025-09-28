@@ -53,7 +53,7 @@ class OverviewContainer extends StatelessWidget {
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(18),
-              border: Border.all(color: theme.colorScheme.secondary),
+              border: Border.all(color: theme.colorScheme.outline),
             ),
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 14),
@@ -91,7 +91,7 @@ class OverviewContainer extends StatelessWidget {
                   Container(
                     width: 1,
                     height: 50,
-                    color: theme.colorScheme.secondary,
+                    color: theme.colorScheme.outline,
                   ),
                   Row(
                     spacing: 10,
@@ -161,7 +161,7 @@ class Card extends StatelessWidget {
           decoration: BoxDecoration(
             color: theme.colorScheme.surface,
             borderRadius: BorderRadius.circular(8),
-            border: BoxBorder.all(color: theme.colorScheme.secondary),
+            border: BoxBorder.all(color: theme.colorScheme.outline),
           ),
           padding: const EdgeInsets.all(14),
           child: Column(
