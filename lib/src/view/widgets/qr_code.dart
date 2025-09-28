@@ -15,15 +15,21 @@ class _WalletQrCodeState extends State<WalletQrCode> {
   Widget build(BuildContext context) {
     final double qrSize = MediaQuery.of(context).size.width - 140;
     final String walletKey = widget.walletKey;
+    final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
 
     return Center(
-      child: SizedBox(
+      child: Container(
+        color: isDarkMode ? Colors.white : Colors.transparent,
         width: qrSize,
         height: qrSize,
-        child: PrettyQrView.data(
-          data: walletKey,
-          errorCorrectLevel: QrErrorCorrectLevel.H,
-         
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: PrettyQrView.data(
+            data: walletKey,
+            errorCorrectLevel: QrErrorCorrectLevel.H,
+           
+          ),
         ),
       ),
     );
