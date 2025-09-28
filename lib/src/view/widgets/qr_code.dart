@@ -23,13 +23,7 @@ class _WalletQrCodeState extends State<WalletQrCode> {
         child: PrettyQrView.data(
           data: walletKey,
           errorCorrectLevel: QrErrorCorrectLevel.H,
-          decoration: const PrettyQrDecoration(
-            quietZone: PrettyQrQuietZone.zero,
-            image: PrettyQrDecorationImage(
-              position: PrettyQrDecorationImagePosition.embedded,
-              image: AssetImage('assets/images/logo-yggdrasil.png'),
-            ),
-          ),
+         
         ),
       ),
     );
