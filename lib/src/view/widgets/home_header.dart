@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 import 'package:yggdrasil_app/src/models/usuario_model.dart';
 import 'package:yggdrasil_app/src/models/wallet_model.dart';
+import 'package:yggdrasil_app/src/shared/widgets/custom_snackbar.dart';
 import 'package:yggdrasil_app/src/view/screens/adicionar_arvore_screen.dart';
+import 'package:yggdrasil_app/src/view/screens/detalhe_arvore_screen.dart';
 import 'package:yggdrasil_app/src/view/screens/transferir_screen.dart';
+import 'package:yggdrasil_app/src/view/widgets/scanner_screen.dart';
+import 'package:yggdrasil_app/src/viewmodel/arvore_viewmodel.dart';
 
 class HomeHeader extends StatelessWidget {
   final String nome;
@@ -16,7 +21,8 @@ class HomeHeader extends StatelessWidget {
     required this.nome,
     required this.email,
     required this.theme,
-    required this.wallet, required this.usuario,
+    required this.wallet,
+    required this.usuario,
   });
 
   String getInicialNome(String? nome) {
@@ -27,6 +33,7 @@ class HomeHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final String inicial = getInicialNome(nome);
+    final arvoreVm = context.read<ArvoreViewModel>();
     return SizedBox(
       width: double.infinity,
       child: Container(
@@ -122,7 +129,54 @@ class HomeHeader extends StatelessWidget {
                   ),
                   NavigationCard(
                     theme: theme,
-                    onTap: () {},
+                    onTap: () async {
+                      final tagId = await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const ScannerScreen(),
+                        ),
+                      );
+
+                      if (tagId == null) return;
+
+                      try {
+                        // Busca os dados da árvore pela tag
+                        final arvore = await arvoreVm.getArvoreByQrCode(tagId);
+
+                        if (arvore == null) {
+                          if (context.mounted) {
+                            CustomSnackBar.show(
+                              context,
+                              message:
+                                  "Nenhuma árvore encontrada para a tag $tagId",
+                              icon: Icons.error,
+                              backgroundColor: theme.colorScheme.error,
+                            );
+                          }
+                          return; // não navega
+                        }
+
+                        if (context.mounted) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => DetalheArvoreScreen(
+                                arvore: arvore,
+                              ), 
+                            ),
+                          );
+                        }
+                      } catch (e) {
+                        if (context.mounted) {
+                          CustomSnackBar.show(
+                            context,
+                            message: "Erro ao buscar árvore: $e",
+                            icon: Icons.error,
+                            backgroundColor: theme.colorScheme.error,
+                          );
+                        }
+                      }
+                    },
                     iconData: Icons.search_rounded,
                     label: 'Ler tag de Árvore',
                   ),

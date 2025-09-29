@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:yggdrasil_app/src/models/arvore_model.dart';
 import 'package:yggdrasil_app/src/services/api_service.dart';
 
@@ -49,6 +50,7 @@ class ArvoreRepositorio {
   Future<ArvoreModel?> getArvoreByIdQrCode(String qrCode) async {
     final encodedId = Uri.encodeComponent(qrCode.toString());
     final data = await _api.get("/GetPerfilArvorePorQrCode/$encodedId");
+    debugPrint(data.toString());
     return ArvoreModel.fromJson(data);
   }
 }

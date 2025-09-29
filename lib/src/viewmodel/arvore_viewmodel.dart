@@ -23,17 +23,15 @@ class ArvoreViewModel extends ChangeNotifier {
     notifyListeners();
 
     try {
-      final res = await _repo.cadastrarArvore(
-        arvore,
-      );
+      final res = await _repo.cadastrarArvore(arvore);
 
       if (res.success == 0) {
-        erro =  "Não foi possível cadastrar a árvore";
+        erro = "Não foi possível cadastrar a árvore";
         return false;
       }
 
       if (res.message == "TAG inválida") {
-        erro =  "TAG inválida";
+        erro = "TAG inválida";
         return false;
       }
 
@@ -83,13 +81,33 @@ class ArvoreViewModel extends ChangeNotifier {
   }
 
   /// Busca uma árvore pelo QR Code
-  Future<void> getArvoreByQrCode(String qrCode) async {
+  Future<ArvoreModel?> getArvoreByQrCode(String qrCode) async {
     isLoading = true;
     erro = null;
     notifyListeners();
 
     try {
-      arvore = await _repo.getArvoreByIdQrCode(qrCode);
+      final res = await _repo.getArvoreByIdQrCode(qrCode);
+
+      if (res == null) {
+        throw Exception("Árvore não encontrada para o QRCode: $qrCode");
+      }
+
+      arvore = ArvoreModel(
+        usuarioId: res.usuarioId,
+        tagId: res.tagId,
+        imagemURL: res.imagemURL,
+        nome: res.nome,
+        familia: res.familia,
+        mensagem: res.mensagem,
+        idadeAproximada: res.idadeAproximada,
+        localizacao: res.localizacao,
+        nota: res.nota,
+        tipo: res.tipo,
+      );
+
+      return arvore;
+      
     } catch (e) {
       erro = e.toString();
       arvore = null;
@@ -97,6 +115,7 @@ class ArvoreViewModel extends ChangeNotifier {
       isLoading = false;
       notifyListeners();
     }
+    return null;
   }
 
   /// Limpa a árvore selecionada
