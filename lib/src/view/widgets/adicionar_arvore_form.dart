@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:yggdrasil_app/src/models/arvore_model.dart';
 import 'package:yggdrasil_app/src/shared/widgets/app_text_field.dart';
+import 'package:yggdrasil_app/src/shared/widgets/custom_snackbar.dart';
 import 'package:yggdrasil_app/src/view/widgets/transferir_button.dart';
 
 class ArvoreCreateForm extends StatefulWidget {
@@ -23,30 +24,28 @@ class ArvoreCreateForm extends StatefulWidget {
 }
 
 class _ArvoreCreateFormState extends State<ArvoreCreateForm> {
-  late TextEditingController usuarioIdController;
   late TextEditingController nomeController;
   late TextEditingController familiaController;
   late TextEditingController idadeAproximadaController;
+  late TextEditingController historicoController;
 
   @override
   void initState() {
     super.initState();
-    usuarioIdController = TextEditingController(
-      text: widget.arvore.usuarioId.toString(),
-    );
     nomeController = TextEditingController(text: widget.arvore.nome);
     familiaController = TextEditingController(text: widget.arvore.familia);
     idadeAproximadaController = TextEditingController(
       text: widget.arvore.idadeAproximada,
     );
+    historicoController = TextEditingController(text: widget.arvore.mensagem);
   }
 
   @override
   void dispose() {
-    usuarioIdController.dispose();
     nomeController.dispose();
     familiaController.dispose();
     idadeAproximadaController.dispose();
+    historicoController.dispose();
     super.dispose();
   }
 
@@ -134,22 +133,42 @@ class _ArvoreCreateFormState extends State<ArvoreCreateForm> {
             hint: "Idade da árvore",
             extraLabel: "Idade",
           ),
-          SizedBox(height: MediaQuery.of(context).size.width - 110),
+          AppTextField(
+            controller: historicoController,
+            label: "Histórico",
+            hint: "Digite o histórico da árvore",
+            extraLabel: "Histórico",
+          ),
+          SizedBox(height: spacingVertical),
           SizedBox(
             width: double.infinity,
             child: TransferirButton(
               text: "Criar Árvore",
               onPressed: () {
+                if (widget.tagIdController.text.isEmpty ||
+                    nomeController.text.isEmpty ||
+                    familiaController.text.isEmpty ||
+                    historicoController.text.isEmpty) {
+                  CustomSnackBar.show(
+                    context,
+                    message: "Preencha todos os campos obrigatórios.",
+                    icon: Icons.error,
+                    backgroundColor: theme.colorScheme.errorContainer,
+                  );
+                  return;
+                }
+
                 final arvoreAtualizada = widget.arvore.copyWith(
-                  usuarioId: int.tryParse(usuarioIdController.text) ?? 0,
-                  tagId: int.tryParse(widget.tagIdController.text) ?? 0,
+                  tagId: widget.tagIdController.text,
                   imagemURL: '',
                   nome: nomeController.text,
                   familia: familiaController.text,
                   idadeAproximada: idadeAproximadaController.text,
-                  nota: 0,
-                  tipo: 0
+                  nota: 1,
+                  tipo: 1,
+                  mensagem: historicoController.text,
                 );
+
                 widget.onSubmit(arvoreAtualizada);
               },
             ),

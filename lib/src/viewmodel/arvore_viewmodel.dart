@@ -11,20 +11,39 @@ class ArvoreViewModel extends ChangeNotifier {
   List<ArvoreModel> arvores = [];
   ArvoreModel? arvore;
 
+  void setLoading(bool value) {
+    isLoading = value;
+    notifyListeners();
+  }
+
   /// Cadastra uma nova árvore
-  Future<void> cadastrarArvore(ArvoreModel novaArvore) async {
-    isLoading = true;
+  Future<bool> cadastrarArvore(ArvoreModel arvore) async {
+    setLoading(true);
     erro = null;
     notifyListeners();
 
     try {
-      arvore = await _repo.cadastrarArvore(novaArvore);
-      // Atualiza a lista local adicionando a nova árvore
-      arvores.add(arvore!);
+      final res = await _repo.cadastrarArvore(
+        arvore,
+      );
+
+      if (res.success == 0) {
+        erro =  "Não foi possível cadastrar a árvore";
+        return false;
+      }
+
+      if (res.message == "TAG inválida") {
+        erro =  "TAG inválida";
+        return false;
+      }
+
+      debugPrint("Árvore cadastrada com ID: ${res.idArvore}");
+      return true;
     } catch (e) {
       erro = e.toString();
+      return false;
     } finally {
-      isLoading = false;
+      setLoading(false);
       notifyListeners();
     }
   }

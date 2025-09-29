@@ -2,12 +2,13 @@ import 'package:equatable/equatable.dart';
 
 class ArvoreModel extends Equatable {
   final int usuarioId;
-  final int tagId;
+  final String tagId;
   final String imagemURL;
   final String nome;
   final String familia;
   final String idadeAproximada;
   final String localizacao;
+  final String mensagem;
   final int nota;
   final int tipo;
 
@@ -17,6 +18,7 @@ class ArvoreModel extends Equatable {
     required this.imagemURL,
     required this.nome,
     required this.familia,
+    required this.mensagem,
     required this.idadeAproximada,
     required this.localizacao,
     required this.nota,
@@ -34,6 +36,7 @@ class ArvoreModel extends Equatable {
       localizacao: json['localizacao'] ?? '',
       nota: json['nota'] ?? 0,
       tipo: json['tipo'] ?? 0,
+      mensagem: json['mensagem'] ?? '',
     );
   }
 
@@ -48,17 +51,19 @@ class ArvoreModel extends Equatable {
       'localizacao': localizacao,
       'nota': nota,
       'tipo': tipo,
+      'mensagem': mensagem,
     };
   }
 
   ArvoreModel copyWith({
     int? usuarioId,
-    int? tagId,
+    String? tagId,
     String? imagemURL,
     String? nome,
     String? familia,
     String? idadeAproximada,
     String? localizacao,
+    String? mensagem,
     int? nota,
     int? tipo,
   }) {
@@ -67,6 +72,7 @@ class ArvoreModel extends Equatable {
       tagId: tagId ?? this.tagId,
       imagemURL: imagemURL ?? this.imagemURL,
       nome: nome ?? this.nome,
+      mensagem: mensagem ?? this.mensagem,
       familia: familia ?? this.familia,
       idadeAproximada: idadeAproximada ?? this.idadeAproximada,
       localizacao: localizacao ?? this.localizacao,
@@ -77,14 +83,15 @@ class ArvoreModel extends Equatable {
 
   @override
   List<Object?> get props => [
-        usuarioId,
-        tagId,
-        imagemURL,
-        nome,
-        familia,
-        idadeAproximada,
-        localizacao,
-        nota,
-        tipo,
-      ];
+    usuarioId,
+    tagId,
+    imagemURL,
+    nome,
+    familia,
+    idadeAproximada,
+    localizacao,
+    nota,
+    tipo,
+    mensagem,
+  ];
 }

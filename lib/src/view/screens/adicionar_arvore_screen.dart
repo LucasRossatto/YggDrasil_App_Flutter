@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:provider/provider.dart';
 import 'dart:io' show Platform;
 import 'package:yggdrasil_app/src/models/arvore_model.dart';
 import 'package:yggdrasil_app/src/services/localizacao_service.dart';
 import 'package:yggdrasil_app/src/shared/widgets/custom_snackbar.dart';
 import 'package:yggdrasil_app/src/view/widgets/adicionar_arvore_form.dart';
 import 'package:yggdrasil_app/src/view/widgets/scanner_screen.dart';
+import 'package:yggdrasil_app/src/viewmodel/arvore_viewmodel.dart';
 
 class AdicionarArvoreScreen extends StatefulWidget {
   final int usuarioId;
@@ -17,10 +19,19 @@ class AdicionarArvoreScreen extends StatefulWidget {
 }
 
 class _AdicionarArvoreScreen extends State<AdicionarArvoreScreen> {
+  late TextEditingController tagArvore;
+
   @override
   void initState() {
     super.initState();
+    tagArvore = TextEditingController();
     _requestLocationDialogIfAndroid();
+  }
+
+  @override
+  void dispose() {
+    tagArvore.dispose();
+    super.dispose();
   }
 
   Future<void> _requestLocationDialogIfAndroid() async {
@@ -57,8 +68,7 @@ class _AdicionarArvoreScreen extends State<AdicionarArvoreScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final usuarioId = widget.usuarioId;
-
-    final TextEditingController tagArvore = TextEditingController();
+    final arvoreVm = context.read<ArvoreViewModel>();
 
     void abrirScanner() async {
       final result = await Navigator.of(
@@ -78,9 +88,10 @@ class _AdicionarArvoreScreen extends State<AdicionarArvoreScreen> {
             tagIdController: tagArvore,
             arvore: ArvoreModel(
               usuarioId: usuarioId,
-              tagId: 0,
+              tagId: tagArvore.text,
               imagemURL: '',
               nome: '',
+              mensagem: '',
               familia: '',
               idadeAproximada: '',
               localizacao: '',
@@ -92,17 +103,45 @@ class _AdicionarArvoreScreen extends State<AdicionarArvoreScreen> {
                 final localizacaoAtual =
                     await LocalizacaoService.getCurrentLocation();
 
+                if (localizacaoAtual == null) {
+                  CustomSnackBar.show(
+                    context,
+                    message: "Não foi possível obter a localização Atual.",
+                  );
+                  return;
+                }
+
                 final arvoreComLocalizacao = arvore.copyWith(
-                  localizacao: localizacaoAtual ?? '',
+                  localizacao: localizacaoAtual,
                 );
 
-                // Agora você envia `arvoreComLocalizacao` para o backend
-                debugPrint(
-                  "Árvore cadastrada: ${arvoreComLocalizacao.toJson()}",
+                final sucesso = await arvoreVm.cadastrarArvore(
+                  arvoreComLocalizacao,
                 );
+
+                if (!sucesso) {
+                  CustomSnackBar.show(
+                    context,
+                    backgroundColor: theme.colorScheme.onError,
+                    message: "Erro ao cadastrar árvore: ${arvoreVm.erro}",
+                    icon: Icons.error,
+                  );
+                } else {
+                  CustomSnackBar.show(
+                    context,
+                    message: "Árvore cadastrada com sucesso! 🌱",
+                    icon: Icons.check_circle,
+                  );
+                }
+
+                Future.delayed(const Duration(seconds: 2), () {
+                  Navigator.of(context).pop();
+                });
               } catch (e) {
                 CustomSnackBar.show(
                   context,
+                  backgroundColor: theme.colorScheme.onError,
+                  icon: Icons.error_outline,
                   message: "Erro ao obter localização: $e",
                 );
               }

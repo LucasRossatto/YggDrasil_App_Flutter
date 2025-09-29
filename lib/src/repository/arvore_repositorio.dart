@@ -1,13 +1,33 @@
 import 'package:yggdrasil_app/src/models/arvore_model.dart';
 import 'package:yggdrasil_app/src/services/api_service.dart';
 
+class ApiResponse {
+  final int success;
+  final int idArvore;
+  final String message;
+
+  ApiResponse({
+    required this.success,
+    required this.idArvore,
+    required this.message,
+  });
+
+  factory ApiResponse.fromJson(Map<String, dynamic> json) {
+    return ApiResponse(
+      success: json['success'] ?? 0,
+      idArvore: json['idArvore'] ?? 0,
+      message: json['message'] ?? '',
+    );
+  }
+}
+
 class ArvoreRepositorio {
   final ApiService _api = ApiService();
 
   /// Cadastra uma nova árvore
-  Future<ArvoreModel> cadastrarArvore(ArvoreModel arvore) async {
+  Future<ApiResponse> cadastrarArvore(ArvoreModel arvore) async {
     final data = await _api.post("/CadastrarArvore", arvore.toJson());
-    return ArvoreModel.fromJson(data);
+    return ApiResponse.fromJson(data);
   }
 
   /// Busca todas as árvores de um usuário
