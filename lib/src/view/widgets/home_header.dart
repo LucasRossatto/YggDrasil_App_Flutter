@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:yggdrasil_app/src/models/usuario_model.dart';
 import 'package:yggdrasil_app/src/models/wallet_model.dart';
+import 'package:yggdrasil_app/src/view/screens/adicionar_arvore_screen.dart';
 import 'package:yggdrasil_app/src/view/screens/transferir_screen.dart';
 
 class HomeHeader extends StatelessWidget {
   final String nome;
   final String email;
+  final UsuarioModel usuario;
   final WalletModel wallet;
   final ThemeData theme;
   const HomeHeader({
     super.key,
     required this.nome,
     required this.email,
-    required this.theme, required this.wallet,
+    required this.theme,
+    required this.wallet, required this.usuario,
   });
 
   String getInicialNome(String? nome) {
@@ -99,7 +103,14 @@ class HomeHeader extends StatelessWidget {
                 children: [
                   NavigationCard(
                     theme: theme,
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute<void>(
+                          builder: (context) =>
+                              AdicionarArvoreScreen(usuarioId: usuario.id),
+                        ),
+                      );
+                    },
                     iconData: Icons.add,
                     label: 'Adicionar Tag',
                   ),
@@ -120,9 +131,8 @@ class HomeHeader extends StatelessWidget {
                     onTap: () {
                       Navigator.of(context).push(
                         MaterialPageRoute<void>(
-                          builder: (context) => TransferScreen(
-                            carteira: wallet
-                          ),
+                          builder: (context) =>
+                              TransferScreen(carteira: wallet),
                         ),
                       );
                     },
@@ -148,9 +158,9 @@ class NavigationCard extends StatelessWidget {
     this.svgAsset,
     required this.label,
   }) : assert(
-          iconData != null || svgAsset != null,
-          'Você precisa passar um IconData ou um caminho de SVG',
-        );
+         iconData != null || svgAsset != null,
+         'Você precisa passar um IconData ou um caminho de SVG',
+       );
 
   final ThemeData theme;
   final VoidCallback onTap;

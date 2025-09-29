@@ -65,7 +65,6 @@ class HomeScreen extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(18.0),
           child: FloatingActionButton(
-            
             onPressed: () => _showBottomSheet(context),
             child: Icon(
               Icons.qr_code_rounded,
@@ -119,6 +118,7 @@ class HomeScreen extends StatelessWidget {
               email: usuario.email,
               theme: theme,
               wallet: wallet,
+              usuario: usuario,
             ),
             OverviewContainer(theme: theme, wallet: wallet),
           ],
