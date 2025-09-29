@@ -165,6 +165,11 @@ class _CadastroScreenState extends State<CadastroScreen> {
                                 String sobrenome = _sobrenomeController.text
                                     .trim();
                                 final String nomeCompleto = "$nome $sobrenome";
+
+                                final theme = Theme.of(
+                                  context,
+                                ).colorScheme;
+
                                 try {
                                   await vm.cadastrarUsuario(
                                     nomeCompleto,
@@ -172,31 +177,29 @@ class _CadastroScreenState extends State<CadastroScreen> {
                                     senha,
                                   );
 
+                                  if (!context.mounted) return;
+
                                   CustomSnackBar.show(
                                     context,
                                     message: "Cadastro realizado com sucesso!",
                                     icon: Icons.check,
-                                    backgroundColor: Theme.of(
-                                      context,
-                                    ).colorScheme.onSurfaceVariant,
+                                    backgroundColor: theme.primaryContainer,
                                   );
 
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (_) =>
-                                          LoginScreen(),
+                                      builder: (_) => LoginScreen(),
                                     ),
                                   );
                                 } catch (e) {
+                                  if (!context.mounted) return;
 
-                                   CustomSnackBar.show(
+                                  CustomSnackBar.show(
                                     context,
                                     message: "Erro ao Criar conta: $e",
                                     icon: Icons.error_outline_outlined,
-                                    backgroundColor: Theme.of(
-                                      context,
-                                    ).colorScheme.onSurfaceVariant,
+                                    backgroundColor: theme.errorContainer,
                                   );
                                 }
                               },
