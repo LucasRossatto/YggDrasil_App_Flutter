@@ -62,12 +62,16 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: ClipOval(
-        child: FloatingActionButton(
-          onPressed: () => _showBottomSheet(context),
-          child: Icon(
-            Icons.qr_code_rounded,
-            color: theme.colorScheme.onSurface,
-            size: 37,
+        child: Padding(
+          padding: const EdgeInsets.all(18.0),
+          child: FloatingActionButton(
+            
+            onPressed: () => _showBottomSheet(context),
+            child: Icon(
+              Icons.qr_code_rounded,
+              color: theme.colorScheme.surface,
+              size: 37,
+            ),
           ),
         ),
       ),
@@ -95,6 +99,7 @@ class HomeScreen extends StatelessWidget {
                   'assets/Icons/Transação_YCC.svg',
                   width: 54,
                   height: 54,
+                  // ignore: deprecated_member_use
                   color: theme.colorScheme.secondary,
                 ),
               ),
