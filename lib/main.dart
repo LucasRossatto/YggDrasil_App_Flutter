@@ -1,21 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:yggdrasil_app/src/models/usuario_model.dart';
-import 'package:yggdrasil_app/src/models/wallet_model.dart';
 import 'package:yggdrasil_app/src/states/usuario_state.dart';
-import 'package:yggdrasil_app/src/view/screens/home_screen.dart';
+import 'package:yggdrasil_app/src/view/screens/startup_screen.dart';
+import 'package:yggdrasil_app/src/viewmodel/arvore_viewmodel.dart';
+import 'package:yggdrasil_app/src/viewmodel/usuario_viewmodel.dart';
 import 'src/shared/themes/theme.dart';
 import 'src/shared/themes/app_typography.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 Future<void> main() async {
   // carrega dotenv
-  await dotenv.load(fileName: ".env");
+  try {
+    await dotenv.load(fileName: ".env");
+  } catch (e) {
+    debugPrint("Erro ao carregar .env: $e");
+  }
 
   runApp(
     MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => UsuarioState())],
-      child: MyApp(),
+      providers: [
+        ChangeNotifierProvider(create: (_) => UsuarioState()),
+        ChangeNotifierProvider(create: (_) => UsuarioViewModel()),
+        ChangeNotifierProvider(create: (_) => ArvoreViewModel()),
+      ],
+      child: const MyApp(),
     ),
   );
 }
@@ -25,29 +33,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextTheme textTheme = createTextTheme(context, "Poppins", "Poppins");
+    final TextTheme textTheme = createTextTheme(context, "Poppins", "Poppins");
+    final MaterialTheme theme = MaterialTheme(textTheme);
 
-    MaterialTheme theme = MaterialTheme(textTheme);
-    final usuarioMock = UsuarioModel(
-      id: 1,
-      nome: "Lucas Rossatto",
-      email: "lucas.rossatto@example.com",
-    );
-
-    final walletMock = WalletModel(
-      id: 1,
-      usuarioId: 101,
-      key: "mocked-key-123",
-      yggCoin: 500,
-      scc: 250,
-      status: 1, // exemplo: 1 = ativo, 0 = inativo
-    );
     return MaterialApp(
-      title: 'YggDrasil Demo',
-      themeMode: ThemeMode.light,
+      title: 'YggDrasil Alpha 0.1.0',
+      themeMode: ThemeMode.system,
       theme: theme.light(),
       darkTheme: theme.dark(),
-      home: HomeScreen(usuario: usuarioMock, wallet: walletMock),
+      home: StartupScreen(),
     );
   }
 }
