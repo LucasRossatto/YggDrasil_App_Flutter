@@ -60,6 +60,10 @@ class HomeScreen extends StatelessWidget {
     final wallet = usuarioState.wallet;
 
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("YggDrasil Alpha 0.1.0"),
+        automaticallyImplyLeading: false,
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: ClipOval(
         child: Padding(
