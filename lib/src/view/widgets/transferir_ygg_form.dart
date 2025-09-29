@@ -9,7 +9,7 @@ class YggTransferirForm extends StatelessWidget {
   final int carteiraSaldo;
   final VoidCallback abrirScanner;
 
-  final TextEditingController  carteiraDestinoController;
+  final TextEditingController carteiraDestinoController;
   final TextEditingController quantidadeController;
 
   const YggTransferirForm({

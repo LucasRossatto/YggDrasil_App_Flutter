@@ -33,7 +33,6 @@ class UsuarioViewModel extends ChangeNotifier {
     isLoading = true;
     erro = null;
     notifyListeners();
-
     try {
       usuario = await _repo.cadastrarUsuario(nome, email, senha);
     } catch (e) {
