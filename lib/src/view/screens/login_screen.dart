@@ -26,7 +26,7 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => UsuarioViewModel(),
-      child: screen(
+      child: LoginForm(
         formKey: _formKey,
         emailController: _emailController,
         emailRegex: _emailRegex,
@@ -37,8 +37,8 @@ class LoginScreen extends StatelessWidget {
   }
 }
 
-class screen extends StatelessWidget {
-  const screen({
+class LoginForm extends StatelessWidget {
+  const LoginForm({
     super.key,
     required GlobalKey<FormState> formKey,
     required TextEditingController emailController,
@@ -162,25 +162,31 @@ class screen extends StatelessWidget {
                               onPressed: () async {
                                 final email = _emailController.text.trim();
                                 final senha = _senhaController.text.trim();
+                                final theme = Theme.of(context).colorScheme;
 
                                 try {
                                   final idUsuario = await vm.login(
                                     email,
                                     senha,
                                   );
+
+                                  if (!context.mounted) return;
+
                                   if (idUsuario == null) {
                                     CustomSnackBar.show(
                                       context,
                                       message: "Nome e email incorretos",
-                                      backgroundColor: Theme.of(
-                                        context,
-                                      ).colorScheme.errorContainer,
+                                      backgroundColor: theme.errorContainer,
                                       icon: Icons.error,
                                     );
+                                    return;
                                   }
+
                                   final res = await vm.getInformacoesUsuario(
                                     idUsuario.toString(),
                                   );
+
+                                  if (!context.mounted) return;
 
                                   if (res != null) {
                                     context.read<UsuarioState>().setUsuario(
@@ -200,14 +206,16 @@ class screen extends StatelessWidget {
                                       Navigator.pushReplacement(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (_) =>
-                                              HomeScreen(usuario: res.usuario),
+                                          builder: (_) => HomeScreen(
+                                            usuario: res.usuario,
+                                            wallet: res.wallet,
+                                          ),
                                         ),
                                       ),
                                     );
                                   } else {
                                     ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
+                                      const SnackBar(
                                         content: Text(
                                           "Usuário ou senha inválidos",
                                         ),
@@ -215,12 +223,12 @@ class screen extends StatelessWidget {
                                     );
                                   }
                                 } catch (e) {
+                                  if (!context.mounted) return;
+
                                   CustomSnackBar.show(
                                     context,
                                     message: "Nome e email incorretos",
-                                    backgroundColor: Theme.of(
-                                      context,
-                                    ).colorScheme.errorContainer,
+                                    backgroundColor: theme.errorContainer,
                                     icon: Icons.error,
                                   );
                                 }
