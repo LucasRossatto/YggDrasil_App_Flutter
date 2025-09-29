@@ -26,8 +26,8 @@ class ArvoreRepositorio {
 
   /// Busca uma árvore específica pelo QR Code
 
-  Future<ArvoreModel?> getArvoreByIdQrCode(String qr_code) async {
-    final encodedId = Uri.encodeComponent(qr_code.toString());
+  Future<ArvoreModel?> getArvoreByIdQrCode(String qrCode) async {
+    final encodedId = Uri.encodeComponent(qrCode.toString());
     final data = await _api.get("/GetPerfilArvorePorQrCode/$encodedId");
     return ArvoreModel.fromJson(data);
   }
