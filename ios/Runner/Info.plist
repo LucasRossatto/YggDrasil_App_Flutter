@@ -46,8 +46,10 @@
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>This app needs camera access to scan QR codes</string>
+	<string>Precisamos da sua camera para escanear QR codes</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This app needs photos access to get QR code from photo library</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Precisamos da sua localização para preencher automaticamente o endereço do cadastro da árvore.</string>
 </dict>
 </plist>
