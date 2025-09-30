@@ -5,10 +5,12 @@ import 'package:yggdrasil_app/src/models/wallet_model.dart';
 class OverviewContainer extends StatelessWidget {
   final ThemeData theme;
   final WalletModel wallet;
+  final int qtdeTagsTotal;
   const OverviewContainer({
     super.key,
     required this.theme,
     required this.wallet,
+    required this.qtdeTagsTotal,
   });
 
   @override
@@ -18,7 +20,10 @@ class OverviewContainer extends StatelessWidget {
     return Column(
       children: [
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04, vertical: screenWidth * 0.025,),
+          padding: EdgeInsets.symmetric(
+            horizontal: screenWidth * 0.04,
+            vertical: screenWidth * 0.025,
+          ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -36,7 +41,7 @@ class OverviewContainer extends StatelessWidget {
                 svgAsset: 'assets/Icons/Icone_arvores.svg',
                 onTap: () {},
                 label: "Árvores tags",
-                value: '12',
+                value: qtdeTagsTotal.toString(),
                 valueColor: theme.colorScheme.primary,
               ),
               Card(
@@ -76,7 +81,10 @@ class OverviewContainer extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text("YGG", style: TextStyle(fontSize: screenWidth * 0.045)),
+                          Text(
+                            "YGG",
+                            style: TextStyle(fontSize: screenWidth * 0.045),
+                          ),
                           Text(
                             wallet.yggCoin.toString(),
                             textAlign: TextAlign.start,
@@ -107,7 +115,10 @@ class OverviewContainer extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text("YGGTags", style: TextStyle(fontSize: screenWidth * 0.045,)),
+                          Text(
+                            "YGGTags",
+                            style: TextStyle(fontSize: screenWidth * 0.045),
+                          ),
                           Text(
                             wallet.yggCoin.toString(),
                             style: TextStyle(
@@ -183,15 +194,21 @@ class Card extends StatelessWidget {
                     height: screenWidth * 0.07,
                     // ignore: deprecated_member_use
                   ),
-              SizedBox(height: height * 0.01),
+                SizedBox(height: height * 0.01),
                 Text(
                   label,
                   style: TextStyle(
-                    fontSize:  screenWidth * 0.03,
+                    fontSize: screenWidth * 0.03,
                     color: theme.colorScheme.onSurface,
                   ),
                 ),
-                Text(value, style: TextStyle(fontSize: screenWidth * 0.045, color: valueColor)),
+                Text(
+                  value,
+                  style: TextStyle(
+                    fontSize: screenWidth * 0.045,
+                    color: valueColor,
+                  ),
+                ),
               ],
             ),
           ),

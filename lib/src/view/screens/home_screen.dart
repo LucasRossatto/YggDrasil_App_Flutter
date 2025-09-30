@@ -11,8 +11,14 @@ import 'package:yggdrasil_app/src/view/widgets/qr_code.dart';
 class HomeScreen extends StatelessWidget {
   final UsuarioModel usuario;
   final WalletModel wallet;
+  final int qtdeTagsTotal;
 
-  const HomeScreen({super.key, required this.usuario, required this.wallet});
+  const HomeScreen({
+    super.key,
+    required this.usuario,
+    required this.wallet,
+    required this.qtdeTagsTotal,
+  });
   void _showBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -124,7 +130,7 @@ class HomeScreen extends StatelessWidget {
               wallet: wallet,
               usuario: usuario,
             ),
-            OverviewContainer(theme: theme, wallet: wallet),
+            OverviewContainer(theme: theme, wallet: wallet, qtdeTagsTotal: qtdeTagsTotal,),
           ],
         ),
       ),

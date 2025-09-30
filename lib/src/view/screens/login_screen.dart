@@ -209,6 +209,7 @@ class LoginForm extends StatelessWidget {
                                           builder: (_) => HomeScreen(
                                             usuario: res.usuario,
                                             wallet: res.wallet,
+                                            qtdeTagsTotal: res.qtdeTagsTotal,
                                           ),
                                         ),
                                       ),
