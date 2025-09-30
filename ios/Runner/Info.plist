@@ -51,5 +51,9 @@
 	<string>This app needs photos access to get QR code from photo library</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Precisamos da sua localização para preencher automaticamente o endereço do cadastro da árvore.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Este app precisa acessar a câmera para tirar fotos da árvore.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Este app precisa acessar a galeria para salvar fotos.</string>
 </dict>
 </plist>
