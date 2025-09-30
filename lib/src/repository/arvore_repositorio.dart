@@ -19,8 +19,22 @@ class ApiResponse {
     return ApiResponse(
       success: json['success'] ?? 0,
       idArvore: json['idArvore'] ?? 0,
-      perfil: json['perfil'] ?? '',
       message: json['message'] ?? '',
+      perfil: json['perfil'] != null
+          ? ArvoreModel.fromJson(json['perfil'])
+          : ArvoreModel(
+              // se quiser inicializar vazio
+              usuarioId: 0,
+              tagId: '',
+              imagemURL: '',
+              nome: '',
+              mensagem: '',
+              familia: '',
+              idadeAproximada: '',
+              localizacao: '',
+              nota: 0,
+              tipo: 0,
+            ),
     );
   }
 }
@@ -57,5 +71,10 @@ class ArvoreRepositorio {
       return ArvoreModel.fromJson(data["perfil"]);
     }
     return null;
+  }
+
+  Future enviarImagem(String image, int id) async {
+    final data = await _api.post("/EnviarImagem", {"image": image, "id": id});
+    return data;
   }
 }

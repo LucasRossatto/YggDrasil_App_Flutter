@@ -17,29 +17,30 @@ class ArvoreViewModel extends ChangeNotifier {
   }
 
   /// Cadastra uma nova árvore
-  Future<bool> cadastrarArvore(ArvoreModel arvore) async {
+  Future<int?> cadastrarArvore(ArvoreModel arvore) async {
     setLoading(true);
     erro = null;
     notifyListeners();
 
     try {
       final res = await _repo.cadastrarArvore(arvore);
+      debugPrint("res: $res, idArvore: ${res.idArvore}");
 
       if (res.success == 0) {
         erro = "Não foi possível cadastrar a árvore";
-        return false;
+        return null;
       }
 
       if (res.message == "TAG inválida") {
         erro = "TAG inválida";
-        return false;
+        return null;
       }
 
-      debugPrint("Árvore cadastrada com ID: ${res.idArvore}");
-      return true;
+      return res.idArvore;
     } catch (e) {
       erro = e.toString();
-      return false;
+      debugPrint(erro);
+      return null;
     } finally {
       setLoading(false);
       notifyListeners();
@@ -113,6 +114,40 @@ class ArvoreViewModel extends ChangeNotifier {
     } finally {
       isLoading = false;
       notifyListeners();
+    }
+  }
+
+  Future<ApiResponse?> enviarImagem(String image, int id) async {
+    setLoading(true);
+    erro = null;
+
+    try {
+      final res = await _repo.enviarImagem(image, id);
+
+      // Garante que o res tenha o formato esperado
+      if (res is Map<String, dynamic>) {
+        final apiResponse = ApiResponse.fromJson(res);
+
+        switch (apiResponse.success) {
+          case 0:
+            erro = "Os dados da imagem não são válidos.";
+            return null;
+          case 2:
+            erro = "ID de árvore não encontrado.";
+            return null;
+          default:
+            return apiResponse;
+        }
+      } else {
+        erro = "Resposta inesperada do servidor.";
+        return null;
+      }
+    } catch (e, stack) {
+      debugPrint("Erro ao enviar imagem: $e\n$stack");
+      erro = "Erro interno ao enviar imagem.";
+      return null;
+    } finally {
+      setLoading(false);
     }
   }
 
