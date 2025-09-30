@@ -5,18 +5,21 @@ import 'package:yggdrasil_app/src/services/api_service.dart';
 class ApiResponse {
   final int success;
   final int idArvore;
+  final ArvoreModel perfil;
   final String message;
 
   ApiResponse({
     required this.success,
     required this.idArvore,
     required this.message,
+    required this.perfil,
   });
 
   factory ApiResponse.fromJson(Map<String, dynamic> json) {
     return ApiResponse(
       success: json['success'] ?? 0,
       idArvore: json['idArvore'] ?? 0,
+      perfil: json['perfil'] ?? '',
       message: json['message'] ?? '',
     );
   }
@@ -45,12 +48,14 @@ class ArvoreRepositorio {
     return ArvoreModel.fromJson(data);
   }
 
-  /// Busca uma árvore específica pelo QR Code
-
+  /// Busca uma árvore pelo QR Code
   Future<ArvoreModel?> getArvoreByIdQrCode(String qrCode) async {
     final encodedId = Uri.encodeComponent(qrCode.toString());
     final data = await _api.get("/GetPerfilArvorePorQrCode/$encodedId");
     debugPrint(data.toString());
-    return ArvoreModel.fromJson(data);
+    if (data['success'] == 1 && data['perfil'] != null) {
+      return ArvoreModel.fromJson(data["perfil"]);
+    }
+    return null;
   }
 }

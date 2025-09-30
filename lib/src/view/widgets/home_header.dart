@@ -140,7 +140,6 @@ class HomeHeader extends StatelessWidget {
                       if (tagId == null) return;
 
                       try {
-                        // Busca os dados da árvore pela tag
                         final arvore = await arvoreVm.getArvoreByQrCode(tagId);
 
                         if (arvore == null) {
@@ -150,7 +149,7 @@ class HomeHeader extends StatelessWidget {
                               message:
                                   "Nenhuma árvore encontrada para a tag $tagId",
                               icon: Icons.error,
-                              backgroundColor: theme.colorScheme.error,
+                              backgroundColor: theme.colorScheme.errorContainer,
                             );
                           }
                           return; // não navega
@@ -172,7 +171,7 @@ class HomeHeader extends StatelessWidget {
                             context,
                             message: "Erro ao buscar árvore: $e",
                             icon: Icons.error,
-                            backgroundColor: theme.colorScheme.error,
+                            backgroundColor: theme.colorScheme.errorContainer,
                           );
                         }
                       }

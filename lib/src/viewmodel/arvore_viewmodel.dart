@@ -95,7 +95,7 @@ class ArvoreViewModel extends ChangeNotifier {
 
       arvore = ArvoreModel(
         usuarioId: res.usuarioId,
-        tagId: res.tagId,
+        tagId: res.tagId.toString(),
         imagemURL: res.imagemURL,
         nome: res.nome,
         familia: res.familia,
@@ -107,15 +107,13 @@ class ArvoreViewModel extends ChangeNotifier {
       );
 
       return arvore;
-      
     } catch (e) {
-      erro = e.toString();
-      arvore = null;
+      debugPrint("Erro ao buscar árvore: $e");
+      rethrow;
     } finally {
       isLoading = false;
       notifyListeners();
     }
-    return null;
   }
 
   /// Limpa a árvore selecionada

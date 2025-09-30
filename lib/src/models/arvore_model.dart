@@ -28,7 +28,7 @@ class ArvoreModel extends Equatable {
   factory ArvoreModel.fromJson(Map<String, dynamic> json) {
     return ArvoreModel(
       usuarioId: json['usuarioId'] ?? 0,
-      tagId: json['tagId'] ?? 0,
+      tagId: json['tagId'].toString(),
       imagemURL: json['imagemURL'] ?? '',
       nome: json['nome'] ?? '',
       familia: json['familia'] ?? '',
