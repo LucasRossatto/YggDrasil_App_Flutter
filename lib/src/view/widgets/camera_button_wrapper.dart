@@ -6,8 +6,7 @@ import 'package:yggdrasil_app/src/view/widgets/camera_screen.dart';
 class CameraButtonWrapper extends StatefulWidget {
   final Function(String) onImageCaptured;
 
-  const CameraButtonWrapper({Key? key, required this.onImageCaptured})
-    : super(key: key);
+  const CameraButtonWrapper({super.key, required this.onImageCaptured});
 
   @override
   State<CameraButtonWrapper> createState() => _CameraButtonWithPreviewState();

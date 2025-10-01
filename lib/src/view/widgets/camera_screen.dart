@@ -1,13 +1,11 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 
 class CameraPage extends StatefulWidget {
   final List<CameraDescription>? cameras;
 
-  const CameraPage({Key? key, required this.cameras}) : super(key: key);
+  const CameraPage({super.key, required this.cameras});
 
   @override
   State<CameraPage> createState() => _CameraPageState();
@@ -57,7 +55,7 @@ class _CameraPageState extends State<CameraPage> {
       // Converte para Base64
       final base64Image = base64Encode(bytes);
 
-      Navigator.of(context).pop(base64Image); // Retorna Base64
+      Navigator.of(context).pop(base64Image);
     } catch (e) {
       debugPrint("Erro ao tirar foto: $e");
       ScaffoldMessenger.of(
@@ -89,9 +87,7 @@ class _CameraPageState extends State<CameraPage> {
               alignment: Alignment.bottomCenter,
               child: Container(
                 height: MediaQuery.of(context).size.height * 0.20,
-                decoration:  BoxDecoration(
-                  color: theme.colorScheme.surface,
-                ),
+                decoration: BoxDecoration(color: theme.colorScheme.surface),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -120,7 +116,10 @@ class _CameraPageState extends State<CameraPage> {
                         iconSize: 64,
                         padding: EdgeInsets.zero,
                         constraints: const BoxConstraints(),
-                        icon: Icon(Icons.circle_outlined, color: theme.colorScheme.onSurfaceVariant),
+                        icon: Icon(
+                          Icons.circle_outlined,
+                          color: theme.colorScheme.onSurfaceVariant,
+                        ),
                       ),
                     ),
                     const Spacer(),
