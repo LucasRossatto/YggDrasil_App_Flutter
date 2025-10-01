@@ -11,6 +11,12 @@ class ArvoreModel extends Equatable {
   final String mensagem;
   final int nota;
   final int tipo;
+  final int sccAcumulado;
+  final int sccGerado;
+  final int sccLiberado;
+  final String ultimaFiscalizacao;
+  final String ultimaValidacao;
+  final String ultimaAtualizacaoImagem;
 
   const ArvoreModel({
     required this.usuarioId,
@@ -23,6 +29,12 @@ class ArvoreModel extends Equatable {
     required this.localizacao,
     required this.nota,
     required this.tipo,
+    required this.sccAcumulado,
+    required this.sccGerado,
+    required this.sccLiberado,
+    required this.ultimaFiscalizacao,
+    required this.ultimaValidacao,
+    required this.ultimaAtualizacaoImagem,
   });
 
   factory ArvoreModel.fromJson(Map<String, dynamic> json) {
@@ -37,6 +49,12 @@ class ArvoreModel extends Equatable {
       nota: json['nota'] ?? 0,
       tipo: json['tipo'] ?? 0,
       mensagem: json['mensagem'] ?? '',
+      sccAcumulado: json['sccAcumulado'],
+      sccGerado: json['sccGerado'],
+      sccLiberado: json['sccLiberado'],
+      ultimaFiscalizacao: json['ultimaFiscalizacao'],
+      ultimaValidacao: json['ultimaValidacao'],
+      ultimaAtualizacaoImagem: json['ultimaAtualizacaoImagem'],
     );
   }
 
@@ -66,6 +84,12 @@ class ArvoreModel extends Equatable {
     String? mensagem,
     int? nota,
     int? tipo,
+    int? sccAcumulado,
+    int? sccGerado,
+    int? sccLiberado,
+    String? ultimaFiscalizacao,
+    String? ultimaValidacao,
+    String? ultimaAtualizacaoImagem,
   }) {
     return ArvoreModel(
       usuarioId: usuarioId ?? this.usuarioId,
@@ -78,6 +102,13 @@ class ArvoreModel extends Equatable {
       localizacao: localizacao ?? this.localizacao,
       nota: nota ?? this.nota,
       tipo: tipo ?? this.tipo,
+      sccAcumulado: sccAcumulado ?? this.sccAcumulado,
+      sccGerado: sccGerado ?? this.sccGerado,
+      sccLiberado: sccLiberado ?? this.sccLiberado,
+      ultimaFiscalizacao: ultimaFiscalizacao ?? this.ultimaFiscalizacao,
+      ultimaValidacao: ultimaValidacao ?? this.ultimaValidacao,
+      ultimaAtualizacaoImagem:
+          ultimaAtualizacaoImagem ?? this.ultimaAtualizacaoImagem,
     );
   }
 
@@ -93,5 +124,11 @@ class ArvoreModel extends Equatable {
     nota,
     tipo,
     mensagem,
+    sccAcumulado,
+    sccGerado,
+    sccLiberado,
+    ultimaFiscalizacao,
+    ultimaValidacao,
+    ultimaAtualizacaoImagem,
   ];
 }
