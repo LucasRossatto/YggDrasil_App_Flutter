@@ -23,7 +23,7 @@ class ApiResponse {
       perfil: json['perfil'] != null
           ? ArvoreModel.fromJson(json['perfil'])
           : ArvoreModel(
-              // se quiser inicializar vazio
+              id: 0,
               usuarioId: 0,
               tagId: '',
               imagemURL: '',
@@ -55,22 +55,34 @@ class ArvoreRepositorio {
   }
 
   /// Busca todas as árvores de um usuário
-  Future<List<ArvoreModel>> getArvoresUsuario(int usuarioId) async {
-    final encodedId = Uri.encodeComponent(usuarioId.toString());
-    final response = await _api.get("/GetArvores/$encodedId");
+  Future<Map<String, dynamic>> getArvoresUsuario(
+  int usuarioId, {
+  int page = 1,
+  int size = 5,
+}) async {
+  final response = await _api.getWithQuery(
+    "GetArvores/$usuarioId",
+    queryParameters: {
+      "page": page.toString(),
+      "size": size.toString(),
+    },
+  );      
+  final List<dynamic> arvoresJson = response['arvores'] ?? [];
 
-    final List<dynamic> arvoresJson = response['arvores'] ?? [];
-
-    return arvoresJson
+  return {
+    "arvores": arvoresJson
         .map((json) => ArvoreModel.fromJson(json as Map<String, dynamic>))
-        .toList();
-  }
+        .toList(),
+    "qtdeTotal": response['qtdeTagsTotal'] ?? 0,
+  };
+}
+
 
   /// Busca uma árvore específica pelo ID
   Future<ArvoreModel?> getArvoreById(int arvoreId) async {
     final encodedId = Uri.encodeComponent(arvoreId.toString());
     final data = await _api.get("/GetPerfilArvore/$encodedId");
-    return ArvoreModel.fromJson(data);
+    return ArvoreModel.fromJson(data['perfil']);
   }
 
   /// Busca uma árvore pelo QR Code

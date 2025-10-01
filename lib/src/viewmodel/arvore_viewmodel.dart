@@ -7,6 +7,9 @@ class ArvoreViewModel extends ChangeNotifier {
 
   bool isLoading = false;
   String? erro;
+  int _page = 1;
+  int _size = 5;
+  int qtdeTotal = 0;
 
   List<ArvoreModel> arvores = [];
   ArvoreModel? arvore;
@@ -35,7 +38,7 @@ class ArvoreViewModel extends ChangeNotifier {
         erro = "TAG inválida";
         return null;
       }
-
+      arvores.insert(0, arvore);
       return res.idArvore;
     } catch (e) {
       erro = e.toString();
@@ -48,34 +51,55 @@ class ArvoreViewModel extends ChangeNotifier {
   }
 
   /// Busca todas as árvores de um usuário
-  Future<void> getArvoresUsuario(int usuarioId) async {
+  Future<void> getArvoresUsuario(
+    int usuarioId, {
+    bool carregarMais = false,
+  }) async {
     isLoading = true;
     erro = null;
     notifyListeners();
 
     try {
-      final resultado = await _repo.getArvoresUsuario(usuarioId);
-      arvores = resultado;
+      if (!carregarMais) {
+        _page = 1;
+        arvores.clear();
+      } else {
+        _page++;
+      }
+
+      final resultado = await _repo.getArvoresUsuario(
+        usuarioId,
+        page: _page,
+        size: _size,
+      );
+
+      final List<ArvoreModel> novas = resultado["arvores"];
+      qtdeTotal = resultado["qtdeTotal"];
+
+      arvores.addAll(novas);
     } on Exception catch (e) {
       erro = e.toString();
-      arvores = [];
     } finally {
       isLoading = false;
       notifyListeners();
     }
   }
 
+  bool get temMais => arvores.length < qtdeTotal;
+
   /// Busca uma árvore específica pelo ID
-  Future<void> getArvoreById(int arvoreId) async {
+  Future<ArvoreModel?> getArvoreById(int arvoreId) async {
     isLoading = true;
     erro = null;
     notifyListeners();
 
     try {
       arvore = await _repo.getArvoreById(arvoreId);
+      return arvore;
     } catch (e) {
       erro = e.toString();
       arvore = null;
+      return null;
     } finally {
       isLoading = false;
       notifyListeners();
@@ -96,6 +120,7 @@ class ArvoreViewModel extends ChangeNotifier {
       }
 
       arvore = ArvoreModel(
+        id: 0,
         usuarioId: res.usuarioId,
         tagId: res.tagId.toString(),
         imagemURL: res.imagemURL,

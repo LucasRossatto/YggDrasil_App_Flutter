@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 class ArvoreModel extends Equatable {
+  final int id;
   final int usuarioId;
   final String tagId;
   final String imagemURL;
@@ -19,6 +20,7 @@ class ArvoreModel extends Equatable {
   final String ultimaAtualizacaoImagem;
 
   const ArvoreModel({
+    required this.id,
     required this.usuarioId,
     required this.tagId,
     required this.imagemURL,
@@ -39,6 +41,7 @@ class ArvoreModel extends Equatable {
 
   factory ArvoreModel.fromJson(Map<String, dynamic> json) {
     return ArvoreModel(
+      id: json['id'] ?? 0,
       usuarioId: json['usuarioId'] ?? 0,
       tagId: json['tagId'].toString(),
       imagemURL: json['imagemURL'] ?? '',
@@ -60,6 +63,7 @@ class ArvoreModel extends Equatable {
 
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'usuarioId': usuarioId,
       'tagId': tagId,
       'imagemURL': imagemURL,
@@ -74,6 +78,7 @@ class ArvoreModel extends Equatable {
   }
 
   ArvoreModel copyWith({
+    int? id,
     int? usuarioId,
     String? tagId,
     String? imagemURL,
@@ -92,6 +97,7 @@ class ArvoreModel extends Equatable {
     String? ultimaAtualizacaoImagem,
   }) {
     return ArvoreModel(
+      id: id ?? this.id,
       usuarioId: usuarioId ?? this.usuarioId,
       tagId: tagId ?? this.tagId,
       imagemURL: imagemURL ?? this.imagemURL,
