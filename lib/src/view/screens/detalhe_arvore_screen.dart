@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:yggdrasil_app/src/models/arvore_model.dart';
 import 'package:yggdrasil_app/src/shared/widgets/base64_image.dart';
+import 'package:yggdrasil_app/src/shared/widgets/mapa.dart';
 
 class DetalheArvoreScreen extends StatelessWidget {
   final ArvoreModel arvore;
@@ -9,6 +10,9 @@ class DetalheArvoreScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final coords = arvore.localizacao.split(',');
+    final lat = double.tryParse(coords[0]) ?? 0;
+    final lng = double.tryParse(coords[1]) ?? 0;
 
     return Scaffold(
       appBar: AppBar(
@@ -48,12 +52,22 @@ class DetalheArvoreScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: 30),
-            // nome, tipo, familia, ultima fiscalizacao, scc acumulado, idade aproximada
+            // Infos container1: nome, tipo, familia, ultima fiscalizacao, scc acumulado, idade aproximada
             infoContainer1(arvore: arvore),
             SizedBox(height: 26),
-            // tag, localização
+            // Infos container2: tag, localização
             InfoContainer2(theme: theme, arvore: arvore),
-            
+            SizedBox(height: 26),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: SizedBox(
+                width: 380,
+                height: 222,
+                child: SimpleMap(latitude: lat, longitude: lng),
+              ),
+            ),
+            SizedBox(height: 26),
+
           ],
         ),
       ),
@@ -62,11 +76,7 @@ class DetalheArvoreScreen extends StatelessWidget {
 }
 
 class InfoContainer2 extends StatelessWidget {
-  const InfoContainer2({
-    super.key,
-    required this.theme,
-    required this.arvore,
-  });
+  const InfoContainer2({super.key, required this.theme, required this.arvore});
 
   final ThemeData theme;
   final ArvoreModel arvore;
@@ -110,7 +120,7 @@ class InfoContainer2 extends StatelessWidget {
             ],
           ),
           SizedBox(height: 20),
-    
+
           Text(
             // Titulo
             "Localização",
@@ -121,7 +131,7 @@ class InfoContainer2 extends StatelessWidget {
             ),
           ),
           SizedBox(height: 10),
-    
+
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -151,10 +161,7 @@ class InfoContainer2 extends StatelessWidget {
 }
 
 class infoContainer1 extends StatelessWidget {
-  const infoContainer1({
-    super.key,
-    required this.arvore,
-  });
+  const infoContainer1({super.key, required this.arvore});
 
   final ArvoreModel arvore;
 
