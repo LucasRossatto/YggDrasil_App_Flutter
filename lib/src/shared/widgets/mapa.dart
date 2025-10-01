@@ -36,10 +36,21 @@ class SimpleMap extends StatelessWidget {
                 point: LatLng(latitude, longitude),
                 width: 40,
                 height: 40,
-                child: const Icon(
-                  Icons.location_on_rounded,
-                  color: Colors.red,
-                  size: 40,
+                child: Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(color: Colors.black26, blurRadius: 4),
+                    ],
+                  ),
+                  padding: const EdgeInsets.all(2),
+                  child: Image.asset(
+                    'assets/images/logo-yggdrasil.png',
+                    width: 50,
+                    height: 50,
+                    fit: BoxFit.contain,
+                  ),
                 ),
               ),
             ],
