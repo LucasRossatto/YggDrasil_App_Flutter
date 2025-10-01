@@ -37,7 +37,7 @@ class DetalheArvoreScreen extends StatelessWidget {
           children: [
             Base64Image(
               base64String: arvore.imagemURL,
-              width: 416,
+              width: double.infinity,
               height: 260,
               fit: BoxFit.cover,
               backgroundColor: theme.colorScheme.outline,
