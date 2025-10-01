@@ -20,6 +20,27 @@ class ApiService {
     }
   }
 
+  Future<Map<String, dynamic>> getWithQuery(
+  String endpoint, {
+  Map<String, dynamic>? queryParameters,
+}) async {
+  final uri = Uri.parse(baseUrl).replace(
+    path: endpoint,
+    queryParameters: queryParameters,
+  );
+
+  final response = await client.get(uri);
+
+  if (response.statusCode == 200) {
+    return _handleResponse(response);
+  } else {
+    throw Exception(
+      "Erro na requisição: ${response.statusCode} ${response.body}",
+    );
+  }
+}
+
+
   Future<Map<String, dynamic>> post(
     String endpoint,
     Map<String, dynamic> body,
