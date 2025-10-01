@@ -81,7 +81,22 @@ class _AdicionarArvoreScreen extends State<AdicionarArvoreScreen> {
     }
 
     return Scaffold(
-      appBar: AppBar(title: const Text("Adicionar Árvore")),
+      appBar: AppBar(
+        title: const Text("Adicionar Árvore"),
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color.fromRGBO(0, 166, 62, 1),
+                Color.fromRGBO(0, 122, 85, 1),
+              ],
+              stops: [0, 0.5],
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+            ),
+          ),
+        ),
+      ),
 
       body: SingleChildScrollView(
         child: Column(
@@ -94,6 +109,7 @@ class _AdicionarArvoreScreen extends State<AdicionarArvoreScreen> {
             ArvoreCreateForm(
               tagIdController: tagArvore,
               arvore: ArvoreModel(
+                id: 0,
                 usuarioId: usuarioId,
                 tagId: tagArvore.text,
                 imagemURL: '',
@@ -146,6 +162,9 @@ class _AdicionarArvoreScreen extends State<AdicionarArvoreScreen> {
                     return;
                   }
 
+                  final novaArvore = await arvoreVm.getArvoreById(arvoreId);
+                  arvoreVm.arvores.insert(0, novaArvore!);
+
                   if (_base64Image != null && _base64Image!.isNotEmpty) {
                     final res = await arvoreVm.enviarImagem(
                       _base64Image!,
@@ -164,6 +183,7 @@ class _AdicionarArvoreScreen extends State<AdicionarArvoreScreen> {
                       return;
                     }
                   }
+
                   CustomSnackBar.show(
                     context,
                     message: "Árvore cadastrada com sucesso! 🌱",

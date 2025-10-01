@@ -125,7 +125,7 @@ class HomeHeader extends StatelessWidget {
                     theme: theme,
                     onTap: () {},
                     svgAsset: 'assets/icons/Icone_carbono.svg',
-                    label: 'Registrar Emissão',
+                    label: 'Não desenvolvido',
                   ),
                   NavigationCard(
                     theme: theme,

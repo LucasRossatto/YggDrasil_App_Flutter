@@ -21,7 +21,22 @@ class _ScannerScreenState extends State<ScannerScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Escanear QR")),
+      appBar: AppBar(
+        title: const Text("Escanear QR"),
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color.fromRGBO(0, 166, 62, 1),
+                Color.fromRGBO(0, 122, 85, 1),
+              ],
+              stops: [0, 0.5],
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+            ),
+          ),
+        ),
+      ),
       body: MobileScanner(
         controller: controller,
         onDetect: (capture) {
