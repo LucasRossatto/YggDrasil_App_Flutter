@@ -5,6 +5,7 @@ import 'package:yggdrasil_app/src/models/usuario_model.dart';
 import 'package:yggdrasil_app/src/models/wallet_model.dart';
 import 'package:yggdrasil_app/src/states/usuario_state.dart';
 import 'package:yggdrasil_app/src/view/widgets/home_header.dart';
+import 'package:yggdrasil_app/src/view/widgets/lista_arvores.dart';
 import 'package:yggdrasil_app/src/view/widgets/overview_container.dart';
 import 'package:yggdrasil_app/src/view/widgets/qr_code.dart';
 
@@ -64,6 +65,7 @@ class HomeScreen extends StatelessWidget {
     final ThemeData theme = Theme.of(context);
     final usuarioState = context.watch<UsuarioState>();
     final wallet = usuarioState.wallet;
+    final screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
       appBar: AppBar(
@@ -76,6 +78,12 @@ class HomeScreen extends StatelessWidget {
           padding: const EdgeInsets.all(18.0),
           child: FloatingActionButton(
             onPressed: () => _showBottomSheet(context),
+            backgroundColor: theme.colorScheme.primary,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(
+                20,
+              ), // controla o arredondamento
+            ),
             child: Icon(
               Icons.qr_code_rounded,
               color: theme.colorScheme.surface,
@@ -84,42 +92,7 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: BottomAppBar(
-        shape: CircularNotchedRectangle(),
-        color: theme.colorScheme.primary,
-        child: IconTheme(
-          data: IconThemeData(color: theme.colorScheme.outline),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.home_rounded, size: 53),
-              ),
-              IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.stacked_bar_chart_outlined, size: 53),
-              ),
-              Text("Qr code"),
-              IconButton(
-                onPressed: () {},
-                icon: SvgPicture.asset(
-                  'assets/Icons/Transação_YCC.svg',
-                  width: 54,
-                  height: 54,
-                  // ignore: deprecated_member_use
-                  color: theme.colorScheme.secondary,
-                ),
-              ),
-              IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.person_outline_rounded, size: 53),
-              ),
-            ],
-          ),
-        ),
-      ),
+      bottomNavigationBar: BottomNavigation(theme: theme),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -130,9 +103,124 @@ class HomeScreen extends StatelessWidget {
               wallet: wallet,
               usuario: usuario,
             ),
-            OverviewContainer(theme: theme, wallet: wallet, qtdeTagsTotal: qtdeTagsTotal,),
+            OverviewContainer(
+              theme: theme,
+              wallet: wallet,
+              qtdeTagsTotal: qtdeTagsTotal,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(color: theme.colorScheme.primary, borderRadius: BorderRadius.circular(4)),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 10),
+                      child: Text(
+                        "Minhas Árvores",
+                        style: TextStyle(
+                          color: theme.colorScheme.surface,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: ListaArvores(userId: usuario.id),
+            ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class BottomNavigation extends StatelessWidget {
+  final ThemeData theme;
+  final double iconSize;
+  final double svgSize;
+
+  const BottomNavigation({
+    super.key,
+    required this.theme,
+    this.iconSize = 50,
+    this.svgSize = 50,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = theme.colorScheme;
+
+    return BottomAppBar(
+      shape: const CircularNotchedRectangle(),
+      color: colorScheme.primary,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            _buildIconButton(
+              Icons.home_rounded,
+              () {},
+              iconSize,
+              colorScheme.secondary,
+            ),
+            _buildIconButton(
+              Icons.stacked_bar_chart_outlined,
+              () {},
+              iconSize,
+              colorScheme.secondary,
+            ),
+            const SizedBox(width: 40), // espaço para notch ou central button
+            _buildSvgButton(
+              'assets/Icons/Transação_YCC.svg',
+              () {},
+              svgSize,
+              colorScheme.secondary,
+            ),
+            _buildIconButton(
+              Icons.person_outline_rounded,
+              () {},
+              iconSize,
+              colorScheme.secondary,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildIconButton(
+    IconData icon,
+    VoidCallback onPressed,
+    double size,
+    Color color,
+  ) {
+    return IconButton(
+      onPressed: onPressed,
+      icon: Icon(icon, size: size, color: color),
+    );
+  }
+
+  Widget _buildSvgButton(
+    String assetPath,
+    VoidCallback onPressed,
+    double size,
+    Color color,
+  ) {
+    return IconButton(
+      onPressed: onPressed,
+      icon: SvgPicture.asset(
+        assetPath,
+        width: size,
+        height: size,
+        colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
       ),
     );
   }
