@@ -41,7 +41,7 @@ class DetalheArvoreScreen extends StatelessWidget {
               height: 260,
               fit: BoxFit.cover,
               backgroundColor: theme.colorScheme.outline,
-            
+
               placeholder: Icon(
                 Icons.image_not_supported_outlined,
                 size: 50,
@@ -64,7 +64,15 @@ class DetalheArvoreScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: 26),
-
+            Padding(
+              padding: const EdgeInsets.only(bottom: 20, left: 20, right: 20),
+              child: InfoRow(
+                label: "Mensagem",
+                value: arvore.mensagem,
+                valueFontSize: 16,
+                labelFontSize: 16,
+              ),
+            ),
           ],
         ),
       ),
