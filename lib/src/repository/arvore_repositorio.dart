@@ -34,6 +34,12 @@ class ApiResponse {
               localizacao: '',
               nota: 0,
               tipo: 0,
+              sccAcumulado: 0,
+              sccGerado: 0,
+              sccLiberado: 0,
+              ultimaFiscalizacao: '',
+              ultimaValidacao: '',
+              ultimaAtualizacaoImagem: '',
             ),
     );
   }

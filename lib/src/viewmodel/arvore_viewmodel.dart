@@ -105,6 +105,12 @@ class ArvoreViewModel extends ChangeNotifier {
         localizacao: res.localizacao,
         nota: res.nota,
         tipo: res.tipo,
+        sccAcumulado: res.sccAcumulado,
+        sccGerado: res.sccGerado,
+        sccLiberado: res.sccLiberado,
+        ultimaFiscalizacao: res.ultimaFiscalizacao,
+        ultimaValidacao: res.ultimaValidacao,
+        ultimaAtualizacaoImagem: res.ultimaAtualizacaoImagem,
       );
 
       return arvore;

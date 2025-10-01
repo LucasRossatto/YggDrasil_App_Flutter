@@ -104,6 +104,12 @@ class _AdicionarArvoreScreen extends State<AdicionarArvoreScreen> {
                 localizacao: '',
                 nota: 0,
                 tipo: 0,
+                sccAcumulado: 0,
+                sccGerado: 0,
+                sccLiberado: 0,
+                ultimaFiscalizacao: '',
+                ultimaValidacao: '',
+                ultimaAtualizacaoImagem: '',
               ),
               abrirScanner: abrirScanner,
               onSubmit: (arvore) async {
