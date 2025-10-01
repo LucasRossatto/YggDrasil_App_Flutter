@@ -39,16 +39,12 @@ class DetalheArvoreScreen extends StatelessWidget {
               width: 416,
               height: 260,
               fit: BoxFit.cover,
-              backgroundColor: Colors.grey.shade200,
-              boxShadow: BoxShadow(
-                color: Colors.black26,
-                blurRadius: 6,
-                offset: Offset(2, 4),
-              ),
+              backgroundColor: theme.colorScheme.outline,
+            
               placeholder: Icon(
                 Icons.image_not_supported_outlined,
                 size: 50,
-                color: Colors.grey,
+                color: theme.colorScheme.surface,
               ),
             ),
             SizedBox(height: 30),
