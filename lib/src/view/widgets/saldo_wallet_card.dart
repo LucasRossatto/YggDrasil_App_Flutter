@@ -7,6 +7,7 @@ class SaldoWalletCard extends StatelessWidget {
   final String saldo; // Texto à direita da row
   final VoidCallback? onTap;
   final String label;
+  final double iconeSize;
 
   const SaldoWalletCard({
     super.key,
@@ -16,6 +17,7 @@ class SaldoWalletCard extends StatelessWidget {
     required this.saldo,
     this.onTap,
     required this.label,
+    this.iconeSize = 40,
   });
 
   @override
@@ -45,7 +47,7 @@ class SaldoWalletCard extends StatelessWidget {
             ),
             child: Row(
               children: [
-                icone,
+                SizedBox(width: iconeSize, height: iconeSize, child: icone),
                 const SizedBox(width: 12),
                 Expanded(
                   child: Column(

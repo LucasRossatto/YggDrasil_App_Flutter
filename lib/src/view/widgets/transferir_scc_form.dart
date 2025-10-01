@@ -30,6 +30,7 @@ class SccTransferirForm extends StatelessWidget {
           SaldoWalletCard(
             label: "Saldo Disponível",
             icone: SvgPicture.asset('assets/Icons/Icone_SCC.svg'),
+            iconeSize: 44,
             titulo: "Carteira SCC",
             subtitulo: "Saldo disponível SCC",
             saldo: carteiraSaldo.toString(),

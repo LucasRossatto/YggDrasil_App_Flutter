@@ -31,6 +31,7 @@ class YggTransferirForm extends StatelessWidget {
           SaldoWalletCard(
             label: "Saldo Disponível",
             icone: SvgPicture.asset('assets/Icons/Icone_YGG.svg'),
+            iconeSize: 44,
             titulo: "Carteira YGG",
             subtitulo: "Saldo disponível YGG",
             saldo: "$carteiraSaldo",
