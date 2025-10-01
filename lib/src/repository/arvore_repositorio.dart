@@ -57,8 +57,13 @@ class ArvoreRepositorio {
   /// Busca todas as árvores de um usuário
   Future<List<ArvoreModel>> getArvoresUsuario(int usuarioId) async {
     final encodedId = Uri.encodeComponent(usuarioId.toString());
-    final data = await _api.get("/GetArvores/$encodedId");
-    return data.entries.map((e) => ArvoreModel.fromJson(e.value)).toList();
+    final response = await _api.get("/GetArvores/$encodedId");
+
+    final List<dynamic> arvoresJson = response['arvores'] ?? [];
+
+    return arvoresJson
+        .map((json) => ArvoreModel.fromJson(json as Map<String, dynamic>))
+        .toList();
   }
 
   /// Busca uma árvore específica pelo ID

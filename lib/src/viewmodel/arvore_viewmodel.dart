@@ -54,8 +54,9 @@ class ArvoreViewModel extends ChangeNotifier {
     notifyListeners();
 
     try {
-      arvores = await _repo.getArvoresUsuario(usuarioId);
-    } catch (e) {
+      final resultado = await _repo.getArvoresUsuario(usuarioId);
+      arvores = resultado;
+    } on Exception catch (e) {
       erro = e.toString();
       arvores = [];
     } finally {
