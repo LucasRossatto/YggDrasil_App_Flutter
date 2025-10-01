@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:yggdrasil_app/src/models/arvore_model.dart';
 import 'package:yggdrasil_app/src/shared/widgets/base64_image.dart';
+import 'package:yggdrasil_app/src/shared/widgets/formatar_data.dart';
 import 'package:yggdrasil_app/src/shared/widgets/mapa.dart';
 
 class DetalheArvoreScreen extends StatelessWidget {
@@ -187,7 +188,7 @@ class infoContainer1 extends StatelessWidget {
           ),
           InfoRow(
             label: "Última Fiscalização",
-            value: arvore.ultimaFiscalizacao,
+            value: formatarData(arvore.ultimaFiscalizacao),
             valueFontSize: 16,
             labelFontSize: 16,
           ),
