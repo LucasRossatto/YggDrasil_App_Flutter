@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yggdrasil_app/src/models/arvore_model.dart';
+import 'package:yggdrasil_app/src/shared/widgets/base64_image.dart';
 
 class DetalheArvoreScreen extends StatelessWidget {
   final ArvoreModel arvore;
@@ -7,6 +8,8 @@ class DetalheArvoreScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Detalhes da Árvore"),
@@ -27,13 +30,232 @@ class DetalheArvoreScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Text(arvore.nome),
-            Text(arvore.tipo.toString()),
-            Text(arvore.familia),
-            Text(arvore.idadeAproximada),
+            Base64Image(
+              base64String: arvore.imagemURL,
+              width: 416,
+              height: 260,
+              fit: BoxFit.cover,
+              backgroundColor: Colors.grey.shade200,
+              boxShadow: BoxShadow(
+                color: Colors.black26,
+                blurRadius: 6,
+                offset: Offset(2, 4),
+              ),
+              placeholder: Icon(
+                Icons.image_not_supported_outlined,
+                size: 50,
+                color: Colors.grey,
+              ),
+            ),
+            SizedBox(height: 30),
+            // nome, tipo, familia, ultima fiscalizacao, scc acumulado, idade aproximada
+            infoContainer1(arvore: arvore),
+            SizedBox(height: 26),
+            // tag, localização
+            InfoContainer2(theme: theme, arvore: arvore),
+            
           ],
         ),
       ),
+    );
+  }
+}
+
+class InfoContainer2 extends StatelessWidget {
+  const InfoContainer2({
+    super.key,
+    required this.theme,
+    required this.arvore,
+  });
+
+  final ThemeData theme;
+  final ArvoreModel arvore;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Identificação",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 14,
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
+          ),
+          SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                "TAG: ",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
+              ),
+              Text(
+                arvore.tagId,
+                style: TextStyle(
+                  fontWeight: FontWeight.normal,
+                  fontSize: 14,
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 20),
+    
+          Text(
+            // Titulo
+            "Localização",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 14,
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
+          ),
+          SizedBox(height: 10),
+    
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                "Coordenadas",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
+              ),
+              Text(
+                arvore.localizacao,
+                style: TextStyle(
+                  fontWeight: FontWeight.normal,
+                  fontSize: 14,
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class infoContainer1 extends StatelessWidget {
+  const infoContainer1({
+    super.key,
+    required this.arvore,
+  });
+
+  final ArvoreModel arvore;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Column(
+        children: [
+          InfoRow(
+            label: "Nome",
+            value: arvore.nome,
+            valueFontSize: 22,
+            labelFontSize: 22,
+          ),
+          InfoRow(
+            label: "Tipo",
+            value: arvore.tipo.toString(),
+            valueFontSize: 16,
+            labelFontSize: 16,
+          ),
+          InfoRow(
+            label: "Família",
+            value: arvore.familia,
+            valueFontSize: 16,
+            labelFontSize: 16,
+          ),
+          InfoRow(
+            label: "Última Fiscalização",
+            value: arvore.ultimaFiscalizacao,
+            valueFontSize: 16,
+            labelFontSize: 16,
+          ),
+          InfoRow(
+            label: "SCC Acumulado",
+            value: arvore.sccAcumulado.toString(),
+            valueFontSize: 16,
+            labelFontSize: 16,
+          ),
+          InfoRow(
+            label: "Idade Aproximada",
+            value: arvore.idadeAproximada,
+            valueFontSize: 16,
+            labelFontSize: 16,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class InfoRow extends StatelessWidget {
+  final String label;
+  final String value;
+  final double? labelFontSize;
+  final double? valueFontSize;
+  final TextStyle? valueStyle;
+  final TextStyle? labelStyle;
+  final double spacing;
+
+  const InfoRow({
+    super.key,
+    required this.label,
+    required this.value,
+    this.labelFontSize,
+    this.valueFontSize,
+    this.valueStyle,
+    this.labelStyle,
+    this.spacing = 8.0,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "$label: ",
+          style:
+              labelStyle ??
+              TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: labelFontSize ?? 14,
+                color: colorScheme.onSurfaceVariant,
+              ),
+        ),
+        SizedBox(width: spacing),
+        Expanded(
+          child: Text(
+            value,
+            style:
+                valueStyle ??
+                TextStyle(
+                  fontSize: valueFontSize ?? 16,
+                  color: colorScheme.onSurfaceVariant,
+                ),
+          ),
+        ),
+      ],
     );
   }
 }
