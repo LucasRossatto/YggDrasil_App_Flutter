@@ -34,35 +34,53 @@ class _TransferScreenState extends State<TransferScreen> {
     }
 
     return Scaffold(
-      appBar: AppBar(title: const Text("Transferir")),
+      appBar: AppBar(
+        title: const Text("Transferir"),
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color.fromRGBO(0, 166, 62, 1),
+                Color.fromRGBO(0, 122, 85, 1),
+              ],
+              stops: [0, 0.5],
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+            ),
+          ),
+        ),
+      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          ToggleButtons(
-            isSelected: [_selectedType == 0, _selectedType == 1],
-            onPressed: (index) {
-              setState(() {
-                _selectedType = index;
-              });
-            },
-
-            borderRadius: BorderRadius.circular(18),
-            borderColor: theme.colorScheme.secondary,
-            selectedBorderColor: theme.colorScheme.surfaceTint,
-            selectedColor: theme.colorScheme.surface,
-            fillColor: theme.colorScheme.surfaceTint,
-            color: theme.colorScheme.secondary,
-            constraints: const BoxConstraints(minHeight: 40, minWidth: 100),
-            children: const [
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                child: Text("YGG"),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                child: Text("SCC"),
-              ),
-            ],
+          Padding(
+            padding: const EdgeInsets.only(top: 20),
+            child: ToggleButtons(
+              isSelected: [_selectedType == 0, _selectedType == 1],
+              onPressed: (index) {
+                setState(() {
+                  _selectedType = index;
+                });
+              },
+            
+              borderRadius: BorderRadius.circular(18),
+              borderColor: theme.colorScheme.secondary,
+              selectedBorderColor: theme.colorScheme.surfaceTint,
+              selectedColor: theme.colorScheme.surface,
+              fillColor: theme.colorScheme.surfaceTint,
+              color: theme.colorScheme.secondary,
+              constraints: const BoxConstraints(minHeight: 40, minWidth: 100),
+              children: const [
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  child: Text("YGG"),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  child: Text("SCC"),
+                ),
+              ],
+            ),
           ),
 
           const SizedBox(height: 20),
