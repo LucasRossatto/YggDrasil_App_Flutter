@@ -130,29 +130,37 @@ class HomeHeader extends StatelessWidget {
                   NavigationCard(
                     theme: theme,
                     onTap: () async {
-                      final tagId = await Navigator.push(
+                      final qrCode = await Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (_) => const ScannerScreen(),
                         ),
                       );
 
-                      if (tagId == null) return;
+                      if (qrCode == null) return;
 
                       try {
-                        final arvore = await arvoreVm.getArvoreByQrCode(tagId);
+                        final arvore = await arvoreVm.getArvoreByQrCode(qrCode);
 
                         if (arvore == null) {
                           if (context.mounted) {
                             CustomSnackBar.show(
                               context,
                               message:
-                                  "Nenhuma árvore encontrada para a tag $tagId",
+                                  "Nenhuma árvore encontrada para a tag $qrCode",
                               icon: Icons.error,
                               backgroundColor: theme.colorScheme.errorContainer,
                             );
                           }
                           return; // não navega
+                        } else {
+                           if (context.mounted) {
+                            CustomSnackBar.show(
+                              context,
+                              message:
+                                  "Árvore encontrada com sucesso",
+                            );
+                          }
                         }
 
                         if (context.mounted) {
