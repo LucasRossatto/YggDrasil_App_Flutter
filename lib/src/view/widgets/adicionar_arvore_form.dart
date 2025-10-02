@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:yggdrasil_app/src/models/arvore_model.dart';
+import 'package:yggdrasil_app/src/shared/widgets/app_numeric_field.dart';
 import 'package:yggdrasil_app/src/shared/widgets/app_text_field.dart';
 import 'package:yggdrasil_app/src/shared/widgets/custom_snackbar.dart';
 import 'package:yggdrasil_app/src/view/widgets/transferir_button.dart';
@@ -127,7 +128,7 @@ class _ArvoreCreateFormState extends State<ArvoreCreateForm> {
             extraLabel: "Família",
           ),
           SizedBox(height: spacingVertical),
-          AppTextField(
+          AppNumericField(
             controller: idadeAproximadaController,
             label: "Idade Aproximada",
             hint: "Idade da árvore",

@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:yggdrasil_app/src/models/wallet_model.dart';
 import 'package:yggdrasil_app/src/repository/wallet_repositorio.dart';
+import 'package:yggdrasil_app/src/shared/widgets/app_numeric_field.dart';
 import 'package:yggdrasil_app/src/shared/widgets/app_text_field.dart';
 import 'package:yggdrasil_app/src/shared/widgets/custom_snackbar.dart';
 import 'package:yggdrasil_app/src/view/widgets/saldo_wallet_card.dart';
@@ -85,8 +86,7 @@ class YggTransferirForm extends StatelessWidget {
             ],
           ),
           SizedBox(height: 20),
-          AppTextField(
-            keyboardType: TextInputType.number,
+          AppNumericField(
             validator: (valor) {
               if (valor == null || valor.isEmpty) {
                 return "Informe uma quantidade";
