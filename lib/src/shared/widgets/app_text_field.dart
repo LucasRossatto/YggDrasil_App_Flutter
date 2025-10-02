@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 
-/// Campo de texto customizado para o app.
-/// Agora suporta um label adicional acima do campo.
 class AppTextField extends StatelessWidget {
   final String label;
   final String? hint;
-  final String? extraLabel; // 🔹 Novo campo opcional
+  final String? extraLabel;
   final TextEditingController? controller;
   final TextInputType keyboardType;
   final bool obscureText;
@@ -43,7 +41,7 @@ class AppTextField extends StatelessWidget {
               color: theme.colorScheme.onSurface,
             ),
           ),
-          const SizedBox(height: 6), // Espaçamento entre label e campo
+          const SizedBox(height: 6),
         ],
         TextFormField(
           controller: controller,
