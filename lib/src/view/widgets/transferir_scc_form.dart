@@ -96,12 +96,12 @@ class SccTransferirForm extends StatelessWidget {
           ),
           SizedBox(height: MediaQuery.of(context).size.width - 110),
           TransferirButton(
-            text: '🚧 Esta funcionalidade ainda está em desenvolvimento',
+            text: 'Funcionalidade disponível apenas no painel',
             onPressed: () async {
               CustomSnackBar.show(
                 context,
                 icon: Icons.error,
-                message: "🚧 Esta funcionalidade ainda está em desenvolvimento",
+                message: "🚧 Esta funcionalidade ainda está em desenvolvimento no aplicativo",
                 backgroundColor: theme.colorScheme.errorContainer,
               );
               return;
