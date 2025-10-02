@@ -5,6 +5,7 @@ import 'package:yggdrasil_app/src/services/api_service.dart';
 class ApiResponse {
   final int success;
   final int idArvore;
+  final String tagid;
   final ArvoreModel perfil;
   final String message;
 
@@ -13,12 +14,14 @@ class ApiResponse {
     required this.idArvore,
     required this.message,
     required this.perfil,
+    required this.tagid,
   });
 
   factory ApiResponse.fromJson(Map<String, dynamic> json) {
     return ApiResponse(
       success: json['success'] ?? 0,
       idArvore: json['idArvore'] ?? 0,
+      tagid: json['tagid'] ?? '',
       message: json['message'] ?? '',
       perfil: json['perfil'] != null
           ? ArvoreModel.fromJson(json['perfil'])
@@ -56,27 +59,29 @@ class ArvoreRepositorio {
 
   /// Busca todas as árvores de um usuário
   Future<Map<String, dynamic>> getArvoresUsuario(
-  int usuarioId, {
-  int page = 1,
-  int size = 5,
-}) async {
-  final response = await _api.getWithQuery(
-    "GetArvores/$usuarioId",
-    queryParameters: {
-      "page": page.toString(),
-      "size": size.toString(),
-    },
-  );      
-  final List<dynamic> arvoresJson = response['arvores'] ?? [];
+    int usuarioId, {
+    int page = 1,
+    int size = 5,
+  }) async {
+    final response = await _api.getWithQuery(
+      "GetArvores/$usuarioId",
+      queryParameters: {"page": page.toString(), "size": size.toString()},
+    );
+    final List<dynamic> arvoresJson = response['arvores'] ?? [];
 
-  return {
-    "arvores": arvoresJson
-        .map((json) => ArvoreModel.fromJson(json as Map<String, dynamic>))
-        .toList(),
-    "qtdeTotal": response['qtdeTagsTotal'] ?? 0,
-  };
-}
+    return {
+      "arvores": arvoresJson
+          .map((json) => ArvoreModel.fromJson(json as Map<String, dynamic>))
+          .toList(),
+      "qtdeTotal": response['qtdeTagsTotal'] ?? 0,
+    };
+  }
 
+  Future<ApiResponse> verificarTag(String tag) async {
+    final encodedTag = Uri.encodeComponent(tag);
+    final response = await _api.get('/GetVerificarTag/$encodedTag');
+    return ApiResponse.fromJson(response);
+  }
 
   /// Busca uma árvore específica pelo ID
   Future<ArvoreModel?> getArvoreById(int arvoreId) async {

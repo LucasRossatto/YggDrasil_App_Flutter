@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:yggdrasil_app/src/models/arvore_model.dart';
 import 'package:yggdrasil_app/src/repository/arvore_repositorio.dart';
@@ -19,6 +20,28 @@ class ArvoreViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<bool> verificarTag(String tagId) async {
+    setLoading(true);
+    erro = null;
+    notifyListeners();
+    try {
+      final res = await _repo.verificarTag(tagId);
+
+      if (res.message == "TAG inválida") {
+        erro = "TAG inválida";
+        return false;
+      } 
+      return true;
+    } catch (e) {
+      erro = e.toString();
+      debugPrint(erro);
+      return false;
+    } finally {
+      setLoading(false);
+      notifyListeners();
+    }
+  }
+
   /// Cadastra uma nova árvore
   Future<int?> cadastrarArvore(ArvoreModel arvore) async {
     setLoading(true);
@@ -38,7 +61,6 @@ class ArvoreViewModel extends ChangeNotifier {
         erro = "TAG inválida";
         return null;
       }
-      arvores.insert(0, arvore);
       return res.idArvore;
     } catch (e) {
       erro = e.toString();
@@ -95,7 +117,10 @@ class ArvoreViewModel extends ChangeNotifier {
 
     try {
       arvore = await _repo.getArvoreById(arvoreId);
-      return arvore;
+      if (arvore != null) {
+        arvores.insert(0, arvore!);
+        notifyListeners();
+      }
     } catch (e) {
       erro = e.toString();
       arvore = null;

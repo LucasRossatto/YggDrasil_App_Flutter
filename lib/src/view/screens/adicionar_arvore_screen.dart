@@ -147,6 +147,18 @@ class _AdicionarArvoreScreen extends State<AdicionarArvoreScreen> {
                     localizacao: localizacaoAtual,
                   );
 
+                  final tagVerificada = await arvoreVm.verificarTag(tagArvore.text);
+                  if (tagVerificada == false) {
+                    CustomSnackBar.show(
+                      context,
+                      backgroundColor: theme.colorScheme.onError,
+                      message:
+                          "Não foi possível cadastrar árvore: ${arvoreVm.erro}",
+                      icon: Icons.error,
+                    );
+                    return;
+                  }
+
                   final arvoreId = await arvoreVm.cadastrarArvore(
                     arvoreComLocalizacao,
                   );
