@@ -1,3 +1,5 @@
+// ignore_for_file: dead_code
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
@@ -96,6 +98,14 @@ class SccTransferirForm extends StatelessWidget {
           TransferirButton(
             text: '🚧 Esta funcionalidade ainda está em desenvolvimento',
             onPressed: () async {
+              CustomSnackBar.show(
+                context,
+                icon: Icons.error,
+                message: "🚧 Esta funcionalidade ainda está em desenvolvimento",
+                backgroundColor: theme.colorScheme.errorContainer,
+              );
+              return;
+
               final quantidade = int.tryParse(quantidadeController.text) ?? 0;
               if (carteiraDestinoController.text.isEmpty) {
                 CustomSnackBar.show(
@@ -106,6 +116,7 @@ class SccTransferirForm extends StatelessWidget {
                 );
                 return;
               }
+
               if (quantidade <= 0) {
                 CustomSnackBar.show(
                   context,
