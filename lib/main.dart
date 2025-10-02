@@ -4,6 +4,7 @@ import 'package:yggdrasil_app/src/states/usuario_state.dart';
 import 'package:yggdrasil_app/src/view/screens/startup_screen.dart';
 import 'package:yggdrasil_app/src/viewmodel/arvore_viewmodel.dart';
 import 'package:yggdrasil_app/src/viewmodel/usuario_viewmodel.dart';
+import 'package:yggdrasil_app/src/viewmodel/wallet_viewmodel.dart';
 import 'src/shared/themes/theme.dart';
 import 'src/shared/themes/app_typography.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -22,6 +23,7 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (_) => UsuarioState()),
         ChangeNotifierProvider(create: (_) => UsuarioViewModel()),
         ChangeNotifierProvider(create: (_) => ArvoreViewModel()),
+        ChangeNotifierProvider(create: (_) => WalletViewmodel()),
       ],
       child: const MyApp(),
     ),

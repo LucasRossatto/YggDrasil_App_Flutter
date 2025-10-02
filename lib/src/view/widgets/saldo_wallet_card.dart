@@ -37,6 +37,7 @@ class SaldoWalletCard extends StatelessWidget {
               color: theme.colorScheme.onSurface,
             ),
           ),
+          SizedBox(height: 8,),
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(

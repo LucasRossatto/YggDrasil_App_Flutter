@@ -1,28 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
+import 'package:yggdrasil_app/src/models/wallet_model.dart';
+import 'package:yggdrasil_app/src/repository/wallet_repositorio.dart';
 import 'package:yggdrasil_app/src/shared/widgets/app_text_field.dart';
+import 'package:yggdrasil_app/src/shared/widgets/custom_snackbar.dart';
 import 'package:yggdrasil_app/src/view/widgets/saldo_wallet_card.dart';
 import 'package:yggdrasil_app/src/view/widgets/transferir_button.dart';
+import 'package:yggdrasil_app/src/viewmodel/wallet_viewmodel.dart';
 
 class YggTransferirForm extends StatelessWidget {
-  final int carteiraId;
+  final String carteiraKey;
   final int carteiraSaldo;
+  final WalletModel carteiraUsuario;
   final VoidCallback abrirScanner;
-
   final TextEditingController carteiraDestinoController;
   final TextEditingController quantidadeController;
+  final tipo = "YGG";
 
   const YggTransferirForm({
     super.key,
-    required this.carteiraId,
+    required this.carteiraKey,
     required this.carteiraSaldo,
     required this.abrirScanner,
     required this.carteiraDestinoController,
     required this.quantidadeController,
+    required this.carteiraUsuario,
   });
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final vmWallet = context.read<WalletViewmodel>();
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
@@ -59,7 +68,7 @@ class YggTransferirForm extends StatelessWidget {
                   onPressed: abrirScanner,
                   icon: Icon(
                     Icons.qr_code_rounded,
-                    color: Theme.of(context).colorScheme.surface,
+                    color: theme.colorScheme.surface,
                   ),
                   style: ButtonStyle(
                     shape: const WidgetStatePropertyAll(
@@ -68,7 +77,7 @@ class YggTransferirForm extends StatelessWidget {
                       ),
                     ),
                     backgroundColor: WidgetStatePropertyAll(
-                      Theme.of(context).colorScheme.primary,
+                      theme.colorScheme.primary,
                     ),
                   ),
                 ),
@@ -78,13 +87,104 @@ class YggTransferirForm extends StatelessWidget {
           SizedBox(height: 20),
           AppTextField(
             keyboardType: TextInputType.number,
+            validator: (valor) {
+              if (valor == null || valor.isEmpty) {
+                return "Informe uma quantidade";
+              }
+
+              final quantidade = int.tryParse(valor);
+              if (quantidade == null) {
+                return "Valor inválido";
+              }
+
+              if (quantidade <= 0) {
+                return "Informe uma quantidade maior que zero";
+              }
+
+              if (quantidade > carteiraSaldo) {
+                return "Saldo insuficiente";
+              }
+
+              return null; // tudo certo
+            },
             controller: quantidadeController,
             label: "Valor",
             extraLabel: "Quantidade de YGG",
             hint: "Insira o valor a ser transferido",
           ),
           SizedBox(height: MediaQuery.of(context).size.width - 110),
-          TransferirButton(onPressed: () {}, text: 'Transferir YGG'),
+          TransferirButton(
+            text: 'Transferir YGG',
+            onPressed: () async {
+              final quantidade = int.tryParse(quantidadeController.text) ?? 0;
+              if (carteiraDestinoController.text.isEmpty) {
+                CustomSnackBar.show(
+                  context,
+                  icon: Icons.error,
+                  message: "Informe a carteira de destino",
+                  backgroundColor: theme.colorScheme.errorContainer,
+                );
+                return;
+              }
+              if (quantidade <= 0) {
+                CustomSnackBar.show(
+                  context,
+                  icon: Icons.error,
+                  message: "Informe uma quantidade válida",
+                  backgroundColor: theme.colorScheme.errorContainer,
+                );
+                return;
+              }
+              if (quantidade > carteiraSaldo) {
+                CustomSnackBar.show(
+                  context,
+                  icon: Icons.error,
+                  message: "Saldo insuficiente",
+                  backgroundColor: theme.colorScheme.errorContainer,
+                );
+                return;
+              }
+
+              print(
+                "Transferindo $quantidade YGG para ${carteiraDestinoController.text}",
+              );
+
+              final transacaoValida = await vmWallet.validarTransferencia(
+                carteiraKey.toString(),
+                carteiraDestinoController.text,
+                quantidade,
+                tipo,
+                carteiraUsuario,
+              );
+
+              if (transacaoValida == false) {
+                CustomSnackBar.show(
+                  context,
+                  icon: Icons.error,
+                  message: "Transação inválida",
+                  backgroundColor: theme.colorScheme.errorContainer,
+                );
+                return;
+              }
+
+              final DadosTransferencia dadosTransferencia = DadosTransferencia(
+                walletSaida: carteiraKey.toString(),
+                walletDestino: carteiraDestinoController.text,
+                quantidade: quantidade,
+                tipo: tipo,
+              );
+
+              final transacao = await vmWallet.transferir(dadosTransferencia);
+              if (transacao == true) {
+                CustomSnackBar.show(
+                  context,
+                  icon: Icons.check_circle_sharp,
+                  message: "Transferencia realizada com sucesso!",
+                );
+              }
+              Navigator.of(context).pop();
+            },
+          ),
         ],
       ),
     );

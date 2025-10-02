@@ -91,16 +91,18 @@ class _TransferScreenState extends State<TransferScreen> {
               duration: const Duration(milliseconds: 300),
               child: _selectedType == 0
                   ? YggTransferirForm(
+                      carteiraUsuario: carteiraUsuario,
                       key: const ValueKey('YGGForm'),
-                      carteiraId: carteiraUsuario.id,
+                      carteiraKey: carteiraUsuario.key,
                       carteiraSaldo: carteiraUsuario.yggCoin,
                       abrirScanner: abrirScanner,
                       carteiraDestinoController: carteiraDestino,
                       quantidadeController: quantidadeYgg,
                     )
                   : SccTransferirForm(
+                      carteiraUsuario: carteiraUsuario,
                       key: const ValueKey('SCCForm'),
-                      carteiraId: carteiraUsuario.id,
+                      carteiraKey: carteiraUsuario.id,
                       carteiraSaldo: carteiraUsuario.scc,
                       abrirScanner: abrirScanner,
                       carteiraDestinoController: carteiraDestino,
