@@ -9,7 +9,7 @@ class ArvoreViewModel extends ChangeNotifier {
   bool isLoading = false;
   String? erro;
   int _page = 1;
-  int _size = 5;
+  final int _size = 5;
   int qtdeTotal = 0;
 
   List<ArvoreModel> arvores = [];
