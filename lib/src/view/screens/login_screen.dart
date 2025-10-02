@@ -129,6 +129,7 @@ class LoginForm extends StatelessWidget {
                             AppTextField(
                               controller: _emailController,
                               extraLabel: "Email",
+                              keyboardType: TextInputType.emailAddress,
                               label: "Digite seu email",
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
