@@ -98,6 +98,7 @@ class ArvoreViewModel extends ChangeNotifier {
       final List<ArvoreModel> novas = resultado["arvores"];
       qtdeTotal = resultado["qtdeTotal"];
 
+      arvores.clear();
       arvores.addAll(novas);
     } on Exception catch (e) {
       erro = e.toString();
