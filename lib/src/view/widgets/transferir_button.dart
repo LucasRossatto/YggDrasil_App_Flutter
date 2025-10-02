@@ -27,7 +27,7 @@ class TransferirButton extends StatelessWidget {
         ),
         onPressed: isLoading ? null : onPressed,
         child: Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(16.0),
           child: isLoading
               ? SizedBox(
                   height: 17,
