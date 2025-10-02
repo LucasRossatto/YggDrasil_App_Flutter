@@ -121,6 +121,7 @@ class ArvoreViewModel extends ChangeNotifier {
         arvores.insert(0, arvore!);
         notifyListeners();
       }
+      return arvore;
     } catch (e) {
       erro = e.toString();
       arvore = null;
