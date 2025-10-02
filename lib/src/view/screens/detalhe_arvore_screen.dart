@@ -14,6 +14,8 @@ class DetalheArvoreScreen extends StatelessWidget {
     final coords = arvore.localizacao.split(',');
     final lat = double.tryParse(coords[0]) ?? 0;
     final lng = double.tryParse(coords[1]) ?? 0;
+    
+   
 
     return Scaffold(
       appBar: AppBar(
@@ -170,6 +172,15 @@ class infoContainer1 extends StatelessWidget {
 
   final ArvoreModel arvore;
 
+   String mostrarUltimaFiscalizacao(data) {
+      final dataPadrao = "01/01/0001";
+      if (data == dataPadrao) {
+        return "Não fiscalizada"; 
+      } else {
+        return data;
+      }
+    }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -196,7 +207,7 @@ class infoContainer1 extends StatelessWidget {
           ),
           InfoRow(
             label: "Última Fiscalização",
-            value: formatarData(arvore.ultimaFiscalizacao),
+            value: mostrarUltimaFiscalizacao(formatarData(arvore.ultimaFiscalizacao)),
             valueFontSize: 16,
             labelFontSize: 16,
           ),
