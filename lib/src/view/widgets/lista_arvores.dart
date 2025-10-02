@@ -45,7 +45,22 @@ class _ListaArvoresState extends State<ListaArvores> {
     }
 
     if (_viewModel.arvores.isEmpty) {
-      return const Center(child: Text('Nenhuma árvore encontrada'));
+      return Center(
+        child: Padding(
+          padding: EdgeInsets.only(top: 50.0),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 10),
+            child: Text(
+              "Nenhuma Árvore encontrada",
+              style: TextStyle(
+                color: theme.colorScheme.inverseSurface,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ),
+      );
     }
 
     return Column(
@@ -58,7 +73,7 @@ class _ListaArvoresState extends State<ListaArvores> {
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(),
-                child: Row(
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
