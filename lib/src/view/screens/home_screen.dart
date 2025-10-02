@@ -108,28 +108,7 @@ class HomeScreen extends StatelessWidget {
               wallet: wallet,
               qtdeTagsTotal: qtdeTagsTotal,
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    decoration: BoxDecoration(color: theme.colorScheme.primary, borderRadius: BorderRadius.circular(4)),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 10),
-                      child: Text(
-                        "Minhas Árvores",
-                        style: TextStyle(
-                          color: theme.colorScheme.surface,
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+           
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: ListaArvores(userId: usuario.id),

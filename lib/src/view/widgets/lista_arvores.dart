@@ -28,11 +28,14 @@ class _ListaArvoresState extends State<ListaArvores> {
       widget.userId,
       carregarMais: carregarMais,
     );
-    if (mounted) setState(() {}); // atualiza a UI após carregar
+    if (mounted) setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final arvoreVm = context.read<ArvoreViewModel>();
+
     if (_viewModel.isLoading && _viewModel.arvores.isEmpty) {
       return const Center(child: CircularProgressIndicator());
     }
@@ -45,79 +48,128 @@ class _ListaArvoresState extends State<ListaArvores> {
       return const Center(child: Text('Nenhuma árvore encontrada'));
     }
 
-    final theme = Theme.of(context);
-    final arvoreVm = context.read<ArvoreViewModel>();
-
-    return ListView.builder(
-      shrinkWrap: true,
-      physics: const AlwaysScrollableScrollPhysics(),
-      itemCount: _viewModel.temMais
-          ? _viewModel.arvores.length +
-                1 // +1 para o botão "Carregar mais"
-          : _viewModel.arvores.length,
-      itemBuilder: (context, index) {
-        if (index == _viewModel.arvores.length) {
-          // Último item -> botão carregar mais
-          return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16),
-            child: Center(
-              child: _viewModel.isLoading
-                  ? const CircularProgressIndicator()
-                  : ElevatedButton(
-                      onPressed: () => _carregarArvores(carregarMais: true),
-                      child: const Text("Carregar mais"),
+    return Column(
+      children: [
+        // Barra superior com botão de recarregar
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        color: theme.colorScheme.primary,
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 6,
+                          horizontal: 10,
+                        ),
+                        child: Text(
+                          "Minhas Árvores",
+                          style: TextStyle(
+                            color: theme.colorScheme.surface,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
                     ),
-            ),
-          );
-        }
-
-        final arvore = _viewModel.arvores[index];
-        return Container(
-          decoration: BoxDecoration(
-            border: BoxBorder.all(color: theme.colorScheme.outline),
-            borderRadius: BorderRadius.circular(18),
-          ),
-          child: ListTile(
-            leading: SvgPicture.asset('assets/Icons/Icone_YGGTAGG.svg'),
-            title: Text(
-              arvore.nome,
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
-                color: theme.colorScheme.onSurfaceVariant,
+                  ],
+                ),
               ),
-            ),
-            subtitle: Text(
-              arvore.familia,
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.normal,
-                color: theme.colorScheme.secondary,
-              ),
-            ),
-            trailing: Text(
-              "TAG: ${arvore.tagId}",
-              style: TextStyle(
-                fontSize: 14,
+              IconButton(
+                icon: const Icon(Icons.refresh),
                 color: theme.colorScheme.primary,
-                fontWeight: FontWeight.bold,
+                onPressed: () => _carregarArvores(),
               ),
-            ),
-            onTap: () async {
-              final arvoreDetalhada = await arvoreVm.getArvoreById(arvore.id);
-              if (context.mounted && arvoreDetalhada != null) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) =>
-                        DetalheArvoreScreen(arvore: arvoreDetalhada),
-                  ),
-                );
-              }
-            },
+            ],
           ),
-        );
-      },
+        ),
+
+        // Lista de árvores
+        ListView.builder(
+          shrinkWrap: true,
+          physics: const AlwaysScrollableScrollPhysics(),
+          itemCount: _viewModel.temMais
+              ? _viewModel.arvores.length + 1
+              : _viewModel.arvores.length,
+          itemBuilder: (context, index) {
+            if (index == _viewModel.arvores.length) {
+              // botão carregar mais
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                child: Center(
+                  child: _viewModel.isLoading
+                      ? const CircularProgressIndicator()
+                      : ElevatedButton(
+                          onPressed: () => _carregarArvores(carregarMais: true),
+                          child: const Text("Carregar mais"),
+                        ),
+                ),
+              );
+            }
+
+            final arvore = _viewModel.arvores[index];
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 10),
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(color: theme.colorScheme.outline),
+                  borderRadius: BorderRadius.circular(18),
+                ),
+                child: ListTile(
+                  leading: SvgPicture.asset('assets/Icons/Icone_YGGTAGG.svg'),
+                  title: Text(
+                    arvore.nome,
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: theme.colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                  subtitle: Text(
+                    arvore.familia,
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.normal,
+                      color: theme.colorScheme.secondary,
+                    ),
+                  ),
+                  trailing: Text(
+                    "TAG: ${arvore.tagId}",
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: theme.colorScheme.primary,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  onTap: () async {
+                    final arvoreDetalhada = await arvoreVm.getArvoreById(
+                      arvore.id,
+                    );
+                    if (context.mounted && arvoreDetalhada != null) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) =>
+                              DetalheArvoreScreen(arvore: arvoreDetalhada),
+                        ),
+                      );
+                    }
+                  },
+                ),
+              ),
+            );
+          },
+        ),
+      ],
     );
   }
 }
