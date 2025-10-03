@@ -1,5 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:yggdrasil_app/src/models/arvore_model.dart';
+import 'package:yggdrasil_app/src/models/avaliacao_model.dart';
+import 'package:yggdrasil_app/src/models/tag_model.dart';
 import 'package:yggdrasil_app/src/services/api_service.dart';
 
 class ApiResponse {
@@ -8,8 +10,10 @@ class ApiResponse {
   final String tagid;
   final ArvoreModel perfil;
   final String message;
+  final TagModel tag;
 
   ApiResponse({
+    required this.tag,
     required this.success,
     required this.idArvore,
     required this.message,
@@ -22,10 +26,14 @@ class ApiResponse {
       success: json['success'] ?? 0,
       idArvore: json['idArvore'] ?? 0,
       tagid: json['tagid'] ?? '',
+      tag: json['tag'] != null
+          ? TagModel.fromJson(json['tag'])
+          : TagModel(id: 0, epc: '', codigo: '', hash: '', status: 0),
       message: json['message'] ?? '',
       perfil: json['perfil'] != null
-          ? ArvoreModel.fromJson(json['perfil'])
+          ? ArvoreModel.fromJson({...json['perfil'], 'tag': json['tag']})
           : ArvoreModel(
+              tag: TagModel(id: 0, epc: '', codigo: '', hash: '', status: 0),
               id: 0,
               usuarioId: 0,
               tagId: '',
@@ -104,5 +112,10 @@ class ArvoreRepositorio {
   Future enviarImagem(String image, int id) async {
     final data = await _api.post("/EnviarImagem", {"image": image, "id": id});
     return data;
+  }
+
+  Future<ApiResponse?> fiscalizar(AvaliacaoModel avaliacao) async {
+    final res = await _api.post("/Fiscalizar", avaliacao.toJson());
+    return ApiResponse.fromJson(res);
   }
 }
