@@ -32,7 +32,7 @@ class OverviewContainer extends StatelessWidget {
                 theme: theme,
                 svgAsset: 'assets/Icons/Icone_SCC.svg',
                 onTap: () {},
-                label: "SCC",
+                label: "SCC Valhalla",
                 value: wallet.scc.toString(),
                 valueColor: theme.colorScheme.primary,
               ),
@@ -107,20 +107,20 @@ class OverviewContainer extends StatelessWidget {
                     spacing: 10,
                     children: [
                       SvgPicture.asset(
-                        'assets/Icons/Icone_YGGTAGG.svg',
+                        'assets/Icons/Icone_SCC.svg',
                         width: screenWidth * 0.09,
-                        height: screenWidth * 0.045,
+                        height: screenWidth * 0.09,
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            "YGGTags",
+                            "SCC",
                             style: TextStyle(fontSize: screenWidth * 0.045),
                           ),
                           Text(
-                            wallet.yggCoin.toString(),
+                            wallet.scc.toString(),
                             style: TextStyle(
                               color: theme.colorScheme.primary,
                               fontSize: screenWidth * 0.04,
