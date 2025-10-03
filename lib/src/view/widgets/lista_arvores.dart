@@ -158,11 +158,11 @@ class _ListaArvoresState extends State<ListaArvores> {
                     ),
                   ),
                   trailing: Text(
-                    "TAG: ${arvore.tagId}",
+                    "TAG ${arvore.tag.codigo}",
                     style: TextStyle(
                       fontSize: 14,
-                      color: theme.colorScheme.primary,
-                      fontWeight: FontWeight.bold,
+                      color: theme.colorScheme.onSurfaceVariant,
+                      fontWeight: FontWeight.normal,
                     ),
                   ),
                   onTap: () async {
