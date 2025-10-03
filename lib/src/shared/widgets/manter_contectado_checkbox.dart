@@ -13,6 +13,8 @@ class _ManterContectadoCheckbox extends State<ManterContectadoCheckbox> {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Checkbox(
           value: _manterConectado,
