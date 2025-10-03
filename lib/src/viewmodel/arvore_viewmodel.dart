@@ -1,6 +1,6 @@
-
 import 'package:flutter/material.dart';
 import 'package:yggdrasil_app/src/models/arvore_model.dart';
+import 'package:yggdrasil_app/src/models/avaliacao_model.dart';
 import 'package:yggdrasil_app/src/repository/arvore_repositorio.dart';
 
 class ArvoreViewModel extends ChangeNotifier {
@@ -30,7 +30,7 @@ class ArvoreViewModel extends ChangeNotifier {
       if (res.message == "TAG inválida") {
         erro = "TAG inválida";
         return false;
-      } 
+      }
       return true;
     } catch (e) {
       erro = e.toString();
@@ -61,6 +61,7 @@ class ArvoreViewModel extends ChangeNotifier {
         erro = "TAG inválida";
         return null;
       }
+      await getArvoreById(res.idArvore);
       return res.idArvore;
     } catch (e) {
       erro = e.toString();
@@ -147,6 +148,7 @@ class ArvoreViewModel extends ChangeNotifier {
       }
 
       arvore = ArvoreModel(
+        tag: res.tag,
         id: 0,
         usuarioId: res.usuarioId,
         tagId: res.tagId.toString(),
@@ -207,6 +209,35 @@ class ArvoreViewModel extends ChangeNotifier {
       return null;
     } finally {
       setLoading(false);
+    }
+  }
+
+  Future<int?> fiscalizar(AvaliacaoModel avaliacao) async {
+    setLoading(true);
+    erro = null;
+    try {
+      final res = await _repo.fiscalizar(avaliacao);
+      if (res?.message == "Essa etiqueta não foi vinculada a nenhuma arvore") {
+        erro = "Essa etiqueta não foi vinculada a nenhuma arvore";
+        return null;
+      } else if (res?.message == "Você já fiscalizou essa arvore hoje!") {
+        erro = "Você já fiscalizou essa arvore hoje, Tente novamente amanhã";
+        return null;
+      } else if (res?.message ==
+          "Não existem usuários o suficiente para iniciar a operação") {
+        erro = "Não existem usuários o suficiente para iniciar a operação";
+        return null;
+      } else if (res?.success == 0) {
+        erro = "Os dados inseridos não foram inválidos";
+        return null;
+      }
+      return res?.success;
+    } catch (e) {
+      erro = "Erro interno ao enviar imagem. ,$e";
+      return null;
+    } finally {
+      setLoading(false);
+      notifyListeners();
     }
   }
 
