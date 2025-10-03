@@ -174,7 +174,7 @@ class _ListaArvoresState extends State<ListaArvores> {
                         context,
                         MaterialPageRoute(
                           builder: (_) =>
-                              DetalheArvoreScreen(arvore: arvoreDetalhada),
+                              DetalheArvoreScreen(arvore: arvoreDetalhada, usuarioId: widget.userId,),
                         ),
                       );
                     }
