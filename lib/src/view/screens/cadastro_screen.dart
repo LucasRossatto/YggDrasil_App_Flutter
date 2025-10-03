@@ -72,7 +72,6 @@ class _CadastroScreenState extends State<CadastroScreen> {
                         child: Column(
                           children: [
                             SizedBox(height: 24),
-
                             Text(
                               "Bem vindo de volta",
                               style: TextStyle(
@@ -100,6 +99,12 @@ class _CadastroScreenState extends State<CadastroScreen> {
                                     controller: _nomeController,
                                     extraLabel: 'Nome',
                                     label: 'Digite seu nome',
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return "Informe um nome";
+                                      }
+                                      return null;
+                                    },
                                   ),
                                 ),
                                 Expanded(
@@ -107,6 +112,12 @@ class _CadastroScreenState extends State<CadastroScreen> {
                                     controller: _sobrenomeController,
                                     extraLabel: 'Sobrenome',
                                     label: 'Digite seu sobrenome',
+                                     validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return "Informe um Sobrenome";
+                                      }
+                                      return null;
+                                     }
                                   ),
                                 ),
                               ],
@@ -115,6 +126,7 @@ class _CadastroScreenState extends State<CadastroScreen> {
 
                             AppTextField(
                               controller: _emailController,
+                              keyboardType: TextInputType.emailAddress,
                               extraLabel: "Email",
                               label: "Digite seu email",
                               validator: (value) {
@@ -151,7 +163,6 @@ class _CadastroScreenState extends State<CadastroScreen> {
                                 } else if (value != _senhaController.text) {
                                   return 'As senhas não coincidem';
                                 }
-
                                 return null;
                               },
                             ),
@@ -159,6 +170,9 @@ class _CadastroScreenState extends State<CadastroScreen> {
                             CadastroButton(
                               isLoading: _isLoading,
                               onPressed: () async {
+                                if (!_formKey.currentState!.validate()) {
+                                  return;
+                                }
                                 String email = _emailController.text.trim();
                                 String senha = _senhaController.text.trim();
                                 String nome = _nomeController.text.trim();
@@ -166,9 +180,7 @@ class _CadastroScreenState extends State<CadastroScreen> {
                                     .trim();
                                 final String nomeCompleto = "$nome $sobrenome";
 
-                                final theme = Theme.of(
-                                  context,
-                                ).colorScheme;
+                                final theme = Theme.of(context).colorScheme;
 
                                 try {
                                   await vm.cadastrarUsuario(
@@ -215,9 +227,7 @@ class _CadastroScreenState extends State<CadastroScreen> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (_) =>
-                                            //HomeScreen(usuario: usuario),
-                                            LoginScreen(),
+                                        builder: (_) => LoginScreen(),
                                       ),
                                     );
                                   },
@@ -305,7 +315,7 @@ class CadastroButton extends StatelessWidget {
   const CadastroButton({
     super.key,
     required this.onPressed,
-    this.isLoading = false, // padrão false
+    this.isLoading = false,
   });
 
   @override
@@ -321,9 +331,9 @@ class CadastroButton extends StatelessWidget {
             Theme.of(context).colorScheme.primary,
           ),
         ),
-        onPressed: isLoading ? null : onPressed, // desabilita enquanto carrega
+        onPressed: isLoading ? null : onPressed,
         child: Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(12.0),
           child: isLoading
               ? SizedBox(
                   height: 17,
