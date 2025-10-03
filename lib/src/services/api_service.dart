@@ -61,7 +61,7 @@ class ApiService {
             headers: {"Content-Type": "application/json"},
             body: jsonEncode(body),
           )
-          .timeout(const Duration(seconds: 10));
+          .timeout(const Duration(seconds: 15));
       return _handleResponse(response);
     } on SocketException {
       throw Exception("Sem conexão com a internet");
