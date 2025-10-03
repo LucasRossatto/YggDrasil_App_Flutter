@@ -144,11 +144,7 @@ class YggTransferirForm extends StatelessWidget {
                 );
                 return;
               }
-
-              print(
-                "Transferindo $quantidade YGG para ${carteiraDestinoController.text}",
-              );
-
+              
               final transacaoValida = await vmWallet.validarTransferencia(
                 carteiraKey.toString(),
                 carteiraDestinoController.text,
