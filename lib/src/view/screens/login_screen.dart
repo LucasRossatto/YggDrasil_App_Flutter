@@ -103,7 +103,10 @@ class LoginForm extends StatelessWidget {
                     child: Form(
                       key: _formKey,
                       child: Padding(
-                        padding: const EdgeInsets.all(20.0),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 20,
+                        ),
                         child: Column(
                           children: [
                             SizedBox(height: 24),
@@ -154,7 +157,7 @@ class LoginForm extends StatelessWidget {
                                 return null;
                               },
                             ),
-                            SizedBox(height: 24),
+                            SizedBox(height: 10),
                             ManterContectadoCheckbox(),
                             SizedBox(height: 24),
 
@@ -166,6 +169,9 @@ class LoginForm extends StatelessWidget {
                                 final theme = Theme.of(context).colorScheme;
 
                                 try {
+                                   if (!_formKey.currentState!.validate()) {
+                                  return;
+                                }
                                   final idUsuario = await vm.login(
                                     email,
                                     senha,
@@ -226,12 +232,10 @@ class LoginForm extends StatelessWidget {
                                   }
                                 } catch (e) {
                                   if (!context.mounted) return;
-
                                   CustomSnackBar.show(
                                     context,
                                     message: "Nome e email incorretos",
-                                    backgroundColor: theme.errorContainer,
-                                    icon: Icons.error,
+                                    profile: 'error',
                                   );
                                 }
                               },
@@ -248,7 +252,6 @@ class LoginForm extends StatelessWidget {
                                       context,
                                       MaterialPageRoute(
                                         builder: (_) =>
-                                            //HomeScreen(usuario: usuario),
                                             CadastroScreen(),
                                       ),
                                     );
@@ -355,7 +358,7 @@ class LoginButton extends StatelessWidget {
         ),
         onPressed: isLoading ? null : onPressed,
         child: Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(12.0),
           child: isLoading
               ? SizedBox(
                   height: 17,
