@@ -1,9 +1,11 @@
 import 'package:equatable/equatable.dart';
+import 'package:yggdrasil_app/src/models/tag_model.dart';
 
 class ArvoreModel extends Equatable {
   final int id;
   final int usuarioId;
   final String tagId;
+  final TagModel tag;
   final String imagemURL;
   final String nome;
   final String familia;
@@ -20,6 +22,7 @@ class ArvoreModel extends Equatable {
   final String ultimaAtualizacaoImagem;
 
   const ArvoreModel({
+    required this.tag,
     required this.id,
     required this.usuarioId,
     required this.tagId,
@@ -58,11 +61,15 @@ class ArvoreModel extends Equatable {
       ultimaFiscalizacao: json['ultimaFiscalizacao'],
       ultimaValidacao: json['ultimaValidacao'],
       ultimaAtualizacaoImagem: json['ultimaAtualizacaoImagem'],
+      tag: json['tag'] != null
+          ? TagModel.fromJson(json['tag'])
+          : TagModel(id: 0, epc: '', codigo: '', hash: '', status: 0),
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
+      'tag': tag.toJson(),
       'id': id,
       'usuarioId': usuarioId,
       'tagId': tagId,
@@ -78,6 +85,7 @@ class ArvoreModel extends Equatable {
   }
 
   ArvoreModel copyWith({
+    TagModel? tag,
     int? id,
     int? usuarioId,
     String? tagId,
@@ -97,6 +105,7 @@ class ArvoreModel extends Equatable {
     String? ultimaAtualizacaoImagem,
   }) {
     return ArvoreModel(
+      tag: tag ?? this.tag,
       id: id ?? this.id,
       usuarioId: usuarioId ?? this.usuarioId,
       tagId: tagId ?? this.tagId,
@@ -120,6 +129,7 @@ class ArvoreModel extends Equatable {
 
   @override
   List<Object?> get props => [
+    tag,
     usuarioId,
     tagId,
     imagemURL,
