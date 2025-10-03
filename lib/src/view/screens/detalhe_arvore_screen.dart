@@ -3,10 +3,17 @@ import 'package:yggdrasil_app/src/models/arvore_model.dart';
 import 'package:yggdrasil_app/src/shared/widgets/base64_image.dart';
 import 'package:yggdrasil_app/src/shared/widgets/formatar_data.dart';
 import 'package:yggdrasil_app/src/shared/widgets/mapa.dart';
+import 'package:yggdrasil_app/src/view/widgets/fiscalizar_dialog.dart';
+import 'package:yggdrasil_app/src/view/widgets/transferir_button.dart';
 
 class DetalheArvoreScreen extends StatelessWidget {
   final ArvoreModel arvore;
-  const DetalheArvoreScreen({super.key, required this.arvore});
+  final int usuarioId;
+  const DetalheArvoreScreen({
+    super.key,
+    required this.arvore,
+    required this.usuarioId,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -14,8 +21,6 @@ class DetalheArvoreScreen extends StatelessWidget {
     final coords = arvore.localizacao.split(',');
     final lat = double.tryParse(coords[0]) ?? 0;
     final lng = double.tryParse(coords[1]) ?? 0;
-    
-   
 
     return Scaffold(
       appBar: AppBar(
@@ -73,6 +78,19 @@ class DetalheArvoreScreen extends StatelessWidget {
                 value: arvore.mensagem,
                 valueFontSize: 16,
                 labelFontSize: 16,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+              child: TransferirButton(
+                onPressed: () async {
+                  final result = await showDialog(
+                    context: context,
+                    builder: (context) =>
+                        AvaliacaoDialog(usuarioId: usuarioId, arvore: arvore),
+                  );
+                },
+                text: "Fiscalizar Árvore",
               ),
             ),
           ],
@@ -172,14 +190,14 @@ class infoContainer1 extends StatelessWidget {
 
   final ArvoreModel arvore;
 
-   String mostrarUltimaFiscalizacao(data) {
-      final dataPadrao = "01/01/0001";
-      if (data == dataPadrao) {
-        return "Não fiscalizada"; 
-      } else {
-        return data;
-      }
+  String mostrarUltimaFiscalizacao(data) {
+    final dataPadrao = "01/01/0001";
+    if (data == dataPadrao) {
+      return "Não fiscalizada";
+    } else {
+      return data;
     }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -207,7 +225,9 @@ class infoContainer1 extends StatelessWidget {
           ),
           InfoRow(
             label: "Última Fiscalização",
-            value: mostrarUltimaFiscalizacao(formatarData(arvore.ultimaFiscalizacao)),
+            value: mostrarUltimaFiscalizacao(
+              formatarData(arvore.ultimaFiscalizacao),
+            ),
             valueFontSize: 16,
             labelFontSize: 16,
           ),
