@@ -168,7 +168,7 @@ class HomeHeader extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                               builder: (_) => DetalheArvoreScreen(
-                                arvore: arvore,
+                                arvore: arvore, usuarioId: usuario.id,
                               ), 
                             ),
                           );
