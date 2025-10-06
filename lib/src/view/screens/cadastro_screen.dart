@@ -86,7 +86,7 @@ class _CadastroScreenState extends State<CadastroScreen> {
                             Text(
                               "Entre para explorar nosso aplicativo",
                               style: TextStyle(
-                                color: Theme.of(context).colorScheme.outline,
+                                color: Theme.of(context).colorScheme.secondary,
                               ),
                             ),
                             SizedBox(height: 24),
