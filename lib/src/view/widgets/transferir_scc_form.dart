@@ -71,7 +71,7 @@ class SccTransferirForm extends StatelessWidget {
                   onPressed: abrirScanner,
                   icon: Icon(
                     Icons.qr_code_rounded,
-                    color: Theme.of(context).colorScheme.surface,
+                    color: theme.colorScheme.surface,
                   ),
                   style: ButtonStyle(
                     shape: WidgetStatePropertyAll(
@@ -144,12 +144,14 @@ class SccTransferirForm extends StatelessWidget {
               );
 
               if (transacaoValida == false) {
-                CustomSnackBar.show(
-                  context,
-                  profile: 'error',
-                  message: "Transação inválida",
-                );
-                return;
+                if (context.mounted) {
+                  CustomSnackBar.show(
+                    context,
+                    profile: 'error',
+                    message: "Transação inválida",
+                  );
+                  return;
+                }
               }
 
               final DadosTransferencia dadosTransferencia = DadosTransferencia(
@@ -161,13 +163,15 @@ class SccTransferirForm extends StatelessWidget {
 
               final transacao = await vmWallet.transferir(dadosTransferencia);
               if (transacao == true) {
-                CustomSnackBar.show(
-                  context,
-                  icon: Icons.check_circle_sharp,
-                  message: "Transferencia realizada com sucesso!",
-                );
+                if (context.mounted) {
+                  CustomSnackBar.show(
+                    context,
+                    icon: Icons.check_circle_sharp,
+                    message: "Transferencia realizada com sucesso!",
+                  );
+                  Navigator.of(context).pop();
+                }
               }
-              Navigator.of(context).pop();
             },
           ),
         ],
