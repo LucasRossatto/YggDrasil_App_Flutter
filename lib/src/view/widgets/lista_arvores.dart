@@ -19,8 +19,10 @@ class _ListaArvoresState extends State<ListaArvores> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (!_inicializado) {
-      final vm = context.read<ArvoreViewModel>();
-      vm.getArvoresUsuario(widget.userId);
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        final vm = context.read<ArvoreViewModel>();
+        vm.getArvoresUsuario(widget.userId);
+      });
       _inicializado = true;
     }
   }
@@ -37,6 +39,7 @@ class _ListaArvoresState extends State<ListaArvores> {
 
         return Column(
           children: [
+            // Cabeçalho com botão de recarregar
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8),
               child: Row(
@@ -73,8 +76,7 @@ class _ListaArvoresState extends State<ListaArvores> {
             ListView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              itemCount:
-                  vm.temMais ? vm.arvores.length + 1 : vm.arvores.length,
+              itemCount: vm.temMais ? vm.arvores.length + 1 : vm.arvores.length,
               itemBuilder: (context, index) {
                 if (index == vm.arvores.length) {
                   return Padding(
@@ -102,8 +104,7 @@ class _ListaArvoresState extends State<ListaArvores> {
                       borderRadius: BorderRadius.circular(18),
                     ),
                     child: ListTile(
-                      leading:
-                          Image.asset('assets/images/logo-yggdrasil.png'),
+                      leading: Image.asset('assets/images/logo-yggdrasil.png'),
                       title: Text(
                         arvore.nome,
                         style: TextStyle(
@@ -127,8 +128,9 @@ class _ListaArvoresState extends State<ListaArvores> {
                         ),
                       ),
                       onTap: () async {
-                        final arvoreDetalhada =
-                            await vm.getArvoreById(arvore.id);
+                        final arvoreDetalhada = await vm.getArvoreById(
+                          arvore.id,
+                        );
                         if (context.mounted && arvoreDetalhada != null) {
                           Navigator.push(
                             context,
