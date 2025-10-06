@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:yggdrasil_app/src/models/usuario_model.dart';
 import 'package:yggdrasil_app/src/models/wallet_model.dart';
 import 'package:yggdrasil_app/src/states/usuario_state.dart';
+import 'package:yggdrasil_app/src/view/widgets/bottom_navigationbar.dart';
 import 'package:yggdrasil_app/src/view/widgets/home_header.dart';
 import 'package:yggdrasil_app/src/view/widgets/lista_arvores.dart';
 import 'package:yggdrasil_app/src/view/widgets/overview_container.dart';
@@ -92,7 +92,7 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavigation(theme: theme),
+      bottomNavigationBar: BottomNavigation(wallet: wallet),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -108,7 +108,7 @@ class HomeScreen extends StatelessWidget {
               wallet: wallet,
               qtdeTagsTotal: qtdeTagsTotal,
             ),
-           
+
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: ListaArvores(userId: usuario.id),
@@ -120,87 +120,3 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-class BottomNavigation extends StatelessWidget {
-  final ThemeData theme;
-  final double iconSize;
-  final double svgSize;
-
-  const BottomNavigation({
-    super.key,
-    required this.theme,
-    this.iconSize = 50,
-    this.svgSize = 50,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = theme.colorScheme;
-
-    return BottomAppBar(
-      shape: const CircularNotchedRectangle(),
-      color: colorScheme.primary,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            _buildIconButton(
-              Icons.home_rounded,
-              () {},
-              iconSize,
-              colorScheme.secondary,
-            ),
-            _buildIconButton(
-              Icons.stacked_bar_chart_outlined,
-              () {},
-              iconSize,
-              colorScheme.secondary,
-            ),
-            const SizedBox(width: 40), // espaço para notch ou central button
-            _buildSvgButton(
-              'assets/Icons/Transação_YCC.svg',
-              () {},
-              svgSize,
-              colorScheme.secondary,
-            ),
-            _buildIconButton(
-              Icons.person_outline_rounded,
-              () {},
-              iconSize,
-              colorScheme.secondary,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildIconButton(
-    IconData icon,
-    VoidCallback onPressed,
-    double size,
-    Color color,
-  ) {
-    return IconButton(
-      onPressed: onPressed,
-      icon: Icon(icon, size: size, color: color),
-    );
-  }
-
-  Widget _buildSvgButton(
-    String assetPath,
-    VoidCallback onPressed,
-    double size,
-    Color color,
-  ) {
-    return IconButton(
-      onPressed: onPressed,
-      icon: SvgPicture.asset(
-        assetPath,
-        width: size,
-        height: size,
-        colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
-      ),
-    );
-  }
-}
