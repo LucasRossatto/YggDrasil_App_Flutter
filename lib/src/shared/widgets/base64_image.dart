@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 class Base64Image extends StatelessWidget {
   final String? base64String;
-
   final double? width;
   final double? height;
   final BoxFit fit;
@@ -29,16 +28,24 @@ class Base64Image extends StatelessWidget {
     this.placeholder,
   });
 
+  Uint8List? _decodeBase64(String? input) {
+    if (input == null || input.isEmpty) return null;
+
+    try {
+      // Remove prefixo se existir (ex: data:image/png;base64,)
+      final cleaned = input.replaceAll(RegExp(r'^data:image\/[a-zA-Z]+;base64,'), '');
+      // Remove quebras de linha e espaços extras
+      final normalized = cleaned.replaceAll('\n', '').trim();
+      return base64Decode(normalized);
+    } catch (e) {
+      debugPrint('Erro ao decodificar imagem base64: $e');
+      return null;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    Uint8List? bytes;
-    try {
-      if (base64String != null && base64String!.isNotEmpty) {
-        bytes = base64Decode(base64String!);
-      }
-    } catch (e) {
-      bytes = null;
-    }
+    final bytes = _decodeBase64(base64String);
 
     return Container(
       margin: margin,
@@ -53,9 +60,17 @@ class Base64Image extends StatelessWidget {
       child: ClipRRect(
         borderRadius: borderRadius ?? BorderRadius.zero,
         child: bytes != null
-            ? Image.memory(bytes, width: width, height: height, fit: fit)
+            ? Image.memory(
+                bytes,
+                width: width,
+                height: height,
+                fit: fit,
+                errorBuilder: (context, error, stackTrace) =>
+                    placeholder ??
+                    const Icon(Icons.broken_image, color: Colors.grey),
+              )
             : (placeholder ??
-                  Icon(Icons.image_not_supported, color: Colors.grey)),
+                const Icon(Icons.image_not_supported, color: Colors.grey)),
       ),
     );
   }
