@@ -180,17 +180,10 @@ class _ArvoreCreateFormState extends State<ArvoreCreateForm> {
                 text: "Criar Árvore",
                 onPressed: () {
                   if (!_formKey.currentState!.validate()) {
-                    return;
-                  }
-                  if (widget.tagIdController.text.isEmpty ||
-                      nomeController.text.isEmpty ||
-                      familiaController.text.isEmpty ||
-                      historicoController.text.isEmpty) {
                     CustomSnackBar.show(
                       context,
                       message: "Preencha todos os campos obrigatórios.",
-                      icon: Icons.error,
-                      backgroundColor: theme.colorScheme.errorContainer,
+                      profile: 'warning'
                     );
                     return;
                   }
