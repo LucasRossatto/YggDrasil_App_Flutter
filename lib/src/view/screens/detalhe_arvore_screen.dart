@@ -70,7 +70,16 @@ class DetalheArvoreScreen extends StatelessWidget {
                 child: SimpleMap(latitude: lat, longitude: lng),
               ),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 26),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 20, left: 20, right: 20),
+              child: InfoRow(
+                label: "Mensagem",
+                value: arvore.mensagem,
+                valueFontSize: 16,
+                labelFontSize: 16,
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
               child: TransferirButton(
@@ -102,7 +111,6 @@ class InfoContainer2 extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
-        spacing: 14,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
@@ -113,6 +121,7 @@ class InfoContainer2 extends StatelessWidget {
               color: theme.colorScheme.onSurfaceVariant,
             ),
           ),
+          SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -133,14 +142,9 @@ class InfoContainer2 extends StatelessWidget {
                   color: theme.colorScheme.onSurfaceVariant,
                 ),
               ),
-              InfoRow(
-                label: "Mensagem",
-                value: arvore.mensagem,
-                valueFontSize: 16,
-                labelFontSize: 16,
-              ),
             ],
           ),
+          SizedBox(height: 20),
 
           Text(
             // Titulo
@@ -151,6 +155,7 @@ class InfoContainer2 extends StatelessWidget {
               color: theme.colorScheme.onSurfaceVariant,
             ),
           ),
+          SizedBox(height: 10),
 
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -199,7 +204,7 @@ class infoContainer1 extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
-        spacing: 8,
+        spacing: 6,
         children: [
           InfoRow(
             label: "Nome",
@@ -228,11 +233,24 @@ class infoContainer1 extends StatelessWidget {
             labelFontSize: 16,
           ),
           InfoRow(
+            label: "SCC Gerado",
+            value: arvore.sccGerado.toString(),
+            valueFontSize: 16,
+            labelFontSize: 16,
+          ),
+          InfoRow(
             label: "SCC Acumulado",
             value: arvore.sccAcumulado.toString(),
             valueFontSize: 16,
             labelFontSize: 16,
           ),
+          InfoRow(
+            label: "SCC Liberado",
+            value: arvore.sccLiberado.toString(),
+            valueFontSize: 16,
+            labelFontSize: 16,
+          ),
+          
           InfoRow(
             label: "Idade Aproximada",
             value: arvore.idadeAproximada,
