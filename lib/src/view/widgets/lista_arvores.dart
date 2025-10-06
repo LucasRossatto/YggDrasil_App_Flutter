@@ -31,6 +31,15 @@ class _ListaArvoresState extends State<ListaArvores> {
     if (mounted) setState(() {});
   }
 
+  Future<void> _recarregarArvores({bool carregarMais = false}) async {
+    _viewModel.arvores.clear();
+    await _viewModel.getArvoresUsuario(
+      widget.userId,
+      carregarMais: carregarMais,
+    );
+    if (mounted) setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -38,29 +47,6 @@ class _ListaArvoresState extends State<ListaArvores> {
 
     if (_viewModel.isLoading && _viewModel.arvores.isEmpty) {
       return const Center(child: CircularProgressIndicator());
-    }
-
-    if (_viewModel.erro != null) {
-      return Center(child: Text('Erro: ${_viewModel.erro}'));
-    }
-
-    if (_viewModel.arvores.isEmpty) {
-      return Center(
-        child: Padding(
-          padding: EdgeInsets.only(top: 50.0),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 10),
-            child: Text(
-              "Nenhuma Árvore encontrada",
-              style: TextStyle(
-                color: theme.colorScheme.inverseSurface,
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        ),
-      );
     }
 
     return Column(
@@ -102,16 +88,16 @@ class _ListaArvoresState extends State<ListaArvores> {
               IconButton(
                 icon: const Icon(Icons.refresh),
                 color: theme.colorScheme.primary,
-                onPressed: () => _carregarArvores(),
+                onPressed: () => _recarregarArvores(),
               ),
             ],
           ),
         ),
 
-        // Lista de árvores
+
         ListView.builder(
           shrinkWrap: true,
-          physics: const AlwaysScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           itemCount: _viewModel.temMais
               ? _viewModel.arvores.length + 1
               : _viewModel.arvores.length,
@@ -125,7 +111,7 @@ class _ListaArvoresState extends State<ListaArvores> {
                       ? const CircularProgressIndicator()
                       : ElevatedButton(
                           onPressed: () => _carregarArvores(carregarMais: true),
-                          child: const Text("Carregar mais"),
+                          child: const Text("Ver mais"),
                         ),
                 ),
               );
