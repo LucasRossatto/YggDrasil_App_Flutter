@@ -3,6 +3,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'dart:io' show Platform;
 import 'package:yggdrasil_app/src/models/arvore_model.dart';
+import 'package:yggdrasil_app/src/models/tag_model.dart';
 import 'package:yggdrasil_app/src/services/localizacao_service.dart';
 import 'package:yggdrasil_app/src/shared/widgets/custom_snackbar.dart';
 import 'package:yggdrasil_app/src/view/widgets/adicionar_arvore_form.dart';
@@ -125,7 +126,7 @@ class _AdicionarArvoreScreen extends State<AdicionarArvoreScreen> {
                 sccLiberado: 0,
                 ultimaFiscalizacao: '',
                 ultimaValidacao: '',
-                ultimaAtualizacaoImagem: '',
+                ultimaAtualizacaoImagem: '', tag: TagModel.init(),
               ),
               abrirScanner: abrirScanner,
               onSubmit: (arvore) async {
