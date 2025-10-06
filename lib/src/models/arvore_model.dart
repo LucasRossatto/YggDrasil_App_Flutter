@@ -14,9 +14,9 @@ class ArvoreModel extends Equatable {
   final String mensagem;
   final int nota;
   final int tipo;
-  final int sccAcumulado;
-  final int sccGerado;
-  final int sccLiberado;
+  final double sccAcumulado;
+  final double sccGerado;
+  final double sccLiberado;
   final String ultimaFiscalizacao;
   final String ultimaValidacao;
   final String ultimaAtualizacaoImagem;
@@ -97,9 +97,9 @@ class ArvoreModel extends Equatable {
     String? mensagem,
     int? nota,
     int? tipo,
-    int? sccAcumulado,
-    int? sccGerado,
-    int? sccLiberado,
+    double? sccAcumulado,
+    double? sccGerado,
+    double? sccLiberado,
     String? ultimaFiscalizacao,
     String? ultimaValidacao,
     String? ultimaAtualizacaoImagem,
