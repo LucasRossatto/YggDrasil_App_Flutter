@@ -27,7 +27,9 @@ class _AdicionarArvoreScreen extends State<AdicionarArvoreScreen> {
   void initState() {
     super.initState();
     tagArvore = TextEditingController();
-    _requestLocationDialogIfAndroid();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _requestLocationDialogIfAndroid();
+    });
   }
 
   @override
@@ -126,7 +128,8 @@ class _AdicionarArvoreScreen extends State<AdicionarArvoreScreen> {
                 sccLiberado: 0,
                 ultimaFiscalizacao: '',
                 ultimaValidacao: '',
-                ultimaAtualizacaoImagem: '', tag: TagModel.init(),
+                ultimaAtualizacaoImagem: '',
+                tag: TagModel.init(),
               ),
               abrirScanner: abrirScanner,
               onSubmit: (arvore) async {
@@ -148,7 +151,9 @@ class _AdicionarArvoreScreen extends State<AdicionarArvoreScreen> {
                     localizacao: localizacaoAtual,
                   );
 
-                  final tagVerificada = await arvoreVm.verificarTag(tagArvore.text);
+                  final tagVerificada = await arvoreVm.verificarTag(
+                    tagArvore.text,
+                  );
                   if (tagVerificada == false) {
                     CustomSnackBar.show(
                       context,
