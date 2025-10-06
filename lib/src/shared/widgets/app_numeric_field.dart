@@ -58,7 +58,7 @@ class AppNumericField extends StatelessWidget {
             suffixIcon: suffixIcon,
             filled: true,
             fillColor: enabled
-                ? theme.colorScheme.surface
+                ? theme.colorScheme.outlineVariant
                 : theme.colorScheme.onSurfaceVariant,
             labelStyle: theme.textTheme.bodyMedium,
             hintStyle: theme.textTheme.bodySmall?.copyWith(
