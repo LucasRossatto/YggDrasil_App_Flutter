@@ -194,7 +194,7 @@ class Card extends StatelessWidget {
                     height: screenWidth * 0.07,
                     // ignore: deprecated_member_use
                   ),
-                SizedBox(height: height * 0.01),
+                SizedBox(height: height * 0.02),
                 Text(
                   label,
                   style: TextStyle(
