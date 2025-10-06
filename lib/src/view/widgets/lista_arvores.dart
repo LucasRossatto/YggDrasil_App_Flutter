@@ -34,7 +34,12 @@ class _ListaArvoresState extends State<ListaArvores> {
     return Consumer<ArvoreViewModel>(
       builder: (context, vm, _) {
         if (vm.isLoading && vm.arvores.isEmpty) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(
+            child: Padding(
+              padding: EdgeInsets.only(top: 16.0),
+              child: RefreshProgressIndicator(),
+            ),
+          );
         }
 
         return Column(
