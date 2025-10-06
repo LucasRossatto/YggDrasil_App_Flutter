@@ -94,15 +94,15 @@ class SccTransferirForm extends StatelessWidget {
             extraLabel: "Quantidade de SCC",
             hint: "Insira o valor a ser transferido",
           ),
-          SizedBox(height: MediaQuery.of(context).size.width - 110),
+          SizedBox(height: MediaQuery.of(context).size.width * 0.66),
           TransferirButton(
             text: 'Funcionalidade disponível apenas no painel',
             onPressed: () async {
               CustomSnackBar.show(
                 context,
-                icon: Icons.error,
-                message: "🚧 Esta funcionalidade ainda está em desenvolvimento no aplicativo",
-                backgroundColor: theme.colorScheme.errorContainer,
+                profile: 'error',
+                message:
+                    "🚧 Esta funcionalidade ainda está em desenvolvimento no aplicativo",
               );
               return;
 
@@ -110,9 +110,8 @@ class SccTransferirForm extends StatelessWidget {
               if (carteiraDestinoController.text.isEmpty) {
                 CustomSnackBar.show(
                   context,
-                  icon: Icons.error,
+                  profile: 'warning',
                   message: "Informe a carteira de destino",
-                  backgroundColor: theme.colorScheme.errorContainer,
                 );
                 return;
               }
@@ -120,18 +119,18 @@ class SccTransferirForm extends StatelessWidget {
               if (quantidade <= 0) {
                 CustomSnackBar.show(
                   context,
-                  icon: Icons.error,
+                  profile: 'warning',
+
                   message: "Informe uma quantidade válida",
-                  backgroundColor: theme.colorScheme.errorContainer,
                 );
                 return;
               }
               if (quantidade > carteiraSaldo) {
                 CustomSnackBar.show(
                   context,
-                  icon: Icons.error,
+                  profile: 'warning',
+
                   message: "Saldo insuficiente",
-                  backgroundColor: theme.colorScheme.errorContainer,
                 );
                 return;
               }
@@ -147,9 +146,8 @@ class SccTransferirForm extends StatelessWidget {
               if (transacaoValida == false) {
                 CustomSnackBar.show(
                   context,
-                  icon: Icons.error,
+                  profile: 'error',
                   message: "Transação inválida",
-                  backgroundColor: theme.colorScheme.errorContainer,
                 );
                 return;
               }

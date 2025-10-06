@@ -122,43 +122,35 @@ class YggTransferirForm extends StatelessWidget {
               extraLabel: "Quantidade de YGG",
               hint: "Insira o valor a ser transferido",
             ),
-            SizedBox(height: MediaQuery.of(context).size.width - 110),
+            SizedBox(height: MediaQuery.of(context).size.width * 0.60),
             TransferirButton(
               text: 'Transferir YGG',
               onPressed: () async {
                 if (!formKey.currentState!.validate()) {
-                  CustomSnackBar.show(
-                    context,
-                    message: "Preencha todos os campos obrigatórios.",
-                    profile: 'warning',
-                  );
                   return;
                 }
                 final quantidade = int.tryParse(quantidadeController.text) ?? 0;
                 if (carteiraDestinoController.text.isEmpty) {
                   CustomSnackBar.show(
                     context,
-                    icon: Icons.error,
+                    profile: 'warning',
                     message: "Informe a carteira de destino",
-                    backgroundColor: theme.colorScheme.errorContainer,
                   );
                   return;
                 }
                 if (quantidade <= 0) {
                   CustomSnackBar.show(
                     context,
-                    icon: Icons.error,
+                    profile: 'warning',
                     message: "Informe uma quantidade válida",
-                    backgroundColor: theme.colorScheme.errorContainer,
                   );
                   return;
                 }
                 if (quantidade > carteiraSaldo) {
                   CustomSnackBar.show(
                     context,
-                    icon: Icons.error,
+                    profile: 'warning',
                     message: "Saldo insuficiente",
-                    backgroundColor: theme.colorScheme.errorContainer,
                   );
                   return;
                 }
@@ -174,9 +166,8 @@ class YggTransferirForm extends StatelessWidget {
                 if (transacaoValida == false) {
                   CustomSnackBar.show(
                     context,
-                    icon: Icons.error,
+                    profile: 'error',
                     message: "Transação inválida",
-                    backgroundColor: theme.colorScheme.errorContainer,
                   );
                   return;
                 }
@@ -193,7 +184,6 @@ class YggTransferirForm extends StatelessWidget {
                 if (transacao == true) {
                   CustomSnackBar.show(
                     context,
-                    icon: Icons.check_circle_sharp,
                     message: "Transferencia realizada com sucesso!",
                   );
                 }
