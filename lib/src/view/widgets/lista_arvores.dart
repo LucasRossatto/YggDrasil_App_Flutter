@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:yggdrasil_app/src/view/screens/detalhe_arvore_screen.dart';
 import 'package:yggdrasil_app/src/viewmodel/arvore_viewmodel.dart';
@@ -14,163 +13,142 @@ class ListaArvores extends StatefulWidget {
 }
 
 class _ListaArvoresState extends State<ListaArvores> {
-  late ArvoreViewModel _viewModel;
+  bool _inicializado = false;
 
   @override
-  void initState() {
-    super.initState();
-    _viewModel = ArvoreViewModel();
-    _carregarArvores();
-  }
-
-  Future<void> _carregarArvores({bool carregarMais = false}) async {
-    await _viewModel.getArvoresUsuario(
-      widget.userId,
-      carregarMais: carregarMais,
-    );
-    if (mounted) setState(() {});
-  }
-
-  Future<void> _recarregarArvores({bool carregarMais = false}) async {
-    _viewModel.arvores.clear();
-    await _viewModel.getArvoresUsuario(
-      widget.userId,
-      carregarMais: carregarMais,
-    );
-    if (mounted) setState(() {});
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_inicializado) {
+      final vm = context.read<ArvoreViewModel>();
+      vm.getArvoresUsuario(widget.userId);
+      _inicializado = true;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final arvoreVm = context.read<ArvoreViewModel>();
 
-    if (_viewModel.isLoading && _viewModel.arvores.isEmpty) {
-      return const Center(child: CircularProgressIndicator());
-    }
+    return Consumer<ArvoreViewModel>(
+      builder: (context, vm, _) {
+        if (vm.isLoading && vm.arvores.isEmpty) {
+          return const Center(child: CircularProgressIndicator());
+        }
 
-    return Column(
-      children: [
-        // Barra superior com botão de recarregar
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        color: theme.colorScheme.primary,
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 6,
-                          horizontal: 10,
-                        ),
-                        child: Text(
-                          "Minhas Árvores",
-                          style: TextStyle(
-                            color: theme.colorScheme.surface,
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+        return Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      color: theme.colorScheme.primary,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 6,
+                      horizontal: 10,
+                    ),
+                    child: Text(
+                      "Minhas Árvores",
+                      style: TextStyle(
+                        color: theme.colorScheme.surface,
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.refresh),
+                    color: theme.colorScheme.primary,
+                    onPressed: () => vm.getArvoresUsuario(widget.userId),
+                  ),
+                ],
               ),
-              IconButton(
-                icon: const Icon(Icons.refresh),
-                color: theme.colorScheme.primary,
-                onPressed: () => _recarregarArvores(),
-              ),
-            ],
-          ),
-        ),
+            ),
 
+            // Lista
+            ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount:
+                  vm.temMais ? vm.arvores.length + 1 : vm.arvores.length,
+              itemBuilder: (context, index) {
+                if (index == vm.arvores.length) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    child: Center(
+                      child: vm.isLoading
+                          ? const CircularProgressIndicator()
+                          : ElevatedButton(
+                              onPressed: () => vm.getArvoresUsuario(
+                                widget.userId,
+                                carregarMais: true,
+                              ),
+                              child: const Text("Ver mais"),
+                            ),
+                    ),
+                  );
+                }
 
-        ListView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: _viewModel.temMais
-              ? _viewModel.arvores.length + 1
-              : _viewModel.arvores.length,
-          itemBuilder: (context, index) {
-            if (index == _viewModel.arvores.length) {
-              // botão carregar mais
-              return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                child: Center(
-                  child: _viewModel.isLoading
-                      ? const CircularProgressIndicator()
-                      : ElevatedButton(
-                          onPressed: () => _carregarArvores(carregarMais: true),
-                          child: const Text("Ver mais"),
+                final arvore = vm.arvores[index];
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: theme.colorScheme.outline),
+                      borderRadius: BorderRadius.circular(18),
+                    ),
+                    child: ListTile(
+                      leading:
+                          Image.asset('assets/images/logo-yggdrasil.png'),
+                      title: Text(
+                        arvore.nome,
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: theme.colorScheme.onSurfaceVariant,
                         ),
-                ),
-              );
-            }
-
-            final arvore = _viewModel.arvores[index];
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 10),
-              child: Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: theme.colorScheme.outline),
-                  borderRadius: BorderRadius.circular(18),
-                ),
-                child: ListTile(
-                  leading: Image.asset('assets/images/logo-yggdrasil.png'),
-                  title: Text(
-                    arvore.nome,
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      color: theme.colorScheme.onSurfaceVariant,
-                    ),
-                  ),
-                  subtitle: Text(
-                    arvore.familia,
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.normal,
-                      color: theme.colorScheme.secondary,
-                    ),
-                  ),
-                  trailing: Text(
-                    "TAG ${arvore.tag.codigo}",
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: theme.colorScheme.onSurfaceVariant,
-                      fontWeight: FontWeight.normal,
-                    ),
-                  ),
-                  onTap: () async {
-                    final arvoreDetalhada = await arvoreVm.getArvoreById(
-                      arvore.id,
-                    );
-                    if (context.mounted && arvoreDetalhada != null) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) =>
-                              DetalheArvoreScreen(arvore: arvoreDetalhada, usuarioId: widget.userId,),
+                      ),
+                      subtitle: Text(
+                        arvore.familia,
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: theme.colorScheme.secondary,
                         ),
-                      );
-                    }
-                  },
-                ),
-              ),
-            );
-          },
-        ),
-      ],
+                      ),
+                      trailing: Text(
+                        "TAG ${arvore.tag.codigo}",
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: theme.colorScheme.onSurfaceVariant,
+                        ),
+                      ),
+                      onTap: () async {
+                        final arvoreDetalhada =
+                            await vm.getArvoreById(arvore.id);
+                        if (context.mounted && arvoreDetalhada != null) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => DetalheArvoreScreen(
+                                arvore: arvoreDetalhada,
+                                usuarioId: widget.userId,
+                              ),
+                            ),
+                          );
+                        }
+                      },
+                    ),
+                  ),
+                );
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

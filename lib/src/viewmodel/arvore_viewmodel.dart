@@ -61,7 +61,8 @@ class ArvoreViewModel extends ChangeNotifier {
         erro = "TAG inválida";
         return null;
       }
-      await getArvoreById(res.idArvore);
+      final novaCriada =await getArvoreById(res.idArvore);
+       arvores.add(novaCriada!);
       return res.idArvore;
     } catch (e) {
       erro = e.toString();
@@ -99,7 +100,6 @@ class ArvoreViewModel extends ChangeNotifier {
       final List<ArvoreModel> novas = resultado["arvores"];
       qtdeTotal = resultado["qtdeTotal"];
 
-      arvores.clear();
       arvores.addAll(novas);
     } on Exception catch (e) {
       erro = e.toString();
@@ -120,7 +120,6 @@ class ArvoreViewModel extends ChangeNotifier {
     try {
       arvore = await _repo.getArvoreById(arvoreId);
       if (arvore != null) {
-        arvores.insert(0, arvore!);
         notifyListeners();
       }
       return arvore;
