@@ -7,6 +7,8 @@ import 'package:yggdrasil_app/src/shared/widgets/custom_snackbar.dart';
 import 'package:yggdrasil_app/src/view/screens/adicionar_arvore_screen.dart';
 import 'package:yggdrasil_app/src/view/screens/detalhe_arvore_screen.dart';
 import 'package:yggdrasil_app/src/view/screens/transferir_screen.dart';
+import 'package:yggdrasil_app/src/view/widgets/navigationcard_icon.dart';
+import 'package:yggdrasil_app/src/view/widgets/navigationcard_svg.dart';
 import 'package:yggdrasil_app/src/view/widgets/scanner_screen.dart';
 import 'package:yggdrasil_app/src/viewmodel/arvore_viewmodel.dart';
 
@@ -108,7 +110,7 @@ class HomeHeader extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  NavigationCard(
+                  NavigationCardIcon(
                     theme: theme,
                     onTap: () {
                       Navigator.of(context).push(
@@ -118,16 +120,16 @@ class HomeHeader extends StatelessWidget {
                         ),
                       );
                     },
-                    iconData: Icons.add,
+                    icon: Icons.add,
                     label: 'Adicionar Tag',
                   ),
-                  NavigationCard(
+                  NavigationCardIcon(
                     theme: theme,
                     onTap: () {},
-                    svgAsset: 'assets/icons/Icone_carbono.svg',
-                    label: 'Não desenvolvido',
+                    icon: Icons.construction,
+                    label: 'Em desenvolvimento',
                   ),
-                  NavigationCard(
+                  NavigationCardIcon(
                     theme: theme,
                     onTap: () async {
                       final qrCode = await Navigator.push(
@@ -184,10 +186,10 @@ class HomeHeader extends StatelessWidget {
                         }
                       }
                     },
-                    iconData: Icons.search_rounded,
+                    icon: Icons.search_rounded,
                     label: 'Ler tag de Árvore',
                   ),
-                  NavigationCard(
+                  NavigationCardSvg(
                     theme: theme,
                     onTap: () {
                       Navigator.of(context).push(
@@ -197,7 +199,7 @@ class HomeHeader extends StatelessWidget {
                         ),
                       );
                     },
-                    svgAsset: 'assets/icons/Transação_YCC.svg',
+                    svgAsset: 'assets/Icons/Transação_YCC.svg',
                     label: 'Receber/Transferir',
                   ),
                 ],
@@ -210,77 +212,4 @@ class HomeHeader extends StatelessWidget {
   }
 }
 
-class NavigationCard extends StatelessWidget {
-  const NavigationCard({
-    super.key,
-    required this.theme,
-    required this.onTap,
-    this.iconData,
-    this.svgAsset,
-    required this.label,
-  }) : assert(
-         iconData != null || svgAsset != null,
-         'Você precisa passar um IconData ou um caminho de SVG',
-       );
-
-  final ThemeData theme;
-  final VoidCallback onTap;
-  final IconData? iconData;
-  final String? svgAsset;
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final cardSize = screenWidth * 0.21; // 20% da largura da tela
-
-    return GestureDetector(
-      onTap: onTap,
-      child: SizedBox(
-        width: cardSize,
-        height: cardSize,
-        child: Container(
-          decoration: BoxDecoration(
-            color: theme.colorScheme.surface,
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: theme.colorScheme.outline),
-          ),
-          padding: EdgeInsets.all(cardSize * 0.15), // padding proporcional
-          child: Column(
-            spacing: 3,
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (iconData != null)
-                Icon(
-                  iconData,
-                  size: cardSize * 0.3,
-                  color: theme.colorScheme.onSurface,
-                )
-              else if (svgAsset != null)
-                SvgPicture.asset(
-                  svgAsset!,
-                  width: cardSize * 0.3,
-                  height: cardSize * 0.3,
-                  // ignore: deprecated_member_use
-                  color: theme.colorScheme.onSurface,
-                ),
-              Flexible(
-                child: Text(
-                  label,
-                  textAlign: TextAlign.start,
-                  style: TextStyle(
-                    fontSize: cardSize * 0.12,
-                    color: theme.colorScheme.onSurface,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  maxLines: 2,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
+   
