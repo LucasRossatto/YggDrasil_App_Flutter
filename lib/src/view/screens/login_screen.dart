@@ -60,8 +60,8 @@ class LoginForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final vm = context.watch<UsuarioViewModel>();
-
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       body: Stack(
         children: [
           Container(color: Theme.of(context).colorScheme.surface),
@@ -162,7 +162,7 @@ class LoginForm extends StatelessWidget {
                             SizedBox(height: 24),
 
                             LoginButton(
-                              isLoading: _isLoading,
+                              isLoading: vm.isLoading,
                               onPressed: () async {
                                 final email = _emailController.text.trim();
                                 final senha = _senhaController.text.trim();
@@ -183,8 +183,7 @@ class LoginForm extends StatelessWidget {
                                     CustomSnackBar.show(
                                       context,
                                       message: "Nome e email incorretos",
-                                      backgroundColor: theme.errorContainer,
-                                      icon: Icons.error,
+                                      profile: 'error',
                                     );
                                     return;
                                   }
