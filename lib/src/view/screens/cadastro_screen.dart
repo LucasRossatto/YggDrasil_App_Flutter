@@ -29,6 +29,7 @@ class _CadastroScreenState extends State<CadastroScreen> {
     final vm = UsuarioViewModel();
 
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       body: Stack(
         children: [
           Container(color: Theme.of(context).colorScheme.surface),
