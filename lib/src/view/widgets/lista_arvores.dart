@@ -140,7 +140,7 @@ class _ListaArvoresState extends State<ListaArvores> {
                   borderRadius: BorderRadius.circular(18),
                 ),
                 child: ListTile(
-                  leading: SvgPicture.asset('assets/Icons/Icone_YGGTAGG.svg'),
+                  leading: Image.asset('assets/images/logo-yggdrasil.png'),
                   title: Text(
                     arvore.nome,
                     style: TextStyle(
