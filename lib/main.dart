@@ -2,21 +2,35 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yggdrasil_app/src/states/bottomnavigation_state.dart';
 import 'package:yggdrasil_app/src/states/usuario_state.dart';
+import 'package:yggdrasil_app/src/view/screens/error_screen.dart';
 import 'package:yggdrasil_app/src/view/screens/startup_screen.dart';
 import 'package:yggdrasil_app/src/viewmodel/arvore_viewmodel.dart';
 import 'package:yggdrasil_app/src/viewmodel/usuario_viewmodel.dart';
 import 'package:yggdrasil_app/src/viewmodel/wallet_viewmodel.dart';
 import 'src/shared/themes/theme.dart';
 import 'src/shared/themes/app_typography.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'dart:ui';
 
 Future<void> main() async {
-  // carrega dotenv
-  try {
-    await dotenv.load(fileName: ".env");
-  } catch (e) {
-    debugPrint("Erro ao carregar .env: $e");
-  }
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Configura erro global para renderização de widgets
+  ErrorWidget.builder = (FlutterErrorDetails details) {
+    return ErrorScreen(details: details);
+  };
+
+  // Configura handler global para Flutter
+  FlutterError.onError = (details) {
+    FlutterError.presentError(details);
+    // Se você tiver um handler customizado, pode chamar aqui
+    // myErrorsHandler.onErrorDetails(details);
+  };
+
+  // Configura handler global para erros não capturados
+  PlatformDispatcher.instance.onError = (error, stack) {
+    // myErrorsHandler.onError(error, stack);
+    return true; // indica que o erro foi tratado
+  };
 
   runApp(
     MultiProvider(
@@ -25,7 +39,7 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (_) => UsuarioViewModel()),
         ChangeNotifierProvider(create: (_) => ArvoreViewModel()),
         ChangeNotifierProvider(create: (_) => WalletViewmodel()),
-        ChangeNotifierProvider(create: (_) => BottomNavigationState())
+        ChangeNotifierProvider(create: (_) => BottomNavigationState()),
       ],
       child: const MyApp(),
     ),
