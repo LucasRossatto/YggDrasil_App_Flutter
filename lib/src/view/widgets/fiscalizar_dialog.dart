@@ -4,7 +4,7 @@ import 'package:yggdrasil_app/src/models/arvore_model.dart';
 import 'package:yggdrasil_app/src/models/avaliacao_model.dart';
 import 'package:yggdrasil_app/src/shared/widgets/app_text_field.dart';
 import 'package:yggdrasil_app/src/shared/widgets/custom_snackbar.dart';
-import 'package:yggdrasil_app/src/shared/widgets/gradient_appBar.dart';
+import 'package:yggdrasil_app/src/shared/widgets/gradient_appbar.dart';
 import 'package:yggdrasil_app/src/view/widgets/camera_button_wrapper.dart';
 import 'package:yggdrasil_app/src/viewmodel/arvore_viewmodel.dart';
 
