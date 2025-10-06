@@ -169,9 +169,9 @@ class LoginForm extends StatelessWidget {
                                 final theme = Theme.of(context).colorScheme;
 
                                 try {
-                                   if (!_formKey.currentState!.validate()) {
-                                  return;
-                                }
+                                  if (!_formKey.currentState!.validate()) {
+                                    return;
+                                  }
                                   final idUsuario = await vm.login(
                                     email,
                                     senha,
@@ -243,20 +243,54 @@ class LoginForm extends StatelessWidget {
 
                             SizedBox(height: 24),
 
-                            Row(
+                            Wrap(
+                              alignment: WrapAlignment.center,
+                              crossAxisAlignment: WrapCrossAlignment.center,
+                              spacing: 8.0,
+                              runSpacing: 4.0,
                               children: [
-                                Text("Ainda não possui uma conta?"),
+                                Text(
+                                  "Ainda não possui uma conta?",
+                                  style: TextStyle(
+                                    fontSize:
+                                        MediaQuery.of(context).size.width < 600
+                                        ? 14
+                                        : 16,
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.onSurface.withOpacity(0.8),
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
                                 TextButton(
+                                  style: TextButton.styleFrom(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 8,
+                                      vertical: 4,
+                                    ),
+                                    minimumSize: Size.zero,
+                                    tapTargetSize:
+                                        MaterialTapTargetSize.shrinkWrap,
+                                  ),
                                   onPressed: () {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (_) =>
-                                            CadastroScreen(),
+                                        builder: (_) => CadastroScreen(),
                                       ),
                                     );
                                   },
-                                  child: Text("Criar conta"),
+                                  child: Text(
+                                    "Criar conta",
+                                    style: TextStyle(
+                                      fontSize:
+                                          MediaQuery.of(context).size.width <
+                                              600
+                                          ? 14
+                                          : 16,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),
