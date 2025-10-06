@@ -65,7 +65,7 @@ class OverviewContainer extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 14),
               child: Row(
-                spacing: screenWidth * 0.15,
+                spacing: screenWidth * 0.19,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -100,7 +100,7 @@ class OverviewContainer extends StatelessWidget {
 
                   Container(
                     width: 1,
-                    height: screenWidth * 0.06,
+                    height: screenWidth * 0.12,
                     color: theme.colorScheme.outline,
                   ),
                   Row(
