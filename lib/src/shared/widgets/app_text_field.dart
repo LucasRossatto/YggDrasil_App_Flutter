@@ -58,9 +58,7 @@ class AppTextField extends StatelessWidget {
             prefixIcon: prefixIcon,
             suffixIcon: suffixIcon,
             filled: true,
-            fillColor: enabled
-                ? theme.colorScheme.outlineVariant
-                : theme.colorScheme.onSurfaceVariant,
+            fillColor: theme.colorScheme.surface,
             labelStyle: theme.textTheme.bodyMedium,
             hintStyle: theme.textTheme.bodySmall?.copyWith(
               color: theme.hintColor,
