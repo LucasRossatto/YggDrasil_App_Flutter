@@ -2,10 +2,9 @@ import 'dart:convert';
 import 'dart:io'; // <- necessário para SocketException
 import 'dart:async'; // <- necessário para TimeoutException
 import 'package:http/http.dart' as http;
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class ApiService {
-  final String baseUrl = dotenv.env['API_BASE_URL'] ?? '';
+  final String baseUrl  = 'https://api1.yggdrasil.eco.br/';
   final http.Client client;
 
   ApiService({http.Client? client}) : client = client ?? http.Client();
@@ -61,7 +60,7 @@ class ApiService {
             headers: {"Content-Type": "application/json"},
             body: jsonEncode(body),
           )
-          .timeout(const Duration(seconds: 15));
+          .timeout(const Duration(seconds: 20));
       return _handleResponse(response);
     } on SocketException {
       throw Exception("Sem conexão com a internet");
