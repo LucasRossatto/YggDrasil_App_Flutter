@@ -70,7 +70,7 @@ class _TipoArvoreSegmentedState extends State<TipoArvoreSegmented> {
               widget.tipoController.text = selectedTipo.toString();
             });
           },
-          style: const ButtonStyle(visualDensity: VisualDensity.compact),
+          style: const ButtonStyle(visualDensity: VisualDensity.comfortable),
         ),
       ],
     );
