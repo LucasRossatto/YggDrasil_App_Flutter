@@ -4,6 +4,7 @@ import 'package:yggdrasil_app/src/models/arvore_model.dart';
 import 'package:yggdrasil_app/src/shared/widgets/app_numeric_field.dart';
 import 'package:yggdrasil_app/src/shared/widgets/app_text_field.dart';
 import 'package:yggdrasil_app/src/shared/widgets/custom_snackbar.dart';
+import 'package:yggdrasil_app/src/shared/widgets/tipo_arvore_segmentedbutton.dart';
 import 'package:yggdrasil_app/src/view/widgets/transferir_button.dart';
 
 class ArvoreCreateForm extends StatefulWidget {
@@ -29,6 +30,7 @@ class _ArvoreCreateFormState extends State<ArvoreCreateForm> {
   late TextEditingController familiaController;
   late TextEditingController idadeAproximadaController;
   late TextEditingController historicoController;
+  late TextEditingController tipoController;
 
   @override
   void initState() {
@@ -38,6 +40,7 @@ class _ArvoreCreateFormState extends State<ArvoreCreateForm> {
     idadeAproximadaController = TextEditingController(
       text: widget.arvore.idadeAproximada,
     );
+    tipoController = TextEditingController();
     historicoController = TextEditingController(text: widget.arvore.mensagem);
   }
 
@@ -161,6 +164,11 @@ class _ArvoreCreateFormState extends State<ArvoreCreateForm> {
                 return null;
               },
             ),
+            SizedBox(height: spacingVertical),
+
+            TipoArvoreSegmented(label: "Tipo" ,tipoController: tipoController),
+            SizedBox(height: spacingVertical),
+
             AppTextField(
               controller: historicoController,
               label: "História",
@@ -183,7 +191,7 @@ class _ArvoreCreateFormState extends State<ArvoreCreateForm> {
                     CustomSnackBar.show(
                       context,
                       message: "Preencha todos os campos obrigatórios.",
-                      profile: 'warning'
+                      profile: 'warning',
                     );
                     return;
                   }
@@ -195,7 +203,7 @@ class _ArvoreCreateFormState extends State<ArvoreCreateForm> {
                     familia: familiaController.text,
                     idadeAproximada: idadeAproximadaController.text,
                     nota: 1,
-                    tipo: 1,
+                    tipo: int.tryParse(tipoController.text) ?? 0,
                     mensagem: historicoController.text,
                   );
 
