@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:yggdrasil_app/src/models/arvore_model.dart';
 import 'package:yggdrasil_app/src/models/avaliacao_model.dart';
 import 'package:yggdrasil_app/src/shared/widgets/app_text_field.dart';
+import 'package:yggdrasil_app/src/shared/widgets/condicao_arvore_drowdownbutton.dart';
 import 'package:yggdrasil_app/src/shared/widgets/custom_snackbar.dart';
 import 'package:yggdrasil_app/src/shared/widgets/gradient_appbar.dart';
 import 'package:yggdrasil_app/src/view/widgets/camera_button_wrapper.dart';
@@ -149,18 +150,8 @@ class _AvaliacaoDialogState extends State<AvaliacaoDialog> {
                       ),
                     ),
                   const SizedBox(height: 20),
-                  AppTextField(
-                    keyboardType: TextInputType.multiline,
-                    controller: _condicaoController,
-                    validator: (value) {
-                      if (value == null || value.trim().isEmpty) {
-                        return "Informe a condição da árvore";
-                      }
-                      return null;
-                    },
-                    extraLabel: 'Condição da Árvore',
-                    label: 'Ex.: Folhas saudáveis, frutas..',
-                  ),
+                   // se for fiscal é false
+                  CondicaoArvoreDropdown(controller: _condicaoController,  isLeigo: true),
                   const SizedBox(height: 20),
                   AppTextField(
                     controller: _comentarioController,

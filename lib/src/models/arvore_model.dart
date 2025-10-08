@@ -128,14 +128,14 @@ class ArvoreModel extends Equatable {
   }
 
   String getTipo(int tipo) {
-    if (tipo == 1) {
-      return "Não-frutífera";
-    } else if (tipo == 2) {
-      return "Frutífera";
-    } else {
-      return "Desconhecido";
-    }
+  if (tipo == 1) {
+    return "Não-frutífera";
+  } else if (tipo == 2) {
+    return "Frutífera";
+  } else {
+    return "Desconhecido";
   }
+}
 
   @override
   List<Object?> get props => [
