@@ -13,7 +13,7 @@ class ArvoreModel extends Equatable {
   final String localizacao;
   final String mensagem;
   final int nota;
-  final int tipo;
+  final int tipo; // 1- Não Frutifera, 2 - Frutifera
   final double sccAcumulado;
   final double sccGerado;
   final double sccLiberado;
@@ -125,6 +125,16 @@ class ArvoreModel extends Equatable {
       ultimaAtualizacaoImagem:
           ultimaAtualizacaoImagem ?? this.ultimaAtualizacaoImagem,
     );
+  }
+
+  String getTipo(int tipo) {
+    if (tipo == 1) {
+      return "Não-frutífera";
+    } else if (tipo == 2) {
+      return "Frutífera";
+    } else {
+      return "Desconhecido";
+    }
   }
 
   @override
