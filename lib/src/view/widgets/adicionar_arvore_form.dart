@@ -138,12 +138,12 @@ class _ArvoreCreateFormState extends State<ArvoreCreateForm> {
             SizedBox(height: spacingVertical),
             AppTextField(
               controller: familiaController,
-              label: "Família",
-              hint: "Família da árvore (Nome Científico)",
+              label: "Nome científico",
+              hint: "Nome científico",
               extraLabel: "Família",
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return "Informe uma família para a árvore";
+                  return "Informe um Nome científico para a árvore";
                 }
                 return null;
               },

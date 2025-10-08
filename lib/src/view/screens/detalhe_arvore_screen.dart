@@ -219,7 +219,7 @@ class infoContainer1 extends StatelessWidget {
             labelFontSize: 16,
           ),
           InfoRow(
-            label: "Família",
+            label: "Nome científico",
             value: arvore.familia,
             valueFontSize: 16,
             labelFontSize: 16,
