@@ -111,40 +111,43 @@ class _CondicaoArvoreDropdownState extends State<CondicaoArvoreDropdown> {
         items: options.map((condicao) {
           return DropdownMenuItem<String>(
             value: condicao['label'] as String,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Icon(
-                  condicao['icon'] as IconData,
-                  color: condicao['iconColor'] as Color,
-                  size: 24,
-                ),
-                const SizedBox(width: 8),
-                // NÃO usar Expanded ou Flexible aqui
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      condicao['label'] as String,
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 2),
-                    SizedBox(
-                      width:
-                          200, // define largura máxima do texto para não estourar
-                      child: Text(
-                        condicao['description'] as String,
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: theme.colorScheme.secondary,
-                        ),
-                        softWrap: true,
-                        overflow: TextOverflow.visible,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Icon(
+                    condicao['icon'] as IconData,
+                    color: condicao['iconColor'] as Color,
+                    size: 24,
+                  ),
+                  const SizedBox(width: 8),
+                  // NÃO usar Expanded ou Flexible aqui
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        condicao['label'] as String,
+                        style: TextStyle(fontWeight: FontWeight.bold, color: theme.colorScheme.inverseSurface),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                      const SizedBox(height: 2),
+                      SizedBox(
+                        width:
+                            200, // define largura máxima do texto para não estourar
+                        child: Text(
+                          condicao['description'] as String,
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: theme.colorScheme.secondary,
+                          ),
+                          softWrap: true,
+                          overflow: TextOverflow.visible,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           );
         }).toList(),
@@ -161,7 +164,7 @@ class _CondicaoArvoreDropdownState extends State<CondicaoArvoreDropdown> {
                 const SizedBox(width: 8),
                 Text(
                   condicao['label'] as String,
-                  style: const TextStyle(fontWeight: FontWeight.bold),
+                  style: TextStyle(fontWeight: FontWeight.bold, color: theme.colorScheme.inverseSurface),
                 ),
               ],
             );
