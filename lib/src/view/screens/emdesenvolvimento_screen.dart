@@ -22,12 +22,8 @@ class EmDesenvolvimentoScreen extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
-              Icons.construction_rounded,
-              size: 80,
-              color: theme.primary,
-            ),
-            const SizedBox(height: 16),
+            Image.asset('assets/images/mascote/mascote-construindo.png'),
+            const SizedBox(height: 8),
             Text(
               "Esta tela ainda está em desenvolvimento!",
               textAlign: TextAlign.center,
@@ -39,10 +35,29 @@ class EmDesenvolvimentoScreen extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              "Aguarde atualizações futuras.",
-              style: TextStyle(
-                fontSize: 14,
-                color: theme.onSurfaceVariant,
+              "Fique ligado nas próximas atualizações!",
+              style: TextStyle(fontSize: 14, color: theme.onSurfaceVariant),
+            ),
+            const SizedBox(height: 16),
+
+            ElevatedButton(
+              onPressed: () => Navigator.pop(context),
+              style: ButtonStyle(
+                shape: WidgetStatePropertyAll(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                backgroundColor: WidgetStatePropertyAll(
+                  Theme.of(context).colorScheme.primary,
+                ),
+              ),
+              child: Text(
+                "Voltar para tela incial",
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Theme.of(context).colorScheme.surface,
+                ),
               ),
             ),
           ],
