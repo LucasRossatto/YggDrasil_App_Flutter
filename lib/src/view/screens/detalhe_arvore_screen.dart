@@ -214,7 +214,7 @@ class infoContainer1 extends StatelessWidget {
           ),
           InfoRow(
             label: "Tipo",
-            value: arvore.tipo.toString(),
+            value: arvore.getTipo(arvore.tipo),
             valueFontSize: 16,
             labelFontSize: 16,
           ),
