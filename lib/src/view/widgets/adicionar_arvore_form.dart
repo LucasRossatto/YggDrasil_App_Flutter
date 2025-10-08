@@ -163,12 +163,12 @@ class _ArvoreCreateFormState extends State<ArvoreCreateForm> {
             ),
             AppTextField(
               controller: historicoController,
-              label: "Histórico",
-              hint: "Digite o histórico da árvore",
-              extraLabel: "Histórico",
+              label: "História",
+              hint: "Conta a história da árvore",
+              extraLabel: "História",
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return "Informe um histórico para a árvore";
+                  return "Informe uma história para a árvore";
                 }
                 return null;
               },

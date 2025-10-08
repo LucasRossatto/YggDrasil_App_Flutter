@@ -74,7 +74,7 @@ class DetalheArvoreScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(bottom: 20, left: 20, right: 20),
               child: InfoRow(
-                label: "Histórico",
+                label: "Historia",
                 value: arvore.mensagem,
                 valueFontSize: 16,
                 labelFontSize: 16,
