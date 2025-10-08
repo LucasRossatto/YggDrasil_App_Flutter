@@ -5,6 +5,7 @@ import 'package:yggdrasil_app/src/models/wallet_model.dart';
 import 'package:yggdrasil_app/src/shared/widgets/custom_snackbar.dart';
 import 'package:yggdrasil_app/src/view/screens/adicionar_arvore_screen.dart';
 import 'package:yggdrasil_app/src/view/screens/detalhe_arvore_screen.dart';
+import 'package:yggdrasil_app/src/view/screens/emdesenvolvimento_screen.dart';
 import 'package:yggdrasil_app/src/view/screens/transferir_screen.dart';
 import 'package:yggdrasil_app/src/view/widgets/navigationcard_icon.dart';
 import 'package:yggdrasil_app/src/view/widgets/navigationcard_svg.dart';
@@ -122,11 +123,15 @@ class HomeHeader extends StatelessWidget {
                     icon: Icons.add,
                     label: 'Adicionar Tag',
                   ),
-                  NavigationCardIcon(
+                  NavigationCardSvg(
                     theme: theme,
-                    onTap: () {},
-                    icon: Icons.construction,
-                    label: 'Em desenvolvimento',
+                    onTap: () => Navigator.of(context).push(
+                      MaterialPageRoute<void>(
+                        builder: (context) => EmDesenvolvimentoScreen(),
+                      ),
+                    ),
+                    svgAsset: 'assets/Icons/Icone_carbono.svg',
+                    label: 'Registrar Emissão',
                   ),
                   NavigationCardIcon(
                     theme: theme,
@@ -155,11 +160,10 @@ class HomeHeader extends StatelessWidget {
                           }
                           return; // não navega
                         } else {
-                           if (context.mounted) {
+                          if (context.mounted) {
                             CustomSnackBar.show(
                               context,
-                              message:
-                                  "Árvore encontrada com sucesso",
+                              message: "Árvore encontrada com sucesso",
                             );
                           }
                         }
@@ -169,8 +173,9 @@ class HomeHeader extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                               builder: (_) => DetalheArvoreScreen(
-                                arvore: arvore, usuarioId: usuario.id,
-                              ), 
+                                arvore: arvore,
+                                usuarioId: usuario.id,
+                              ),
                             ),
                           );
                         }
@@ -199,7 +204,7 @@ class HomeHeader extends StatelessWidget {
                       );
                     },
                     svgAsset: 'assets/Icons/Transação_YCC.svg',
-                    label: 'Receber/Transferir',
+                    label: 'Transferir',
                   ),
                 ],
               ),
@@ -210,5 +215,3 @@ class HomeHeader extends StatelessWidget {
     );
   }
 }
-
-   
