@@ -36,6 +36,7 @@ flutter:
   assets:
     - assets/images/
     - assets/Icons/
+    - assets/images/mascote/
   
 
 flutter_launcher_icons:
