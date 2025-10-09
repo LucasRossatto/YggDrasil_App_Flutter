@@ -12,7 +12,7 @@ class AppNumericField extends StatelessWidget {
   final Widget? prefixIcon;
   final Widget? suffixIcon;
   final bool enabled;
-  final formatter = NumberFormat( "#,##0.###" );
+  final formatter = NumberFormat("#,##0.###");
 
   AppNumericField({
     super.key,
@@ -58,15 +58,15 @@ class AppNumericField extends StatelessWidget {
             suffixIcon: suffixIcon,
             filled: true,
             fillColor: enabled
-                ? theme.colorScheme.outlineVariant
-                : theme.colorScheme.onSurfaceVariant,
+                ? theme.colorScheme.surface
+                : theme.colorScheme.outlineVariant,
             labelStyle: theme.textTheme.bodyMedium,
             hintStyle: theme.textTheme.bodySmall?.copyWith(
               color: theme.hintColor,
             ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide:  BorderSide(color: theme.colorScheme.outline,),
+              borderSide: BorderSide(color: theme.colorScheme.outline),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
@@ -74,7 +74,10 @@ class AppNumericField extends StatelessWidget {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(color: theme.colorScheme.primary, width: 2),
+              borderSide: BorderSide(
+                color: theme.colorScheme.primary,
+                width: 2,
+              ),
             ),
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
