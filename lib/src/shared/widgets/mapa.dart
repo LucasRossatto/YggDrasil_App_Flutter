@@ -11,18 +11,23 @@ class SimpleMap extends StatelessWidget {
     super.key,
     required this.latitude,
     required this.longitude,
-    this.zoom = 16.0,
+    this.zoom = 14.0,
   });
 
   @override
   Widget build(BuildContext context) {
+    final corner1 = LatLng(latitude + 40, longitude + 40);
+    final corner2 = LatLng(latitude - 40, longitude - 40);
+    final bounds = LatLngBounds(corner1, corner2);
     return SizedBox(
       height: 300,
       child: FlutterMap(
         options: MapOptions(
           // Agora é initialCenter e initialZoom não existem mais; usamos center e zoom diretamente
           initialCenter: LatLng(latitude, longitude),
+          cameraConstraint: CameraConstraint.contain(bounds: bounds),
           initialZoom: zoom,
+          maxZoom: 17.0,
         ),
         children: [
           TileLayer(
