@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:yggdrasil_app/src/shared/widgets/formatar_data.dart';
 import 'package:yggdrasil_app/src/view/screens/detalhe_arvore_screen.dart';
 import 'package:yggdrasil_app/src/viewmodel/arvore_viewmodel.dart';
 
@@ -30,6 +31,14 @@ class _ListaArvoresState extends State<ListaArvores> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    String mostrarUltimaFiscalizacao(data) {
+      final dataPadrao = "01/01/0001";
+      if (data == dataPadrao) {
+        return "Não fiscalizada";
+      } else {
+        return "Últ Fiscalização $data";
+      }
+    }
 
     return Consumer<ArvoreViewModel>(
       builder: (context, vm, _) {
@@ -101,6 +110,11 @@ class _ListaArvoresState extends State<ListaArvores> {
                 }
 
                 final arvore = vm.arvores[index];
+                final String ultFiscalizacaoFormatada =
+                    mostrarUltimaFiscalizacao(
+                      formatarData(arvore.ultimaFiscalizacao),
+                    );
+
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 10),
                   child: Container(
@@ -125,12 +139,25 @@ class _ListaArvoresState extends State<ListaArvores> {
                           color: theme.colorScheme.secondary,
                         ),
                       ),
-                      trailing: Text(
-                        "TAG ${arvore.tag.codigo}",
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: theme.colorScheme.onSurfaceVariant,
-                        ),
+                      trailing: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "TAG ${arvore.tag.codigo}",
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: theme.colorScheme.onSurfaceVariant,
+                            ),
+                          ),
+                          Text(
+                            ultFiscalizacaoFormatada,
+                            style: TextStyle(
+                              fontSize: 8,
+                              color: theme.colorScheme.onSurfaceVariant,
+                            ),
+                          ),
+                        ],
                       ),
                       onTap: () async {
                         final arvoreDetalhada = await vm.getArvoreById(

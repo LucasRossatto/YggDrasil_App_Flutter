@@ -1,16 +1,17 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:yggdrasil_app/src/models/usuario_model.dart';
-import 'package:yggdrasil_app/src/models/wallet_model.dart';
+import 'package:yggdrasil_app/src/blocs/auth/auth_bloc.dart';
+import 'package:yggdrasil_app/src/blocs/auth/auth_event.dart';
+import 'package:yggdrasil_app/src/blocs/auth/auth_state.dart';
+import 'package:yggdrasil_app/src/blocs/usuario/usuario_bloc.dart';
+import 'package:yggdrasil_app/src/blocs/usuario/usuario_event.dart';
 import 'package:yggdrasil_app/src/shared/widgets/app_text_field.dart';
-import 'package:yggdrasil_app/src/shared/widgets/manter_contectado_checkbox.dart';
 import 'package:yggdrasil_app/src/shared/widgets/password_field.dart';
-import 'package:yggdrasil_app/src/states/usuario_state.dart';
 import 'package:yggdrasil_app/src/view/screens/cadastro_screen.dart';
 import 'package:yggdrasil_app/src/shared/widgets/custom_snackbar.dart';
-import 'package:yggdrasil_app/src/view/screens/home_screen.dart';
 import 'package:yggdrasil_app/src/viewmodel/usuario_viewmodel.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -24,14 +25,28 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => UsuarioViewModel(),
-      child: LoginForm(
-        formKey: _formKey,
-        emailController: _emailController,
-        emailRegex: _emailRegex,
-        senhaController: _senhaController,
-        isLoading: _isLoading,
+    return BlocListener<AuthBloc, AuthState>(
+      listener: (context, state) async {
+        if (state is AuthAuthenticated) {
+          // Após autenticação, carregar dados do usuário
+          context.read<UsuarioBloc>().add(LoadUsuario(state.userId.toString()));
+        } else if (state is AuthError) {
+          CustomSnackBar.show(
+            context,
+            message: state.message,
+            profile: 'error',
+          );
+        }
+      },
+      child: ChangeNotifierProvider(
+        create: (_) => UsuarioViewModel(),
+        child: LoginForm(
+          formKey: _formKey,
+          emailController: _emailController,
+          emailRegex: _emailRegex,
+          senhaController: _senhaController,
+          isLoading: _isLoading,
+        ),
       ),
     );
   }
@@ -48,18 +63,15 @@ class LoginForm extends StatelessWidget {
   }) : _formKey = formKey,
        _emailController = emailController,
        _emailRegex = emailRegex,
-       _senhaController = senhaController,
-       _isLoading = isLoading;
+       _senhaController = senhaController;
 
   final GlobalKey<FormState> _formKey;
   final TextEditingController _emailController;
   final RegExp _emailRegex;
   final TextEditingController _senhaController;
-  final bool _isLoading;
 
   @override
   Widget build(BuildContext context) {
-    final vm = context.watch<UsuarioViewModel>();
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: Stack(
@@ -94,7 +106,6 @@ class LoginForm extends StatelessWidget {
                     ],
                   ),
                   SizedBox(height: 24),
-
                   Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
@@ -158,85 +169,26 @@ class LoginForm extends StatelessWidget {
                               },
                             ),
                             SizedBox(height: 10),
-                            ManterContectadoCheckbox(),
+                            //ManterContectadoCheckbox(),
                             SizedBox(height: 24),
 
-                            LoginButton(
-                              isLoading: vm.isLoading,
-                              onPressed: () async {
-                                final email = _emailController.text.trim();
-                                final senha = _senhaController.text.trim();
-                                final theme = Theme.of(context).colorScheme;
+                            BlocBuilder<AuthBloc, AuthState>(
+                              builder: (context, state) {
+                                final isLoading = state is AuthLoading;
+                                return LoginButton(
+                                  isLoading: isLoading,
+                                  onPressed: () {
+                                    if (!_formKey.currentState!.validate())
+                                      return;
 
-                                try {
-                                  if (!_formKey.currentState!.validate()) {
-                                    return;
-                                  }
-                                  final idUsuario = await vm.login(
-                                    email,
-                                    senha,
-                                  );
-
-                                  if (!context.mounted) return;
-
-                                  if (idUsuario == null) {
-                                    CustomSnackBar.show(
-                                      context,
-                                      message: "Nome e email incorretos",
-                                      profile: 'error',
-                                    );
-                                    return;
-                                  }
-
-                                  final res = await vm.getInformacoesUsuario(
-                                    idUsuario.toString(),
-                                  );
-
-                                  if (!context.mounted) return;
-
-                                  if (res != null) {
-                                    context.read<UsuarioState>().setUsuario(
-                                      UsuarioModel(
-                                        id: res.usuario.id,
-                                        nome: res.usuario.nome,
-                                        email: res.usuario.email,
-                                      ),
-                                      WalletModel(
-                                        id: res.wallet.id,
-                                        usuarioId: res.wallet.usuarioId,
-                                        key: res.wallet.key,
-                                        yggCoin: res.wallet.yggCoin,
-                                        scc: res.wallet.scc,
-                                        status: res.wallet.status,
-                                      ),
-                                      Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (_) => HomeScreen(
-                                            usuario: res.usuario,
-                                            wallet: res.wallet,
-                                            qtdeTagsTotal: res.qtdeTagsTotal,
-                                          ),
-                                        ),
+                                    context.read<AuthBloc>().add(
+                                      LoginRequested(
+                                        email: _emailController.text.trim(),
+                                        senha: _senhaController.text.trim(),
                                       ),
                                     );
-                                  } else {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text(
-                                          "Usuário ou senha inválidos",
-                                        ),
-                                      ),
-                                    );
-                                  }
-                                } catch (e) {
-                                  if (!context.mounted) return;
-                                  CustomSnackBar.show(
-                                    context,
-                                    message: "Nome e email incorretos",
-                                    profile: 'error',
-                                  );
-                                }
+                                  },
+                                );
                               },
                             ),
 

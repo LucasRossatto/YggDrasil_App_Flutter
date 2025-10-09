@@ -24,8 +24,8 @@ class ErrorScreen extends StatelessWidget {
                 children: [
                   // Imagem de erro
                   SizedBox(
-                    width: 250,
-                    height: 250,
+                    width: 100,
+                    height: 100,
                     child: Image.asset(
                       'assets/images/mascote-on-error.png', // Coloque sua imagem aqui
                       fit: BoxFit.contain,

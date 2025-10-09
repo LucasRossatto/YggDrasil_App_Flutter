@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+import 'package:yggdrasil_app/src/blocs/usuario/usuario_bloc.dart';
 import 'package:yggdrasil_app/src/models/usuario_model.dart';
 import 'package:yggdrasil_app/src/models/wallet_model.dart';
-import 'package:yggdrasil_app/src/states/usuario_state.dart';
+import 'package:yggdrasil_app/src/blocs/usuario/usuario_state.dart';
 import 'package:yggdrasil_app/src/view/widgets/bottom_navigationbar.dart';
 import 'package:yggdrasil_app/src/view/widgets/home_header.dart';
 import 'package:yggdrasil_app/src/view/widgets/lista_arvores.dart';
@@ -10,17 +12,8 @@ import 'package:yggdrasil_app/src/view/widgets/overview_container.dart';
 import 'package:yggdrasil_app/src/view/widgets/qr_code.dart';
 
 class HomeScreen extends StatelessWidget {
-  final UsuarioModel usuario;
-  final WalletModel wallet;
-  final int qtdeTagsTotal;
-
-  const HomeScreen({
-    super.key,
-    required this.usuario,
-    required this.wallet,
-    required this.qtdeTagsTotal,
-  });
-  void _showBottomSheet(BuildContext context) {
+  const HomeScreen({super.key});
+  void _showBottomSheet(BuildContext context, WalletModel wallet) {
     showModalBottomSheet(
       context: context,
       useSafeArea: true,
@@ -63,60 +56,72 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    final usuarioState = context.watch<UsuarioState>();
-    final wallet = usuarioState.wallet;
-    final screenWidth = MediaQuery.of(context).size.width;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("YggDrasil Alpha 0.1.0"),
-        automaticallyImplyLeading: false,
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: ClipOval(
-        child: Padding(
-          padding: const EdgeInsets.all(18.0),
-          child: FloatingActionButton(
-            onPressed: () => _showBottomSheet(context),
-            backgroundColor: theme.colorScheme.primary,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(
-                20,
-              ), // controla o arredondamento
-            ),
-            child: Icon(
-              Icons.qr_code_rounded,
-              color: theme.colorScheme.surface,
-              size: 37,
-            ),
-          ),
-        ),
-      ),
-      bottomNavigationBar: BottomNavigation(wallet: wallet),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            HomeHeader(
-              nome: usuario.nome,
-              email: usuario.email,
-              theme: theme,
-              wallet: wallet,
-              usuario: usuario,
-            ),
-            OverviewContainer(
-              theme: theme,
-              wallet: wallet,
-              qtdeTagsTotal: qtdeTagsTotal,
-            ),
+    return BlocBuilder<UsuarioBloc, UsuarioState>(
+      builder: (context, state) {
+        if (state is UsuarioLoading) {
+          return const Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          );
+        } else if (state is UsuarioLoaded) {
+          final usuario = state.usuario;
+          final wallet = state.wallet;
+          final qtdeTagsTotal = state.qtdeTagsTotal;
 
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: ListaArvores(userId: usuario.id),
+          return Scaffold(
+            appBar: AppBar(
+              title: const Text("YggDrasil Alpha 0.1.0"),
+              automaticallyImplyLeading: false,
             ),
-          ],
-        ),
-      ),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerDocked,
+            floatingActionButton: ClipOval(
+              child: Padding(
+                padding: const EdgeInsets.all(18.0),
+                child: FloatingActionButton(
+                  onPressed: () => _showBottomSheet(context, wallet),
+                  backgroundColor: theme.colorScheme.primary,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Icon(
+                    Icons.qr_code_rounded,
+                    color: theme.colorScheme.surface,
+                    size: 37,
+                  ),
+                ),
+              ),
+            ),
+            bottomNavigationBar: BottomNavigation(wallet: wallet),
+            body: SingleChildScrollView(
+              child: Column(
+                children: [
+                  HomeHeader(
+                    nome: usuario.nome,
+                    email: usuario.email,
+                    theme: theme,
+                    wallet: wallet,
+                    usuario: usuario,
+                  ),
+                  OverviewContainer(
+                    theme: theme,
+                    wallet: wallet,
+                    qtdeTagsTotal: qtdeTagsTotal,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: ListaArvores(userId: usuario.id),
+                  ),
+                ],
+              ),
+            ),
+          );
+        } else if (state is UsuarioError) {
+          return Scaffold(body: Center(child: Text(state.message)));
+        }
+
+        return const SizedBox.shrink();
+      },
     );
   }
 }
-
