@@ -94,7 +94,7 @@ class SccTransferirForm extends StatelessWidget {
             extraLabel: "Quantidade de SCC",
             hint: "Insira o valor a ser transferido",
           ),
-          SizedBox(height: MediaQuery.of(context).size.width * 0.66),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.30),
           TransferirButton(
             text: 'Funcionalidade disponível apenas no painel',
             onPressed: () async {
@@ -129,7 +129,6 @@ class SccTransferirForm extends StatelessWidget {
                 CustomSnackBar.show(
                   context,
                   profile: 'warning',
-
                   message: "Saldo insuficiente",
                 );
                 return;

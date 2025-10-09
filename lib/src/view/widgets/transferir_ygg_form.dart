@@ -122,7 +122,7 @@ class YggTransferirForm extends StatelessWidget {
               extraLabel: "Quantidade de YGG",
               hint: "Insira o valor a ser transferido",
             ),
-            SizedBox(height: MediaQuery.of(context).size.width * 0.60),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.30),
             TransferirButton(
               text: 'Transferir YGG',
               onPressed: () async {
