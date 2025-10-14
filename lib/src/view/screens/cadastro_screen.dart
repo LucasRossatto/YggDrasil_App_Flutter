@@ -1,9 +1,11 @@
 import 'dart:ui';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:yggdrasil_app/src/shared/widgets/app_text_field.dart';
 import 'package:yggdrasil_app/src/shared/widgets/password_field.dart';
 import 'package:yggdrasil_app/src/shared/widgets/custom_snackbar.dart';
 import 'package:yggdrasil_app/src/view/screens/login_screen.dart';
+import 'package:yggdrasil_app/src/view/widgets/termos_politica.dart';
 import 'package:yggdrasil_app/src/viewmodel/usuario_viewmodel.dart';
 
 class CadastroScreen extends StatefulWidget {
@@ -20,6 +22,7 @@ class _CadastroScreenState extends State<CadastroScreen> {
   final _emailController = TextEditingController();
   final _senhaController = TextEditingController();
   final _confirmarSenhaController = TextEditingController();
+    bool _aceitouTermos = false; // ✅ mover para cá
 
   final bool _isLoading = false;
   RegExp get _emailRegex => RegExp(r'^\S+@\S+$');
@@ -27,7 +30,6 @@ class _CadastroScreenState extends State<CadastroScreen> {
   @override
   Widget build(BuildContext context) {
     final vm = UsuarioViewModel();
-
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: Stack(
@@ -36,212 +38,314 @@ class _CadastroScreenState extends State<CadastroScreen> {
           BlurGradient1(),
           BlurGradient2(),
 
-          Padding(
-            padding: EdgeInsets.all(24.0),
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        height: 39,
-                        width: 39,
-                        child: Image.asset('assets/images/logo-yggdrasil.png'),
-                      ),
-                      Text(
-                        "YggDrasil",
-                        style: TextStyle(
-                          fontSize: 22,
-                          color: Theme.of(context).colorScheme.primary,
+          SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.all(24.0),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          height: 39,
+                          width: 39,
+                          child: Image.asset(
+                            'assets/images/logo-yggdrasil.png',
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 24),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Theme.of(context).colorScheme.surface,
+                        Text(
+                          "YggDrasil",
+                          style: TextStyle(
+                            fontSize: 22,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                        ),
+                      ],
                     ),
-                    child: Form(
-                      key: _formKey,
-                      child: Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Column(
-                          children: [
-                            SizedBox(height: 24),
-                            Text(
-                              "Bem vindo de volta",
-                              style: TextStyle(
-                                fontSize: 26,
-                                color: Theme.of(context).colorScheme.primary,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            SizedBox(height: 24),
-
-                            Text(
-                              "Entre para explorar nosso aplicativo",
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.secondary,
-                              ),
-                            ),
-                            SizedBox(height: 24),
-                            Row(
-                              spacing: 10,
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Expanded(
-                                  child: AppTextField(
-                                    controller: _nomeController,
-                                    extraLabel: 'Nome',
-                                    label: 'Digite seu nome',
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return "Informe um nome";
-                                      }
-                                      return null;
-                                    },
-                                  ),
+                    SizedBox(height: 24),
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Theme.of(context).colorScheme.surface,
+                      ),
+                      child: Form(
+                        key: _formKey,
+                        child: Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: Column(
+                            children: [
+                              SizedBox(height: 24),
+                              Text(
+                                "Bem vindo de volta",
+                                style: TextStyle(
+                                  fontSize: 26,
+                                  color: Theme.of(context).colorScheme.primary,
+                                  fontWeight: FontWeight.bold,
                                 ),
-                                Expanded(
-                                  child: AppTextField(
-                                    controller: _sobrenomeController,
-                                    extraLabel: 'Sobrenome',
-                                    label: 'Digite seu sobrenome',
-                                     validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return "Informe um Sobrenome";
-                                      }
-                                      return null;
-                                     }
-                                  ),
+                              ),
+                              SizedBox(height: 24),
+
+                              Text(
+                                "Entre para explorar nosso aplicativo",
+                                style: TextStyle(
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.secondary,
                                 ),
-                              ],
-                            ),
-                            SizedBox(height: 24),
-
-                            AppTextField(
-                              controller: _emailController,
-                              keyboardType: TextInputType.emailAddress,
-                              extraLabel: "Email",
-                              label: "Digite seu email",
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return "Informe um email";
-                                }
-                                if (!_emailRegex.hasMatch(value)) {
-                                  return "Endereço de e-mail não é válido";
-                                }
-                                return null;
-                              },
-                            ),
-                            SizedBox(height: 24),
-
-                            PasswordField(
-                              controller: _senhaController,
-                              label: "Digite sua senha",
-                              extraLabel: "Senha",
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return "Informe sua senha";
-                                }
-                                return null;
-                              },
-                            ),
-                            SizedBox(height: 24),
-                            PasswordField(
-                              controller: _confirmarSenhaController,
-                              label: "Confirme sua senha",
-                              extraLabel: "Confirmar Senha",
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return "Confirme sua senha";
-                                } else if (value != _senhaController.text) {
-                                  return 'As senhas não coincidem';
-                                }
-                                return null;
-                              },
-                            ),
-                            SizedBox(height: 24),
-                            CadastroButton(
-                              isLoading: _isLoading,
-                              onPressed: () async {
-                                if (!_formKey.currentState!.validate()) {
-                                  return;
-                                }
-                                String email = _emailController.text.trim();
-                                String senha = _senhaController.text.trim();
-                                String nome = _nomeController.text.trim();
-                                String sobrenome = _sobrenomeController.text
-                                    .trim();
-                                final String nomeCompleto = "$nome $sobrenome";
-
-                                final theme = Theme.of(context).colorScheme;
-
-                                try {
-                                  await vm.cadastrarUsuario(
-                                    nomeCompleto,
-                                    email,
-                                    senha,
-                                  );
-
-                                  if (!context.mounted) return;
-
-                                  CustomSnackBar.show(
-                                    context,
-                                    message: "Cadastro realizado com sucesso!",
-                                    icon: Icons.check,
-                                    backgroundColor: theme.primaryContainer,
-                                  );
-
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (_) => LoginScreen(),
+                              ),
+                              SizedBox(height: 24),
+                              Row(
+                                spacing: 10,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Expanded(
+                                    child: AppTextField(
+                                      controller: _nomeController,
+                                      extraLabel: 'Nome',
+                                      label: 'Digite seu nome',
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return "Informe um nome";
+                                        }
+                                        return null;
+                                      },
                                     ),
-                                  );
-                                } catch (e) {
-                                  if (!context.mounted) return;
+                                  ),
+                                  Expanded(
+                                    child: AppTextField(
+                                      controller: _sobrenomeController,
+                                      extraLabel: 'Sobrenome',
+                                      label: 'Digite seu sobrenome',
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return "Informe um Sobrenome";
+                                        }
+                                        return null;
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 24),
 
-                                  CustomSnackBar.show(
-                                    context,
-                                    message: "Erro ao Criar conta: $e",
-                                    icon: Icons.error_outline_outlined,
-                                    backgroundColor: theme.errorContainer,
-                                  );
-                                }
-                              },
-                            ),
+                              AppTextField(
+                                controller: _emailController,
+                                keyboardType: TextInputType.emailAddress,
+                                extraLabel: "Email",
+                                label: "Digite seu email",
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return "Informe um email";
+                                  }
+                                  if (!_emailRegex.hasMatch(value)) {
+                                    return "Endereço de e-mail não é válido";
+                                  }
+                                  return null;
+                                },
+                              ),
+                              SizedBox(height: 24),
 
-                            SizedBox(height: 24),
+                              PasswordField(
+                                controller: _senhaController,
+                                label: "Digite sua senha",
+                                extraLabel: "Senha",
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return "Informe sua senha";
+                                  }
+                                  return null;
+                                },
+                              ),
+                              SizedBox(height: 24),
+                              PasswordField(
+                                controller: _confirmarSenhaController,
+                                label: "Confirme sua senha",
+                                extraLabel: "Confirmar Senha",
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return "Confirme sua senha";
+                                  } else if (value != _senhaController.text) {
+                                    return 'As senhas não coincidem';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              SizedBox(height: 24),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Checkbox(
+                                    value: _aceitouTermos,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _aceitouTermos = value ?? false;
+                                      });
+                                    },
+                                    activeColor: Theme.of(
+                                      context,
+                                    ).colorScheme.primary,
+                                  ),
+                                  Expanded(
+                                    child: RichText(
+                                      text: TextSpan(
+                                        style: TextStyle(
+                                          color: Theme.of(
+                                            context,
+                                          ).colorScheme.onSurfaceVariant,
+                                          fontSize: 13,
+                                        ),
+                                        children: [
+                                          const TextSpan(
+                                            text: 'Li e aceito os ',
+                                          ),
+                                          TextSpan(
+                                            text: 'Termos de Uso',
+                                            style: TextStyle(
+                                              color: Theme.of(
+                                                context,
+                                              ).colorScheme.primary,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                            recognizer: TapGestureRecognizer()
+                                              ..onTap = () {
+                                                // 👉 Aqui você abre sua tela de Termos
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (_) =>
+                                                        const TermosECondicoes(),
+                                                  ),
+                                                );
+                                              },
+                                          ),
+                                          const TextSpan(text: ' e a '),
+                                          TextSpan(
+                                            text: 'Política de Privacidade',
+                                            style: TextStyle(
+                                              color: Theme.of(
+                                                context,
+                                              ).colorScheme.primary,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                            recognizer: TapGestureRecognizer()
+                                              ..onTap = () {
+                                                // 👉 Aqui você abre sua política existente
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (_) =>
+                                                        const PoliticaPrivacidadeScreen(),
+                                                  ),
+                                                );
+                                              },
+                                          ),
+                                          const TextSpan(text: '.'),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 16),
 
-                            Row(
-                              children: [
-                                Text("Já possui uma conta?"),
-                                TextButton(
-                                  onPressed: () {
+                              CadastroButton(
+                                isLoading: _isLoading,
+                                onPressed: () async {
+                                  if (!_formKey.currentState!.validate()) {
+                                    return;
+                                  }
+                                  String email = _emailController.text.trim();
+                                  String senha = _senhaController.text.trim();
+                                  String nome = _nomeController.text.trim();
+                                  String sobrenome = _sobrenomeController.text
+                                      .trim();
+                                  final String nomeCompleto =
+                                      "$nome $sobrenome";
+                                  if (!_formKey.currentState!.validate())
+                                    return;
+
+                                  if (!_aceitouTermos) {
+                                    CustomSnackBar.show(
+                                      context,
+                                      message:
+                                          "Você deve aceitar os Termos e Condições antes de continuar.",
+                                      icon: Icons.warning_amber_rounded,
+                                      backgroundColor: Theme.of(
+                                        context,
+                                      ).colorScheme.errorContainer,
+                                    );
+                                    return;
+                                  }
+
+                                  final theme = Theme.of(context).colorScheme;
+
+                                  try {
+                                    await vm.cadastrarUsuario(
+                                      nomeCompleto,
+                                      email,
+                                      senha,
+                                    );
+
+                                    if (!context.mounted) return;
+
+                                    CustomSnackBar.show(
+                                      context,
+                                      message:
+                                          "Cadastro realizado com sucesso!",
+                                      icon: Icons.check,
+                                      backgroundColor: theme.primaryContainer,
+                                    );
+
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                         builder: (_) => LoginScreen(),
                                       ),
                                     );
-                                  },
-                                  child: Text("Entrar"),
-                                ),
-                              ],
-                            ),
-                          ],
+                                  } catch (e) {
+                                    if (!context.mounted) return;
+
+                                    CustomSnackBar.show(
+                                      context,
+                                      message: "Erro ao Criar conta: $e",
+                                      icon: Icons.error_outline_outlined,
+                                      backgroundColor: theme.errorContainer,
+                                    );
+                                  }
+                                },
+                              ),
+
+                              SizedBox(height: 24),
+
+                              Row(
+                                children: [
+                                  Text("Já possui uma conta?"),
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (_) => LoginScreen(),
+                                        ),
+                                      );
+                                    },
+                                    child: Text("Entrar"),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

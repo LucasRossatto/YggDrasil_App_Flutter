@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yggdrasil_app/src/shared/widgets/gradient_appbar.dart';
 
 class TermosECondicoes extends StatelessWidget {
   const TermosECondicoes({super.key});
@@ -6,7 +7,7 @@ class TermosECondicoes extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Termos de Uso')),
+      appBar: GradientAppBar(title: 'Termos e Condições'),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
@@ -164,12 +165,106 @@ class PoliticaPrivacidadeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Política de Privacidade')),
+      appBar: GradientAppBar(title: 'Política de Privacidade'),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
           child: Text(
-            "Aqui você coloca o conteúdo da sua política de privacidade oficial.",
+            '''
+Política de Privacidade – Aplicativo YggDrasil
+
+Última atualização: 13 de outubro de 2025
+
+1. Introdução
+
+A Advantag desenvolveu o aplicativo YggDrasil como um aplicativo gratuito. Este Serviço é fornecido sem custo e deve ser utilizado conforme disponibilizado.
+
+Esta Política de Privacidade tem como objetivo explicar quais informações coletamos, como as utilizamos e quais são seus direitos e escolhas em relação a esses dados.
+
+Ao utilizar o YggDrasil, você concorda com a coleta e o uso de informações conforme descrito nesta Política. As informações pessoais que coletamos são usadas exclusivamente para fornecer e aprimorar o serviço.
+
+Não compartilhamos seus dados com terceiros, exceto conforme descrito abaixo.
+
+2. Base Legal para o Tratamento de Dados Pessoais (LGPD, Art. 7º)
+
+O tratamento das informações pessoais realizadas pela Advantag ocorre de acordo com as bases legais previstas na Lei Geral de Proteção de Dados Pessoais (Lei nº 13.709/2018).
+
+Coletamos e utilizamos dados pessoais com fundamento nas seguintes hipóteses legais:
+- Consentimento do titular – quando o usuário autoriza o uso de informações pessoais para finalidades específicas dentro do aplicativo (ex.: criação de conta, envio de notificações, uso de localização etc.);
+- Execução de contrato ou de procedimentos preliminares – quando o tratamento é necessário para oferecer e manter o funcionamento dos serviços do YggDrasil;
+- Cumprimento de obrigação legal ou regulatória – quando precisamos armazenar ou fornecer dados conforme exigido por lei;
+- Legítimo interesse do controlador – quando o tratamento é necessário para prevenir fraudes, melhorar a experiência do usuário ou manter a segurança da aplicação, sempre respeitando os direitos e liberdades fundamentais do titular.
+
+3. Coleta e Uso de Informações
+
+Para oferecer uma melhor experiência, poderemos solicitar algumas informações de identificação pessoal, tais como:
+- Nome de usuário;
+- Endereço de e-mail;
+- Localização (quando necessária para o funcionamento do app);
+- Fotos de perfil ou relacionadas ao uso do serviço.
+
+Acesso à câmera
+
+O aplicativo pode solicitar permissão para acessar a câmera do dispositivo, com o objetivo de permitir o envio de imagens, captura de fotos de perfil ou utilização de recursos específicos (como leitura de QR Codes).
+
+As imagens capturadas são processadas apenas para a funcionalidade correspondente e não são compartilhadas com terceiros nem armazenadas em nossos servidores, salvo quando estritamente necessário para o funcionamento do serviço e com o consentimento do usuário.
+
+Essas informações são armazenadas com segurança e utilizadas apenas para as finalidades descritas nesta Política, como autenticação, personalização de experiência e melhoria dos serviços.
+
+O aplicativo pode utilizar serviços de terceiros que coletam informações para identificar o usuário ou oferecer recursos adicionais (ex.: login via Google, análise de uso, notificações, etc.).
+
+Esses serviços seguem suas próprias políticas de privacidade.
+
+4. Cookies e Tecnologias Semelhantes
+
+O YggDrasil não utiliza cookies diretamente, porém pode integrar bibliotecas ou códigos de terceiros que o façam, a fim de aprimorar o desempenho ou análise de uso.
+
+Você pode optar por desativar cookies nas configurações do seu dispositivo. No entanto, isso pode limitar algumas funcionalidades do aplicativo.
+
+5. Informações de Localização
+
+Determinadas funções podem solicitar acesso à sua localização. Essa informação é usada apenas quando necessária para a execução de recursos específicos do aplicativo e não é compartilhada com terceiros sem o seu consentimento.
+
+6. Informações do Dispositivo
+
+Podemos coletar dados técnicos do seu dispositivo (como modelo, sistema operacional e identificadores não pessoais).
+
+Essas informações ajudam a melhorar o desempenho, identificar erros e prevenir fraudes.
+
+Nenhum dado coletado permite identificar o usuário individualmente.
+
+7. Segurança dos Dados
+
+A segurança das suas informações pessoais é uma prioridade para nós.
+
+Adotamos medidas técnicas e administrativas razoáveis para protegê-las contra acesso, alteração, divulgação ou destruição não autorizada.
+
+Contudo, lembre-se: nenhum método de transmissão ou armazenamento eletrônico é 100% seguro. Embora nos esforcemos para proteger seus dados, não podemos garantir segurança absoluta.
+
+8. Privacidade de Crianças e Adolescentes
+
+Nossos serviços não são destinados a menores de 13 anos.
+
+Não coletamos intencionalmente informações pessoais de crianças. Se identificarmos que informações de um menor foram fornecidas, elas serão excluídas imediatamente.
+
+Pais ou responsáveis que identifiquem esse tipo de situação podem nos contatar para solicitar a exclusão dos dados.
+
+9. Alterações a Esta Política de Privacidade
+
+Podemos atualizar esta Política periodicamente.
+
+Recomendamos que você a consulte regularmente para verificar eventuais alterações.
+
+As atualizações terão efeito imediato após sua publicação nesta página.
+
+Sempre que ocorrerem mudanças significativas, notificaremos os usuários por meio do aplicativo ou por e-mail.
+
+10. Contato
+
+Se você tiver dúvidas, sugestões ou solicitações relacionadas à privacidade e proteção de dados, entre em contato conosco pelo e-mail:
+
+📧 yggdrasil.team.contato@gmail.com
+''',
             style: Theme.of(context).textTheme.bodyMedium,
           ),
         ),
