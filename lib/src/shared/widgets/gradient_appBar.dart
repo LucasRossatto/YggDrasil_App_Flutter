@@ -27,6 +27,9 @@ class GradientAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       title: Text(title, style: TextStyle(color: theme.colorScheme.surface),),
       elevation: elevation,
+       iconTheme: IconThemeData(
+      color: theme.colorScheme.surface, // ✅ cor do botão de voltar
+    ),
       flexibleSpace: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
