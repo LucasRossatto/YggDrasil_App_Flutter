@@ -6,6 +6,7 @@ import 'package:yggdrasil_app/src/blocs/auth/auth_state.dart';
 import 'package:yggdrasil_app/src/shared/widgets/gradient_appbar.dart';
 import 'package:yggdrasil_app/src/view/screens/startup_screen.dart';
 import 'package:yggdrasil_app/src/view/widgets/transferir_button.dart';
+import 'package:yggdrasil_app/src/view/widgets/termos_politica.dart'; // ← import das telas
 
 class ConfiguracaoScreen extends StatelessWidget {
   const ConfiguracaoScreen({super.key});
@@ -26,16 +27,13 @@ class ConfiguracaoScreen extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
             ),
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 24,
-              vertical: 20,
-            ),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Image.asset(
                   'assets/images/mascote/mascote-logout.png',
-                  height: size.height * 0.12, // responsivo
+                  height: size.height * 0.12,
                 ),
                 const SizedBox(height: 20),
                 Text(
@@ -74,7 +72,7 @@ class ConfiguracaoScreen extends StatelessWidget {
                   context.read<AuthBloc>().add(LoggedOut());
                 },
                 style: ButtonStyle(
-                  backgroundColor: WidgetStatePropertyAll(colors.error),
+                  backgroundColor: MaterialStatePropertyAll(colors.error),
                 ),
                 child: Text(
                   "Sair da Conta",
@@ -118,68 +116,52 @@ class ConfiguracaoScreen extends StatelessWidget {
                   padding: EdgeInsets.symmetric(vertical: size.height * 0.02),
                   children: [
                     Text(
-                      "Geral",
+                      "Termos & Condições",
                       style: theme.textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                         color: theme.colorScheme.onSurfaceVariant,
                       ),
-                    ),
+                    ),                   
+                    // Termos de Uso
                     ListTile(
-                      leading: const Icon(Icons.security),
-                      title: const Text("Privacidade"),
-                      trailing: const Icon(Icons.chevron_right),
+                      leading: Icon(Icons.article),
+                      title: Text("Termos de Uso"),
+                      trailing: Icon(Icons.chevron_right),
                       onTap: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                            title: const Text("Privacidade"),
-                            content: const Text(
-                              "Coletamos apenas informações necessárias para cadastrar árvores e avaliações. "
-                              "Suas informações não serão compartilhadas com terceiros sem consentimento.",
-                            ),
-                            actions: [
-                              TextButton(
-                                onPressed: () => Navigator.pop(context),
-                                child: const Text("Fechar"),
-                              ),
-                            ],
-                          ),
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (_) => const TermosECondicoes()),
                         );
                       },
                     ),
 
+                    // Política de Privacidade
                     ListTile(
-                      leading: Icon(Icons.info),
-                      title: Text("Sobre o App"),
+                      leading: Icon(Icons.privacy_tip),
+                      title: Text("Política de Privacidade"),
                       trailing: Icon(Icons.chevron_right),
                       onTap: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                            title: Text("Sobre o App"),
-                            content: Text(
-                              "Yggdrasil App\n"
-                              "Versão 1.0.0\n\n"
-                              "Este aplicativo permite cadastrar árvores, registrar avaliações e acompanhar informações de forma prática e segura.\n\n"
-                              "Desenvolvido pela Advantag Tecnologia e Serviços Ltda.",
-                            ),
-                            actions: [
-                              TextButton(
-                                onPressed: () => Navigator.pop(context),
-                                child: Text("Fechar"),
-                              ),
-                            ],
-                          ),
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (_) => const PoliticaPrivacidadeScreen()),
                         );
                       },
                     ),
-                  Container( height: 1, width: double.infinity, decoration: BoxDecoration( color: theme.colorScheme.outline, ), ),
+
+                    Container(
+                      height: 1,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: theme.colorScheme.outline,
+                      ),
+                    ),
                   ],
                 ),
               ),
+
               Padding(
                 padding: EdgeInsets.only(
-                  bottom: size.height * 0.03, // padding inferior responsivo
+                  bottom: size.height * 0.03,
                   top: 8,
                 ),
                 child: TransferirButton(
