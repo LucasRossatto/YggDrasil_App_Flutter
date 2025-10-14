@@ -172,7 +172,7 @@ class Card extends StatelessWidget {
       onTap: onTap,
       child: SizedBox(
         width: screenWidth * 0.29,
-        height: height * 0.14,
+        height: height * 0.145,
         child: AspectRatio(
           aspectRatio: 1.05,
           child: Container(
