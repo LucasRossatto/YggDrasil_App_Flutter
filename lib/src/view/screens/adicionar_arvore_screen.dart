@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'dart:io' show Platform;
@@ -28,7 +29,7 @@ class _AdicionarArvoreScreen extends State<AdicionarArvoreScreen> {
     super.initState();
     tagArvore = TextEditingController();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _requestLocationDialogIfAndroid();
+      _handleLocationRequest();
     });
   }
 
@@ -38,9 +39,15 @@ class _AdicionarArvoreScreen extends State<AdicionarArvoreScreen> {
     super.dispose();
   }
 
-  Future<void> _requestLocationDialogIfAndroid() async {
-    if (!Platform.isAndroid) return;
+  Future<void> _handleLocationRequest() async {
+    final position = await _requestLocationIfAndroid(context);
+    if (position != null) {
+      final formatted = '${position.latitude} ${position.longitude}';
+      print(formatted); // -> -23.5998668 -46.8548211
+    }
+  }
 
+  Future<Position?> _requestLocationIfAndroid(BuildContext context) async {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (_) => AlertDialog(
@@ -61,9 +68,36 @@ class _AdicionarArvoreScreen extends State<AdicionarArvoreScreen> {
       ),
     );
 
-    if (confirmed == true) {
-      // Solicita permissão depois do diálogo
-      await Permission.location.request();
+    if (confirmed != true) return null;
+
+    try {
+      // Testa se os serviços estão habilitados
+      bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+      if (!serviceEnabled) {
+        await Geolocator.openLocationSettings();
+        return Future.error('Serviços de localização desativados.');
+      }
+
+      // Verifica permissões
+      LocationPermission permission = await Geolocator.checkPermission();
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+        if (permission == LocationPermission.denied) {
+          return Future.error('Permissão de localização negada.');
+        }
+      }
+
+      if (permission == LocationPermission.deniedForever) {
+        return Future.error(
+          'Permissão de localização negada permanentemente. Vá nas configurações para ativá-la.',
+        );
+      }
+
+      // Tudo certo, obtém a posição atual
+      return await Geolocator.getCurrentPosition();
+    } catch (e) {
+      debugPrint('Erro ao obter localização: $e');
+      return null;
     }
   }
 
@@ -134,8 +168,7 @@ class _AdicionarArvoreScreen extends State<AdicionarArvoreScreen> {
               abrirScanner: abrirScanner,
               onSubmit: (arvore) async {
                 try {
-                  final localizacaoAtual =
-                      await LocalizacaoService.getCurrentLocation();
+                  final localizacaoAtual = await _requestLocationIfAndroid(context);
 
                   if (localizacaoAtual == null) {
                     CustomSnackBar.show(
@@ -148,7 +181,7 @@ class _AdicionarArvoreScreen extends State<AdicionarArvoreScreen> {
                   }
 
                   final arvoreComLocalizacao = arvore.copyWith(
-                    localizacao: localizacaoAtual,
+                    localizacao: localizacaoAtual.toString(),
                   );
 
                   final tagVerificada = await arvoreVm.verificarTag(
