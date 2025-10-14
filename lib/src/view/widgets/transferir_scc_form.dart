@@ -35,8 +35,20 @@ class SccTransferirForm extends StatelessWidget {
   Widget build(BuildContext context) {
     final vmWallet = context.read<WalletViewmodel>();
     final theme = Theme.of(context);
+    final size = MediaQuery.of(context).size;
+
+    CustomSnackBar.show(
+      context,
+      profile: 'error',
+      message:
+          "🚧 Esta funcionalidade ainda está em desenvolvimento no aplicativo",
+    );
+
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      padding: EdgeInsets.symmetric(
+        horizontal: size.width * 0.05,
+        vertical: size.height * 0.02,
+      ),
       child: Column(
         children: [
           SizedBox(height: 20),
@@ -94,9 +106,9 @@ class SccTransferirForm extends StatelessWidget {
             extraLabel: "Quantidade de SCC",
             hint: "Insira o valor a ser transferido",
           ),
-            SizedBox(height: MediaQuery.of(context).size.height * 0.30),
+          SizedBox(height: MediaQuery.of(context).size.height * 0.24),
           TransferirButton(
-            text: 'Funcionalidade disponível apenas no painel',
+            text: 'Disponível apenas no painel',
             onPressed: () async {
               CustomSnackBar.show(
                 context,

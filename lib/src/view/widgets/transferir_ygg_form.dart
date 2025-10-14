@@ -34,9 +34,13 @@ class YggTransferirForm extends StatelessWidget {
     final theme = Theme.of(context);
     final vmWallet = context.read<WalletViewmodel>();
     final formKey = GlobalKey<FormState>();
+    final size = MediaQuery.of(context).size;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      padding: EdgeInsets.symmetric(
+        horizontal: size.width * 0.05,
+        vertical: size.height * 0.02,
+      ),
       child: Form(
         key: formKey,
         child: Column(
@@ -122,7 +126,7 @@ class YggTransferirForm extends StatelessWidget {
               extraLabel: "Quantidade de YGG",
               hint: "Insira o valor a ser transferido",
             ),
-            SizedBox(height: MediaQuery.of(context).size.height * 0.30),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.26),
             TransferirButton(
               text: 'Transferir YGG',
               onPressed: () async {
