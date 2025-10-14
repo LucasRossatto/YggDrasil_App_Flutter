@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 import 'package:yggdrasil_app/src/models/arvore_model.dart';
 import 'package:yggdrasil_app/src/shared/widgets/app_numeric_field.dart';
 import 'package:yggdrasil_app/src/shared/widgets/app_text_field.dart';
 import 'package:yggdrasil_app/src/shared/widgets/custom_snackbar.dart';
 import 'package:yggdrasil_app/src/shared/widgets/tipo_arvore_segmentedbutton.dart';
 import 'package:yggdrasil_app/src/view/widgets/transferir_button.dart';
+import 'package:yggdrasil_app/src/viewmodel/arvore_viewmodel.dart';
 
 class ArvoreCreateForm extends StatefulWidget {
   final ArvoreModel arvore;
@@ -61,6 +63,7 @@ class _ArvoreCreateFormState extends State<ArvoreCreateForm> {
     final paddingHorizontal = screenWidth * 0.05; // 5% da largura da tela
     final spacingVertical = screenHeight * 0.02; // 2% da altura da tela
     final _formKey = GlobalKey<FormState>();
+    final vm = context.read<ArvoreViewModel>();
 
     return SingleChildScrollView(
       padding: EdgeInsets.symmetric(
@@ -143,7 +146,7 @@ class _ArvoreCreateFormState extends State<ArvoreCreateForm> {
               controller: familiaController,
               label: "Nome científico",
               hint: "Nome científico",
-              extraLabel: "Família",
+              extraLabel: "Nome científico",
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return "Informe um Nome científico para a árvore";
@@ -166,13 +169,13 @@ class _ArvoreCreateFormState extends State<ArvoreCreateForm> {
             ),
             SizedBox(height: spacingVertical),
 
-            TipoArvoreSegmented(label: "Tipo" ,tipoController: tipoController),
+            TipoArvoreSegmented(label: "Tipo", tipoController: tipoController),
             SizedBox(height: spacingVertical),
 
             AppTextField(
               controller: historicoController,
               label: "História",
-              hint: "Conta a história da árvore",
+              hint: "Conte a história da árvore",
               extraLabel: "História",
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -185,6 +188,7 @@ class _ArvoreCreateFormState extends State<ArvoreCreateForm> {
             SizedBox(
               width: double.infinity,
               child: TransferirButton(
+                isLoading: vm.isLoading,
                 text: "Criar Árvore",
                 onPressed: () {
                   if (!_formKey.currentState!.validate()) {
