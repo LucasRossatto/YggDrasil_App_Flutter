@@ -13,11 +13,12 @@ class ConfiguracaoScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final size = MediaQuery.of(context).size;
+
     Future<void> request() async {
       await showDialog<bool>(
         context: context,
         builder: (context) {
-          final theme = Theme.of(context);
           final colors = theme.colorScheme;
           final textTheme = theme.textTheme;
 
@@ -34,7 +35,7 @@ class ConfiguracaoScreen extends StatelessWidget {
               children: [
                 Image.asset(
                   'assets/images/mascote/mascote-logout.png',
-                  height: 100,
+                  height: size.height * 0.12, // responsivo
                 ),
                 const SizedBox(height: 20),
                 Text(
@@ -73,8 +74,7 @@ class ConfiguracaoScreen extends StatelessWidget {
                   context.read<AuthBloc>().add(LoggedOut());
                 },
                 style: ButtonStyle(
-                  backgroundColor:
-                      WidgetStatePropertyAll(colors.error),
+                  backgroundColor: WidgetStatePropertyAll(colors.error),
                 ),
                 child: Text(
                   "Sair da Conta",
@@ -93,7 +93,6 @@ class ConfiguracaoScreen extends StatelessWidget {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is AuthUnauthenticated) {
-          // Navegação segura, sem possibilidade de voltar
           Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (_) => const StartupScreen()),
@@ -107,16 +106,87 @@ class ConfiguracaoScreen extends StatelessWidget {
           leading: IconButton(
             icon: Icon(Icons.close),
             color: theme.colorScheme.surface,
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
+            onPressed: () => Navigator.of(context).pop(),
           ),
         ),
-        body: SingleChildScrollView(
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Column(
             children: [
-              Container(),
-              TransferirButton(onPressed: request, text: "Sair da Conta"),
+              Expanded(
+                child: ListView(
+                  padding: EdgeInsets.symmetric(vertical: size.height * 0.02),
+                  children: [
+                    Text(
+                      "Geral",
+                      style: theme.textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: theme.colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                    ListTile(
+                      leading: const Icon(Icons.security),
+                      title: const Text("Privacidade"),
+                      trailing: const Icon(Icons.chevron_right),
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: const Text("Privacidade"),
+                            content: const Text(
+                              "Coletamos apenas informações necessárias para cadastrar árvores e avaliações. "
+                              "Suas informações não serão compartilhadas com terceiros sem consentimento.",
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.pop(context),
+                                child: const Text("Fechar"),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+
+                    ListTile(
+                      leading: Icon(Icons.info),
+                      title: Text("Sobre o App"),
+                      trailing: Icon(Icons.chevron_right),
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: Text("Sobre o App"),
+                            content: Text(
+                              "Yggdrasil App\n"
+                              "Versão 1.0.0\n\n"
+                              "Este aplicativo permite cadastrar árvores, registrar avaliações e acompanhar informações de forma prática e segura.\n\n"
+                              "Desenvolvido pela Advantag Tecnologia e Serviços Ltda.",
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.pop(context),
+                                child: Text("Fechar"),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  Container( height: 1, width: double.infinity, decoration: BoxDecoration( color: theme.colorScheme.outline, ), ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(
+                  bottom: size.height * 0.03, // padding inferior responsivo
+                  top: 8,
+                ),
+                child: TransferirButton(
+                  onPressed: request,
+                  text: "Sair da Conta",
+                ),
+              ),
             ],
           ),
         ),
