@@ -20,12 +20,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(AuthLoading());
     try {
       final prefs = await SharedPreferences.getInstance();
-      final userId = prefs.getString('usuario_id');
+      final userId = prefs.getInt('usuario_id');
       debugPrint('AuthBloc: userId do storage: $userId');
 
       if (userId != null) {
         debugPrint('AuthBloc: usuário encontrado, emitindo AuthAuthenticated');
-        emit(AuthAuthenticated(userId: userId));
+        emit(AuthAuthenticated(userId: userId.toString()));
       } else {
         debugPrint('AuthBloc: nenhum usuário logado, emitindo AuthUnauthenticated');
         emit(AuthUnauthenticated());
