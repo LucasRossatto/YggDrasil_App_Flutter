@@ -80,19 +80,23 @@ class DetalheArvoreScreen extends StatelessWidget {
                 labelFontSize: 16,
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-              child: TransferirButton(
-                onPressed: () async {
-                  final result = await showDialog(
-                    context: context,
-                    builder: (context) =>
-                        AvaliacaoDialog(usuarioId: usuarioId, arvore: arvore),
-                  );
-                },
-                text: "Fiscalizar Árvore",
+            if (arvore.tag.epc.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 20,
+                ),
+                child: TransferirButton(
+                  onPressed: () async {
+                    final result = await showDialog(
+                      context: context,
+                      builder: (context) =>
+                          AvaliacaoDialog(usuarioId: usuarioId, arvore: arvore),
+                    );
+                  },
+                  text: "Fiscalizar Árvore",
+                ),
               ),
-            ),
           ],
         ),
       ),
@@ -113,38 +117,40 @@ class InfoContainer2 extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            "Identificação",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 14,
-              color: theme.colorScheme.onSurfaceVariant,
+          if (arvore.tag.epc.isNotEmpty)
+            Text(
+              "Identificação",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
             ),
-          ),
           SizedBox(height: 10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                "TAG: ",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14,
-                  color: theme.colorScheme.onSurfaceVariant,
+          if (arvore.tag.epc.isNotEmpty)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  "TAG: ",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
+                    color: theme.colorScheme.onSurfaceVariant,
+                  ),
                 ),
-              ),
-              Text(
-                arvore.tag.codigo,
-                style: TextStyle(
-                  fontWeight: FontWeight.normal,
-                  fontSize: 14,
-                  color: theme.colorScheme.onSurfaceVariant,
+                Text(
+                  arvore.tag.codigo,
+                  style: TextStyle(
+                    fontWeight: FontWeight.normal,
+                    fontSize: 14,
+                    color: theme.colorScheme.onSurfaceVariant,
+                  ),
                 ),
-              ),
-            ],
-          ),
-          SizedBox(height: 20),
+              ],
+            ),
+          if (arvore.tag.epc.isNotEmpty) SizedBox(height: 20),
 
           Text(
             // Titulo
@@ -250,7 +256,7 @@ class infoContainer1 extends StatelessWidget {
             valueFontSize: 16,
             labelFontSize: 16,
           ),
-          
+
           InfoRow(
             label: "Idade Aproximada",
             value: arvore.idadeAproximada,
