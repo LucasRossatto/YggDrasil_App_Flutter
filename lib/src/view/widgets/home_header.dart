@@ -203,7 +203,7 @@ class HomeHeader extends StatelessWidget {
                         ),
                       );
                     },
-                    svgAsset: 'assets/Icons/Transação_YCC.svg',
+                    svgAsset: 'assets/Icons/Transacao_YCC.svg',
                     label: 'Transferir',
                   ),
                 ],
