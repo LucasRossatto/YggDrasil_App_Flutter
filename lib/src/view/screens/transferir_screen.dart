@@ -82,9 +82,6 @@ class _TransferScreenState extends State<TransferScreen> {
               ],
             ),
           ),
-
-          const SizedBox(height: 20),
-
           // Conteúdo condicional
           Expanded(
             child: AnimatedSwitcher(
