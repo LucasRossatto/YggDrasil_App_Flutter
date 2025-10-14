@@ -94,7 +94,7 @@ class _ListaArvoresState extends State<ListaArvores> {
               itemBuilder: (context, index) {
                 if (index == vm.arvores.length) {
                   return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    padding: const EdgeInsets.only(bottom: 30),
                     child: Center(
                       child: vm.isLoading
                           ? const CircularProgressIndicator()
