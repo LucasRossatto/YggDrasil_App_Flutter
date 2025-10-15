@@ -28,6 +28,7 @@ class ArvoreCreateForm extends StatefulWidget {
 }
 
 class _ArvoreCreateFormState extends State<ArvoreCreateForm> {
+  final _formKey = GlobalKey<FormState>();
   late TextEditingController nomeController;
   late TextEditingController familiaController;
   late TextEditingController idadeAproximadaController;
@@ -62,7 +63,6 @@ class _ArvoreCreateFormState extends State<ArvoreCreateForm> {
     final screenHeight = MediaQuery.of(context).size.height;
     final paddingHorizontal = screenWidth * 0.05; // 5% da largura da tela
     final spacingVertical = screenHeight * 0.02; // 2% da altura da tela
-    final _formKey = GlobalKey<FormState>();
     final vm = context.read<ArvoreViewModel>();
 
     return SingleChildScrollView(

@@ -26,7 +26,7 @@ class _AdicionarArvoreScreen extends State<AdicionarArvoreScreen> {
     super.initState();
     tagArvore = TextEditingController();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _handleLocationRequest();
+      _localizacaoFormatada();
     });
   }
 
@@ -36,15 +36,24 @@ class _AdicionarArvoreScreen extends State<AdicionarArvoreScreen> {
     super.dispose();
   }
 
-  Future<void> _handleLocationRequest() async {
-    final position = await _requestLocationIfAndroid(context);
+  Future<String?> _localizacaoFormatada() async {
+    final position = await _requestLocation(context);
     if (position != null) {
-      final formatted = '${position.latitude} ${position.longitude}';
-      debugPrint(formatted); // -> -23.5998668 -46.8548211
+      final formatted = '${position.latitude}, ${position.longitude}';
+      debugPrint(formatted);
+      return formatted;
+    } else {
+      CustomSnackBar.show(
+        context,
+        icon: Icons.error,
+        message: "Não foi possível obter a localização atual.",
+        backgroundColor: Theme.of(context).colorScheme.errorContainer,
+      );
+      return null;
     }
   }
 
-  Future<Position?> _requestLocationIfAndroid(BuildContext context) async {
+  Future<Position?> _requestLocation(BuildContext context) async {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (_) => AlertDialog(
@@ -166,22 +175,12 @@ class _AdicionarArvoreScreen extends State<AdicionarArvoreScreen> {
                 abrirScanner: abrirScanner,
                 onSubmit: (arvore) async {
                   try {
-                    final localizacaoAtual = await _requestLocationIfAndroid(context);
-        
-                    if (localizacaoAtual == null) {
-                      CustomSnackBar.show(
-                        context,
-                        icon: Icons.error,
-                        message: "Não foi possível obter a localização atual.",
-                        backgroundColor: theme.colorScheme.errorContainer,
-                      );
-                      return;
-                    }
-        
+                    final localizacaoAtual =  _localizacaoFormatada;
+
                     final arvoreComLocalizacao = arvore.copyWith(
                       localizacao: localizacaoAtual.toString(),
                     );
-        
+
                     final tagVerificada = await arvoreVm.verificarTag(
                       tagArvore.text,
                     );
@@ -195,11 +194,11 @@ class _AdicionarArvoreScreen extends State<AdicionarArvoreScreen> {
                       );
                       return;
                     }
-        
+
                     final arvoreId = await arvoreVm.cadastrarArvore(
                       arvoreComLocalizacao,
                     );
-        
+
                     if (arvoreId == null) {
                       CustomSnackBar.show(
                         context,
@@ -210,16 +209,16 @@ class _AdicionarArvoreScreen extends State<AdicionarArvoreScreen> {
                       );
                       return;
                     }
-        
+
                     final novaArvore = await arvoreVm.getArvoreById(arvoreId);
                     arvoreVm.arvores.insert(0, novaArvore!);
-        
+
                     if (_base64Image != null && _base64Image!.isNotEmpty) {
                       final res = await arvoreVm.enviarImagem(
                         _base64Image!,
                         arvoreId,
                       );
-        
+
                       if (res == null || arvoreVm.erro != null) {
                         CustomSnackBar.show(
                           context,
@@ -232,13 +231,13 @@ class _AdicionarArvoreScreen extends State<AdicionarArvoreScreen> {
                         return;
                       }
                     }
-        
+
                     CustomSnackBar.show(
                       context,
                       message: "Árvore cadastrada com sucesso! 🌱",
                       icon: Icons.check_circle,
                     );
-        
+
                     Future.delayed(const Duration(seconds: 2), () {
                       Navigator.of(context).pop();
                     });
