@@ -5,19 +5,17 @@ import 'package:yggdrasil_app/src/services/secure_storage_service.dart';
 
 class UserStorage {
   final SecureStorageService storageService = SecureStorageService();
-
   static const _keyUserId = 'usuario_id';
   static const _keyUsuario = 'usuario';
   static const _keyWallet = 'wallet';
 
-  // Salvar ID do usuário
   Future<void> saveUserId(int id) async {
-    await storageService.saveData(_keyUserId, id.toString());
+    await storageService.setInt(_keyUserId, id);
   }
 
   Future<int?> getUserId() async {
-    final value = await storageService.readData(_keyUserId);
-    return value != null ? int.tryParse(value) : null;
+    final value = await storageService.getInt(_keyUserId);
+    return value;
   }
 
   Future<void> clearUserId() async {
@@ -27,11 +25,11 @@ class UserStorage {
   // Salvar dados completos do usuário
   Future<void> saveUsuario(UsuarioModel usuario) async {
     final jsonString = jsonEncode(usuario.toJson());
-    await storageService.saveData(_keyUsuario, jsonString);
+    await storageService.setString(_keyUsuario, jsonString);
   }
 
   Future<UsuarioModel?> getUsuario() async {
-    final jsonString = await storageService.readData(_keyUsuario);
+    final jsonString = await storageService.getString(_keyUsuario);
     if (jsonString == null) return null;
     final Map<String, dynamic> data = jsonDecode(jsonString);
     return UsuarioModel.fromJson(data);
@@ -44,11 +42,11 @@ class UserStorage {
   // Salvar Wallet
   Future<void> saveWallet(WalletModel wallet) async {
     final jsonString = jsonEncode(wallet.toJson());
-    await storageService.saveData(_keyWallet, jsonString);
+    await storageService.setString(_keyWallet, jsonString);
   }
 
   Future<WalletModel?> getWallet() async {
-    final jsonString = await storageService.readData(_keyWallet);
+    final jsonString = await storageService.getString(_keyWallet);
     if (jsonString == null) return null;
     final Map<String, dynamic> data = jsonDecode(jsonString);
     return WalletModel.fromJson(data);

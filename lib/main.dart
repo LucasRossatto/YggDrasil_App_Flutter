@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yggdrasil_app/src/blocs/auth/auth_bloc.dart';
 import 'package:yggdrasil_app/src/blocs/auth/auth_event.dart';
 import 'package:yggdrasil_app/src/blocs/configuracoes/configuracoes_bloc.dart';
@@ -13,6 +12,7 @@ import 'package:yggdrasil_app/src/repository/configuracoes_repositorio.dart';
 import 'package:yggdrasil_app/src/repository/usuario_repositorio.dart';
 import 'package:yggdrasil_app/src/services/secure_storage_service.dart';
 import 'package:yggdrasil_app/src/states/bottomnavigation_state.dart';
+import 'package:yggdrasil_app/src/storage/user_storage.dart';
 import 'package:yggdrasil_app/src/view/screens/error_screen.dart';
 import 'package:yggdrasil_app/src/view/screens/home_screen.dart';
 import 'package:yggdrasil_app/src/view/screens/startup_screen.dart';
@@ -41,11 +41,13 @@ Future<void> main() async {
     ErrorScreen(details: details);
     return true; // indica que o erro foi tratado
   };
+  WidgetsFlutterBinding.ensureInitialized();
   SecureStorageService.init();
   final usuarioRepository = UsuarioRepositorio();
   final configuracoesRepositorio = ConfiguracoesRepositorio();
-  final prefs = await SharedPreferences.getInstance();
-  final idUsuario = prefs.getInt('usuario_id'); 
+  final storage = UserStorage();
+
+  final idUsuario = await storage.getUserId(); 
   final authBloc = AuthBloc(usuarioRepository);
   authBloc.add(AppStarted());
 

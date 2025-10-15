@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yggdrasil_app/src/blocs/auth/auth_event.dart';
 import 'package:yggdrasil_app/src/blocs/auth/auth_state.dart';
 import 'package:yggdrasil_app/src/repository/usuario_repositorio.dart';
+import 'package:yggdrasil_app/src/services/secure_storage_service.dart';
 import 'package:yggdrasil_app/src/storage/user_storage.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final UsuarioRepositorio repositorio;
+  final SecureStorageService _secureStorage = SecureStorageService();
   AuthBloc(this.repositorio) : super(AuthInitial()) {
     on<LoginRequested>(_onLoginRequested);
     on<AppStarted>(_onAppStarted);
@@ -19,8 +20,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     debugPrint('AuthBloc: AppStarted event recebido');
     emit(AuthLoading());
     try {
-      final prefs = await SharedPreferences.getInstance();
-      final userId = prefs.getInt('usuario_id');
+      final userId = await _secureStorage.getInt('usuario_id');
       debugPrint('AuthBloc: userId do storage: $userId');
 
       if (userId != null) {
@@ -64,8 +64,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     debugPrint('AuthBloc: LoggedIn event recebido para userId: ${event.userId}');
     emit(AuthLoading());
     try {
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setString('usuario_id', event.userId);
+      await _secureStorage.saveData('usuario_id', event.userId);
       debugPrint('AuthBloc: userId salvo no SharedPreferences: ${event.userId}');
       emit(AuthAuthenticated(userId: event.userId));
     } catch (e) {
