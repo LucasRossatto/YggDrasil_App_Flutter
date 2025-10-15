@@ -243,7 +243,7 @@ class SeletorTema extends StatelessWidget {
                       value: AppTema.claro,
                       child: Row(
                         children: [
-                          Icon(Icons.light_mode, color: Colors.amber),
+                          Icon(Icons.light_mode_outlined, color: Colors.amber),
                           SizedBox(width: 8),
                           Text("Tema Claro"),
                         ],
@@ -253,7 +253,7 @@ class SeletorTema extends StatelessWidget {
                       value: AppTema.escuro,
                       child: Row(
                         children: [
-                          Icon(Icons.dark_mode, color: Colors.blueGrey),
+                          Icon(Icons.dark_mode_outlined, color: Colors.blueGrey),
                           SizedBox(width: 8),
                           Text("Tema Escuro"),
                         ],
