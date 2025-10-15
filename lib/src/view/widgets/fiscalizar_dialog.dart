@@ -76,6 +76,7 @@ class _AvaliacaoDialogState extends State<AvaliacaoDialog> {
     final size = MediaQuery.of(context).size;
     final theme = Theme.of(context);
     final vmArvore = context.read<ArvoreViewModel>();
+    final bool isLoading = vmArvore.isLoading;
 
     return Dialog(
       insetPadding: EdgeInsets.zero,
@@ -150,8 +151,11 @@ class _AvaliacaoDialogState extends State<AvaliacaoDialog> {
                       ),
                     ),
                   const SizedBox(height: 20),
-                   // se for fiscal é false
-                  CondicaoArvoreDropdown(controller: _condicaoController,  isLeigo: true),
+                  // se for fiscal é false
+                  CondicaoArvoreDropdown(
+                    controller: _condicaoController,
+                    isLeigo: true,
+                  ),
                   const SizedBox(height: 20),
                   AppTextField(
                     controller: _comentarioController,
@@ -199,61 +203,80 @@ class _AvaliacaoDialogState extends State<AvaliacaoDialog> {
                             theme.colorScheme.primary,
                           ),
                         ),
-                        onPressed: () async {
-                          if (!_formKey.currentState!.validate()) return;
+                        onPressed: isLoading
+                            ? null
+                            : () async {
+                                if (!_formKey.currentState!.validate()) return;
 
-                          // Valida imagem
-                          if (imagemAvaliacao == null) {
-                            CustomSnackBar.show(
-                              context,
-                              profile: 'warning',
-                              message:
-                                  "Para fiscalizar, Tire uma foto da Árvore",
-                            );
-                            return;
-                          }
+                                // Valida imagem
+                                if (imagemAvaliacao == null) {
+                                  CustomSnackBar.show(
+                                    context,
+                                    profile: 'warning',
+                                    message:
+                                        "Para fiscalizar, Tire uma foto da Árvore",
+                                  );
+                                  return;
+                                }
 
-                          // Valida nota
-                          if (_nota == 0) {
-                            CustomSnackBar.show(
-                              context,
-                              profile: 'warning',
-                              message: "Escolha uma nota maior que 0",
-                            );
-                            return;
-                          }
-                          final avaliacao = AvaliacaoModel(
-                            tag: widget.arvore.tag.epc,
-                            usuarioId: widget.usuarioId,
-                            imagemValidacao: imagemAvaliacao.toString(),
-                            condicaoAtual: _condicaoController.text.trim(),
-                            comentario: _comentarioController.text.trim(),
-                            dataAvaliacao: DateTime.now(),
-                            nota: _nota,
-                          );
+                                // Valida nota
+                                if (_nota == 0) {
+                                  CustomSnackBar.show(
+                                    context,
+                                    profile: 'warning',
+                                    message: "Escolha uma nota maior que 0",
+                                  );
+                                  return;
+                                }
+                                final avaliacao = AvaliacaoModel(
+                                  tag: widget.arvore.tag.epc,
+                                  usuarioId: widget.usuarioId,
+                                  imagemValidacao: imagemAvaliacao.toString(),
+                                  condicaoAtual: _condicaoController.text
+                                      .trim(),
+                                  comentario: _comentarioController.text.trim(),
+                                  dataAvaliacao: DateTime.now(),
+                                  nota: _nota,
+                                );
 
-                          final res = await vmArvore.fiscalizar(avaliacao);
+                                final res = await vmArvore.fiscalizar(
+                                  avaliacao,
+                                );
 
-                          if (res != null) {
-                            CustomSnackBar.show(
-                              context,
-                              message: 'Fiscalização realizada com sucesso!',
-                            );
-                            Navigator.pop(context, avaliacao);
-                          } else {
-                            CustomSnackBar.show(
-                              context,
-                              profile: 'error',
-                              message:
-                                  vmArvore.erro ??
-                                  "Ocorreu um erro inesperado.",
-                            );
-                          }
-                        },
-                        child: Text(
-                          "Enviar Avaliação",
-                          style: TextStyle(color: theme.colorScheme.surface),
-                        ),
+                                if (res != null) {
+                                  CustomSnackBar.show(
+                                    context,
+                                    message:
+                                        'Fiscalização realizada com sucesso!',
+                                  );
+                                  Navigator.pop(context, avaliacao);
+                                } else {
+                                  CustomSnackBar.show(
+                                    context,
+                                    profile: 'error',
+                                    message:
+                                        vmArvore.erro ??
+                                        "Ocorreu um erro inesperado.",
+                                  );
+                                }
+                              },
+                        child: isLoading
+                            ? SizedBox(
+                                height: 17,
+                                width: 17,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                    Theme.of(context).colorScheme.surface,
+                                  ),
+                                ),
+                              )
+                            : Text(
+                                "Enviar Avaliação",
+                                style: TextStyle(
+                                  color: theme.colorScheme.surface,
+                                ),
+                              ),
                       ),
                     ],
                   ),
