@@ -39,65 +39,67 @@ class DetalheArvoreScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Base64Image(
-              base64String: arvore.imagemURL,
-              width: double.infinity,
-              height: 260,
-              fit: BoxFit.cover,
-              backgroundColor: theme.colorScheme.outline,
-
-              placeholder: Icon(
-                Icons.image_not_supported_outlined,
-                size: 50,
-                color: theme.colorScheme.surface,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Base64Image(
+                base64String: arvore.imagemURL,
+                width: double.infinity,
+                height: 260,
+                fit: BoxFit.cover,
+                backgroundColor: theme.colorScheme.outline,
+        
+                placeholder: Icon(
+                  Icons.image_not_supported_outlined,
+                  size: 50,
+                  color: theme.colorScheme.surface,
+                ),
               ),
-            ),
-            SizedBox(height: 30),
-            // Infos container1: nome, tipo, familia, ultima fiscalizacao, scc acumulado, idade aproximada
-            infoContainer1(arvore: arvore),
-            SizedBox(height: 26),
-            // Infos container2: tag, localização
-            InfoContainer2(theme: theme, arvore: arvore),
-            SizedBox(height: 26),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: SizedBox(
-                width: 380,
-                height: 222,
-                child: SimpleMap(latitude: lat, longitude: lng),
-              ),
-            ),
-            SizedBox(height: 26),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 20, left: 20, right: 20),
-              child: InfoRow(
-                label: "Historia",
-                value: arvore.mensagem,
-                valueFontSize: 16,
-                labelFontSize: 16,
-              ),
-            ),
-            if (arvore.tag.epc.isNotEmpty)
+              SizedBox(height: 30),
+              // Infos container1: nome, tipo, familia, ultima fiscalizacao, scc acumulado, idade aproximada
+              infoContainer1(arvore: arvore),
+              SizedBox(height: 26),
+              // Infos container2: tag, localização
+              InfoContainer2(theme: theme, arvore: arvore),
+              SizedBox(height: 26),
               Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 20,
-                ),
-                child: TransferirButton(
-                  onPressed: () async {
-                    final result = await showDialog(
-                      context: context,
-                      builder: (context) =>
-                          AvaliacaoDialog(usuarioId: usuarioId, arvore: arvore),
-                    );
-                  },
-                  text: "Fiscalizar Árvore",
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: SizedBox(
+                  width: 380,
+                  height: 222,
+                  child: SimpleMap(latitude: lat, longitude: lng),
                 ),
               ),
-          ],
+              SizedBox(height: 26),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 20, left: 20, right: 20),
+                child: InfoRow(
+                  label: "Historia",
+                  value: arvore.mensagem,
+                  valueFontSize: 16,
+                  labelFontSize: 16,
+                ),
+              ),
+              if (arvore.tag.epc.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 20,
+                  ),
+                  child: TransferirButton(
+                    onPressed: () async {
+                      final result = await showDialog(
+                        context: context,
+                        builder: (context) =>
+                            AvaliacaoDialog(usuarioId: usuarioId, arvore: arvore),
+                      );
+                    },
+                    text: "Fiscalizar Árvore",
+                  ),
+                ),
+            ],
+          ),
         ),
       ),
     );

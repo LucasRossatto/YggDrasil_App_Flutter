@@ -10,7 +10,9 @@ class TermosECondicoes extends StatelessWidget {
       appBar: GradientAppBar(title: 'Termos e Condições'),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: SingleChildScrollView(
+        child: 
+         SafeArea(
+          child: SingleChildScrollView(
           child: Text("""
 Termos e Condições de Uso – Aplicativo YggDrasil
 
@@ -155,6 +157,7 @@ A.7. Declaração ambiental. O Usuário reconhece que os SCCs do YggDrasil não 
 """, style: Theme.of(context).textTheme.bodyMedium),
         ),
       ),
+      )
     );
   }
 }
@@ -168,7 +171,9 @@ class PoliticaPrivacidadeScreen extends StatelessWidget {
       appBar: GradientAppBar(title: 'Política de Privacidade'),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: SingleChildScrollView(
+        child: 
+         SafeArea(
+          child: SingleChildScrollView(
           child: Text(
             '''
 Política de Privacidade – Aplicativo YggDrasil
@@ -269,6 +274,7 @@ Se você tiver dúvidas, sugestões ou solicitações relacionadas à privacidad
           ),
         ),
       ),
+      )
     );
   }
 }

@@ -98,78 +98,82 @@ class ConfiguracaoScreen extends StatelessWidget {
           );
         }
       },
-      child: Scaffold(
-        appBar: GradientAppBar(
-          title: "Configurações",
-          leading: IconButton(
-            icon: Icon(Icons.close),
-            color: theme.colorScheme.surface,
-            onPressed: () => Navigator.of(context).pop(),
+      child: SafeArea(
+        child: Scaffold(
+          appBar: GradientAppBar(
+            title: "Configurações",
+            leading: IconButton(
+              icon: Icon(Icons.close),
+              color: theme.colorScheme.surface,
+              onPressed: () => Navigator.of(context).pop(),
+            ),
           ),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Column(
-            children: [
-              Expanded(
-                child: ListView(
-                  padding: EdgeInsets.symmetric(vertical: size.height * 0.02),
-                  children: [
-                    Text(
-                      "Termos & Condições",
-                      style: theme.textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: theme.colorScheme.onSurfaceVariant,
+          body: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Column(
+              children: [
+                Expanded(
+                  child: ListView(
+                    padding: EdgeInsets.symmetric(vertical: size.height * 0.02),
+                    children: [
+        
+                      Text(
+                        "Termos & Condições",
+                        style: theme.textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: theme.colorScheme.onSurfaceVariant,
+                        ),
                       ),
-                    ),                   
-                    // Termos de Uso
-                    ListTile(
-                      leading: Icon(Icons.article),
-                      title: Text("Termos de Uso"),
-                      trailing: Icon(Icons.chevron_right),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (_) => const TermosECondicoes()),
-                        );
-                      },
-                    ),
-
-                    // Política de Privacidade
-                    ListTile(
-                      leading: Icon(Icons.privacy_tip),
-                      title: Text("Política de Privacidade"),
-                      trailing: Icon(Icons.chevron_right),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (_) => const PoliticaPrivacidadeScreen()),
-                        );
-                      },
-                    ),
-
-                    Container(
-                      height: 1,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: theme.colorScheme.outline,
+                      SizedBox(height: size.height * 0.02),
+                      // Termos de Uso
+                      ListTile(
+                        leading: Icon(Icons.article),
+                        title: Text("Termos de Uso"),
+                        trailing: Icon(Icons.chevron_right),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (_) => const TermosECondicoes()),
+                          );
+                        },
                       ),
-                    ),
-                  ],
+        
+                      // Política de Privacidade
+                      ListTile(
+                        leading: Icon(Icons.privacy_tip),
+                        title: Text("Política de Privacidade"),
+                        trailing: Icon(Icons.chevron_right),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (_) => const PoliticaPrivacidadeScreen()),
+                          );
+                        },
+                      ),
+        
+                      Container(
+                        height: 1,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: theme.colorScheme.outline,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-
-              Padding(
-                padding: EdgeInsets.only(
-                  bottom: size.height * 0.03,
-                  top: 8,
+        
+                Padding(
+                  padding: EdgeInsets.only(
+                    bottom: size.height * 0.03,
+                    top: 8,
+                  ),
+                  child: TransferirButton(
+                    onPressed: request,
+                    text: "Sair da Conta",
+                  ),
                 ),
-                child: TransferirButton(
-                  onPressed: request,
-                  text: "Sair da Conta",
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

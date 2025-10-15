@@ -132,126 +132,128 @@ class _AdicionarArvoreScreen extends State<AdicionarArvoreScreen> {
         ),
       ),
 
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            CameraButtonWrapper(
-              onImageCaptured: (base64Image) {
-                _base64Image = base64Image;
-              },
-            ),
-            ArvoreCreateForm(
-              tagIdController: tagArvore,
-              arvore: ArvoreModel(
-                id: 0,
-                usuarioId: usuarioId,
-                tagId: tagArvore.text,
-                imagemURL: '',
-                nome: '',
-                mensagem: '',
-                familia: '',
-                idadeAproximada: '',
-                localizacao: '',
-                nota: 0,
-                tipo: 0,
-                sccAcumulado: 0,
-                sccGerado: 0,
-                sccLiberado: 0,
-                ultimaFiscalizacao: '',
-                ultimaValidacao: '',
-                ultimaAtualizacaoImagem: '',
-                tag: TagModel.init(),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              CameraButtonWrapper(
+                onImageCaptured: (base64Image) {
+                  _base64Image = base64Image;
+                },
               ),
-              abrirScanner: abrirScanner,
-              onSubmit: (arvore) async {
-                try {
-                  final localizacaoAtual = await _requestLocationIfAndroid(context);
-
-                  if (localizacaoAtual == null) {
-                    CustomSnackBar.show(
-                      context,
-                      icon: Icons.error,
-                      message: "Não foi possível obter a localização atual.",
-                      backgroundColor: theme.colorScheme.errorContainer,
-                    );
-                    return;
-                  }
-
-                  final arvoreComLocalizacao = arvore.copyWith(
-                    localizacao: localizacaoAtual.toString(),
-                  );
-
-                  final tagVerificada = await arvoreVm.verificarTag(
-                    tagArvore.text,
-                  );
-                  if (tagVerificada == false) {
-                    CustomSnackBar.show(
-                      context,
-                      backgroundColor: theme.colorScheme.onError,
-                      message:
-                          "Não foi possível cadastrar árvore: ${arvoreVm.erro}",
-                      icon: Icons.error,
-                    );
-                    return;
-                  }
-
-                  final arvoreId = await arvoreVm.cadastrarArvore(
-                    arvoreComLocalizacao,
-                  );
-
-                  if (arvoreId == null) {
-                    CustomSnackBar.show(
-                      context,
-                      backgroundColor: theme.colorScheme.onError,
-                      message:
-                          "Não foi possível cadastrar árvore: ${arvoreVm.erro}",
-                      icon: Icons.error,
-                    );
-                    return;
-                  }
-
-                  final novaArvore = await arvoreVm.getArvoreById(arvoreId);
-                  arvoreVm.arvores.insert(0, novaArvore!);
-
-                  if (_base64Image != null && _base64Image!.isNotEmpty) {
-                    final res = await arvoreVm.enviarImagem(
-                      _base64Image!,
-                      arvoreId,
-                    );
-
-                    if (res == null || arvoreVm.erro != null) {
+              ArvoreCreateForm(
+                tagIdController: tagArvore,
+                arvore: ArvoreModel(
+                  id: 0,
+                  usuarioId: usuarioId,
+                  tagId: tagArvore.text,
+                  imagemURL: '',
+                  nome: '',
+                  mensagem: '',
+                  familia: '',
+                  idadeAproximada: '',
+                  localizacao: '',
+                  nota: 0,
+                  tipo: 0,
+                  sccAcumulado: 0,
+                  sccGerado: 0,
+                  sccLiberado: 0,
+                  ultimaFiscalizacao: '',
+                  ultimaValidacao: '',
+                  ultimaAtualizacaoImagem: '',
+                  tag: TagModel.init(),
+                ),
+                abrirScanner: abrirScanner,
+                onSubmit: (arvore) async {
+                  try {
+                    final localizacaoAtual = await _requestLocationIfAndroid(context);
+        
+                    if (localizacaoAtual == null) {
                       CustomSnackBar.show(
                         context,
-                        backgroundColor: theme.colorScheme.error,
+                        icon: Icons.error,
+                        message: "Não foi possível obter a localização atual.",
+                        backgroundColor: theme.colorScheme.errorContainer,
+                      );
+                      return;
+                    }
+        
+                    final arvoreComLocalizacao = arvore.copyWith(
+                      localizacao: localizacaoAtual.toString(),
+                    );
+        
+                    final tagVerificada = await arvoreVm.verificarTag(
+                      tagArvore.text,
+                    );
+                    if (tagVerificada == false) {
+                      CustomSnackBar.show(
+                        context,
+                        backgroundColor: theme.colorScheme.onError,
                         message:
-                            arvoreVm.erro ??
-                            "Erro inesperado ao enviar imagem.",
+                            "Não foi possível cadastrar árvore: ${arvoreVm.erro}",
                         icon: Icons.error,
                       );
                       return;
                     }
+        
+                    final arvoreId = await arvoreVm.cadastrarArvore(
+                      arvoreComLocalizacao,
+                    );
+        
+                    if (arvoreId == null) {
+                      CustomSnackBar.show(
+                        context,
+                        backgroundColor: theme.colorScheme.onError,
+                        message:
+                            "Não foi possível cadastrar árvore: ${arvoreVm.erro}",
+                        icon: Icons.error,
+                      );
+                      return;
+                    }
+        
+                    final novaArvore = await arvoreVm.getArvoreById(arvoreId);
+                    arvoreVm.arvores.insert(0, novaArvore!);
+        
+                    if (_base64Image != null && _base64Image!.isNotEmpty) {
+                      final res = await arvoreVm.enviarImagem(
+                        _base64Image!,
+                        arvoreId,
+                      );
+        
+                      if (res == null || arvoreVm.erro != null) {
+                        CustomSnackBar.show(
+                          context,
+                          backgroundColor: theme.colorScheme.error,
+                          message:
+                              arvoreVm.erro ??
+                              "Erro inesperado ao enviar imagem.",
+                          icon: Icons.error,
+                        );
+                        return;
+                      }
+                    }
+        
+                    CustomSnackBar.show(
+                      context,
+                      message: "Árvore cadastrada com sucesso! 🌱",
+                      icon: Icons.check_circle,
+                    );
+        
+                    Future.delayed(const Duration(seconds: 2), () {
+                      Navigator.of(context).pop();
+                    });
+                  } catch (e) {
+                    CustomSnackBar.show(
+                      context,
+                      backgroundColor: theme.colorScheme.onError,
+                      icon: Icons.error_outline,
+                      message: "Erro ao obter localização ou enviar dados: $e",
+                    );
                   }
-
-                  CustomSnackBar.show(
-                    context,
-                    message: "Árvore cadastrada com sucesso! 🌱",
-                    icon: Icons.check_circle,
-                  );
-
-                  Future.delayed(const Duration(seconds: 2), () {
-                    Navigator.of(context).pop();
-                  });
-                } catch (e) {
-                  CustomSnackBar.show(
-                    context,
-                    backgroundColor: theme.colorScheme.onError,
-                    icon: Icons.error_outline,
-                    message: "Erro ao obter localização ou enviar dados: $e",
-                  );
-                }
-              },
-            ),
-          ],
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
