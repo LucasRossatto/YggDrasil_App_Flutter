@@ -109,6 +109,7 @@ class ArvoreViewModel extends ChangeNotifier {
       if (!carregarMais) {
         _page = 1;
         arvores.clear();
+        _arvoresOriginais.clear();
       } else {
         _page++;
       }
