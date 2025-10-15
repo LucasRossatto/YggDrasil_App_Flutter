@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:yggdrasil_app/src/models/wallet_model.dart';
 import 'package:yggdrasil_app/src/states/bottomnavigation_state.dart';
+import 'package:yggdrasil_app/src/view/screens/carteira_screen.dart';
 import 'package:yggdrasil_app/src/view/screens/configuracao_screen.dart';
 import 'package:yggdrasil_app/src/view/screens/emdesenvolvimento_screen.dart';
 
@@ -42,13 +42,13 @@ class BottomNavigation extends StatelessWidget {
             _buildNavItem(
               context,
               index: 1,
-              icon: (FontAwesomeIcons.chartSimple),
-              label: 'Estatísticas',
+              icon: (Icons.wallet_outlined),
+              label: 'Carteira',
               onPressed: () => {
                 navState.setIndex(1),
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (_) => EmDesenvolvimentoScreen()),
+                  MaterialPageRoute(builder: (_) => CarteiraScreen(carteira: wallet,)),
                 ),
               },
             ),
