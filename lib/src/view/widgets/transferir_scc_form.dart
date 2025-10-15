@@ -37,13 +37,13 @@ class SccTransferirForm extends StatelessWidget {
     final theme = Theme.of(context);
     final size = MediaQuery.of(context).size;
 
+    WidgetsBinding.instance.addPostFrameCallback((_) {
     CustomSnackBar.show(
       context,
       profile: 'error',
-      message:
-          "🚧 Esta funcionalidade ainda está em desenvolvimento no aplicativo",
+      message: "🚧 Esta funcionalidade ainda está em desenvolvimento no aplicativo",
     );
-
+  });
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: size.width * 0.05,
