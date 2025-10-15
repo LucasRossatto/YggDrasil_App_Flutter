@@ -84,27 +84,30 @@ class _TransferScreenState extends State<TransferScreen> {
           ),
           // Conteúdo condicional
           Expanded(
-            child: AnimatedSwitcher(
-              duration: const Duration(milliseconds: 300),
-              child: _selectedType == 0
-                  ? YggTransferirForm(
-                      carteiraUsuario: carteiraUsuario,
-                      key: const ValueKey('YGGForm'),
-                      carteiraKey: carteiraUsuario.key,
-                      carteiraSaldo: carteiraUsuario.yggCoin,
-                      abrirScanner: abrirScanner,
-                      carteiraDestinoController: carteiraDestino,
-                      quantidadeController: quantidadeYgg,
-                    )
-                  : SccTransferirForm(
-                      carteiraUsuario: carteiraUsuario,
-                      key: const ValueKey('SCCForm'),
-                      carteiraKey: carteiraUsuario.id,
-                      carteiraSaldo: carteiraUsuario.scc,
-                      abrirScanner: abrirScanner,
-                      carteiraDestinoController: carteiraDestino,
-                      quantidadeController: quantidadeScc,
-                    ),
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 10.0),
+              child: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 300),
+                child: _selectedType == 0
+                    ? YggTransferirForm(
+                        carteiraUsuario: carteiraUsuario,
+                        key: const ValueKey('YGGForm'),
+                        carteiraKey: carteiraUsuario.key,
+                        carteiraSaldo: carteiraUsuario.yggCoin,
+                        abrirScanner: abrirScanner,
+                        carteiraDestinoController: carteiraDestino,
+                        quantidadeController: quantidadeYgg,
+                      )
+                    : SccTransferirForm(
+                        carteiraUsuario: carteiraUsuario,
+                        key: const ValueKey('SCCForm'),
+                        carteiraKey: carteiraUsuario.id,
+                        carteiraSaldo: carteiraUsuario.scc,
+                        abrirScanner: abrirScanner,
+                        carteiraDestinoController: carteiraDestino,
+                        quantidadeController: quantidadeScc,
+                      ),
+              ),
             ),
           ),
         ],
