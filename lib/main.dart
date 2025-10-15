@@ -11,6 +11,7 @@ import 'package:yggdrasil_app/src/blocs/usuario/usuario_bloc.dart';
 import 'package:yggdrasil_app/src/blocs/usuario/usuario_event.dart';
 import 'package:yggdrasil_app/src/repository/configuracoes_repositorio.dart';
 import 'package:yggdrasil_app/src/repository/usuario_repositorio.dart';
+import 'package:yggdrasil_app/src/services/secure_storage_service.dart';
 import 'package:yggdrasil_app/src/states/bottomnavigation_state.dart';
 import 'package:yggdrasil_app/src/view/screens/error_screen.dart';
 import 'package:yggdrasil_app/src/view/screens/home_screen.dart';
@@ -40,9 +41,7 @@ Future<void> main() async {
     ErrorScreen(details: details);
     return true; // indica que o erro foi tratado
   };
-
-  WidgetsFlutterBinding.ensureInitialized();
-
+  SecureStorageService.init();
   final usuarioRepository = UsuarioRepositorio();
   final configuracoesRepositorio = ConfiguracoesRepositorio();
   final prefs = await SharedPreferences.getInstance();

@@ -1,73 +1,65 @@
 import 'dart:convert';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yggdrasil_app/src/models/usuario_model.dart';
 import 'package:yggdrasil_app/src/models/wallet_model.dart';
+import 'package:yggdrasil_app/src/services/secure_storage_service.dart';
 
 class UserStorage {
+  final SecureStorageService storageService = SecureStorageService();
+
   static const _keyUserId = 'usuario_id';
   static const _keyUsuario = 'usuario';
   static const _keyWallet = 'wallet';
 
-  // Salvar id do usuário
+  // Salvar ID do usuário
   Future<void> saveUserId(int id) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setInt(_keyUserId, id);
+    await storageService.saveData(_keyUserId, id.toString());
   }
 
   Future<int?> getUserId() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getInt(_keyUserId);
+    final value = await storageService.readData(_keyUserId);
+    return value != null ? int.tryParse(value) : null;
   }
 
   Future<void> clearUserId() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove(_keyUserId);
+    await storageService.deleteData(_keyUserId);
   }
 
   // Salvar dados completos do usuário
   Future<void> saveUsuario(UsuarioModel usuario) async {
-    final prefs = await SharedPreferences.getInstance();
     final jsonString = jsonEncode(usuario.toJson());
-    await prefs.setString(_keyUsuario, jsonString);
+    await storageService.saveData(_keyUsuario, jsonString);
   }
 
   Future<UsuarioModel?> getUsuario() async {
-    final prefs = await SharedPreferences.getInstance();
-    final jsonString = prefs.getString(_keyUsuario);
+    final jsonString = await storageService.readData(_keyUsuario);
     if (jsonString == null) return null;
     final Map<String, dynamic> data = jsonDecode(jsonString);
     return UsuarioModel.fromJson(data);
   }
 
   Future<void> clearUsuario() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove(_keyUsuario);
+    await storageService.deleteData(_keyUsuario);
   }
 
   // Salvar Wallet
   Future<void> saveWallet(WalletModel wallet) async {
-    final prefs = await SharedPreferences.getInstance();
     final jsonString = jsonEncode(wallet.toJson());
-    await prefs.setString(_keyWallet, jsonString);
+    await storageService.saveData(_keyWallet, jsonString);
   }
 
   Future<WalletModel?> getWallet() async {
-    final prefs = await SharedPreferences.getInstance();
-    final jsonString = prefs.getString(_keyWallet);
+    final jsonString = await storageService.readData(_keyWallet);
     if (jsonString == null) return null;
     final Map<String, dynamic> data = jsonDecode(jsonString);
     return WalletModel.fromJson(data);
   }
 
   Future<void> clearWallet() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove(_keyWallet);
+    await storageService.deleteData(_keyWallet);
   }
 
   // Limpar tudo
   Future<void> clearAll() async {
-    await clearUserId();
-    await clearUsuario();
-    await clearWallet();
+    await storageService.clearAll();
   }
 }
