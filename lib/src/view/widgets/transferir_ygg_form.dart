@@ -11,6 +11,7 @@ import 'package:yggdrasil_app/src/view/widgets/transferir_button.dart';
 import 'package:yggdrasil_app/src/viewmodel/wallet_viewmodel.dart';
 
 class YggTransferirForm extends StatelessWidget {
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final String carteiraKey;
   final int carteiraSaldo;
   final WalletModel carteiraUsuario;
@@ -19,7 +20,7 @@ class YggTransferirForm extends StatelessWidget {
   final TextEditingController quantidadeController;
   final tipo = "YGG";
 
-  const YggTransferirForm({
+   YggTransferirForm({
     super.key,
     required this.carteiraKey,
     required this.carteiraSaldo,
@@ -33,7 +34,6 @@ class YggTransferirForm extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final vmWallet = context.read<WalletViewmodel>();
-    final formKey = GlobalKey<FormState>();
     final size = MediaQuery.of(context).size;
 
     return Padding(
