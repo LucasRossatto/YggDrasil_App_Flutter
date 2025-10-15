@@ -45,9 +45,8 @@ class _AdicionarArvoreScreen extends State<AdicionarArvoreScreen> {
     } else {
       CustomSnackBar.show(
         context,
-        icon: Icons.error,
+        profile: "error",
         message: "Não foi possível obter a localização atual.",
-        backgroundColor: Theme.of(context).colorScheme.errorContainer,
       );
       return null;
     }
@@ -187,10 +186,9 @@ class _AdicionarArvoreScreen extends State<AdicionarArvoreScreen> {
                     if (tagVerificada == false) {
                       CustomSnackBar.show(
                         context,
-                        backgroundColor: theme.colorScheme.onError,
+                        profile: "error",
                         message:
                             "Não foi possível cadastrar árvore: ${arvoreVm.erro}",
-                        icon: Icons.error,
                       );
                       return;
                     }
@@ -202,10 +200,9 @@ class _AdicionarArvoreScreen extends State<AdicionarArvoreScreen> {
                     if (arvoreId == null) {
                       CustomSnackBar.show(
                         context,
-                        backgroundColor: theme.colorScheme.onError,
+                        profile: "error",
                         message:
                             "Não foi possível cadastrar árvore: ${arvoreVm.erro}",
-                        icon: Icons.error,
                       );
                       return;
                     }
@@ -222,11 +219,10 @@ class _AdicionarArvoreScreen extends State<AdicionarArvoreScreen> {
                       if (res == null || arvoreVm.erro != null) {
                         CustomSnackBar.show(
                           context,
-                          backgroundColor: theme.colorScheme.error,
+                          profile: "error",
                           message:
                               arvoreVm.erro ??
                               "Erro inesperado ao enviar imagem.",
-                          icon: Icons.error,
                         );
                         return;
                       }
@@ -244,8 +240,7 @@ class _AdicionarArvoreScreen extends State<AdicionarArvoreScreen> {
                   } catch (e) {
                     CustomSnackBar.show(
                       context,
-                      backgroundColor: theme.colorScheme.onError,
-                      icon: Icons.error_outline,
+                      profile: "error",
                       message: "Erro ao obter localização ou enviar dados: $e",
                     );
                   }
