@@ -138,9 +138,9 @@ class CarteiraScreen extends StatelessWidget {
               const SizedBox(height: 8),
               _buildFaqTile(
                 theme: theme,
-                question: "Como eu gangho moedas?",
+                question: "Como eu ganho moedas?",
                 answer:
-                    "Qualquer pessoa pode tokenizar uma árvore, e a partir disso, o usuário passa a possuir um ativo que gera SCC's ou (Save Credit Carbon), os quais o usuário tem a liberdade de vender",
+                    "Tokenizando uma árvore, e a partir disso, o você passa a possuir um ativo que gera SCC's ou (Save Credit Carbon), os quais o usuário tem a liberdade de vender",
               ),
               _buildFaqTile(
                 theme: theme,
@@ -312,8 +312,8 @@ Widget _buildFaqTile({
     ),
     child: ExpansionTile(
       tilePadding: const EdgeInsets.symmetric(horizontal: 16),
-      collapsedIconColor: theme.colorScheme.primary,
-      iconColor: theme.colorScheme.surface,
+      collapsedIconColor: theme.colorScheme.onSurfaceVariant,
+      iconColor: theme.colorScheme.primary,
       title: Text(
         question,
         style: TextStyle(
