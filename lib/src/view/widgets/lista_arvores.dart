@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:yggdrasil_app/src/shared/widgets/formatar_data.dart';
 import 'package:yggdrasil_app/src/view/screens/detalhe_arvore_screen.dart';
@@ -31,6 +32,9 @@ class _ListaArvoresState extends State<ListaArvores> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final screenWidth = MediaQuery.of(context).size.width;
+    final double iconSize = screenWidth * 0.045;
+
     String mostrarUltimaFiscalizacao(data) {
       final dataPadrao = "01/01/0001";
       if (data == dataPadrao) {
@@ -53,7 +57,6 @@ class _ListaArvoresState extends State<ListaArvores> {
 
         return Column(
           children: [
-            // Cabeçalho com botão de recarregar
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8),
               child: Row(
@@ -77,10 +80,85 @@ class _ListaArvoresState extends State<ListaArvores> {
                       ),
                     ),
                   ),
-                  IconButton(
-                    icon: const Icon(Icons.refresh),
-                    color: theme.colorScheme.primary,
-                    onPressed: () => vm.getArvoresUsuario(widget.userId),
+                  Consumer<ArvoreViewModel>(
+                    builder: (context, vm, _) {
+                      return Row(
+                        children: [
+                          PopupMenuButton<String>(
+                            icon: const Icon(FontAwesomeIcons.sliders),
+                            color: theme.colorScheme.surface,
+                            elevation: 0,
+                            iconSize: iconSize,
+                            style: ButtonStyle(
+                              backgroundColor: WidgetStatePropertyAll(
+                                theme.colorScheme.outline.withAlpha(100),
+                              ),
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              side: BorderSide(
+                                color: theme.colorScheme.outline,
+                                width: 1,
+                              ),
+                            ),
+                            onSelected: (valor) {
+                              switch (valor) {
+                                case 'alfabetica':
+                                  vm.ordenarPorAlfabetica();
+                                  break;
+                                case 'ultimaFiscalizacao':
+                                  vm.ordenarPorUltimaFiscalizacao();
+                                  break;
+                                case 'maisRecente':
+                                  vm.ordenarPorMaisRecente();
+                                  break;
+                              }
+                            },
+                            itemBuilder: (context) => [
+                              PopupMenuItem(
+                                value: 'alfabetica',
+                                child: ListTile(
+                                  leading: Icon(
+                                    FontAwesomeIcons.arrowDownAZ,
+                                    size: iconSize,
+                                  ),
+                                  title: const Text('Ordem Alfabética'),
+                                ),
+                              ),
+                              PopupMenuItem(
+                                value: 'ultimaFiscalizacao',
+                                child: ListTile(
+                                  leading: Icon(
+                                    Icons.event_available,
+                                    size: iconSize,
+                                  ),
+                                  title: const Text('Última Fiscalização'),
+                                ),
+                              ),
+                              PopupMenuItem(
+                                value: 'maisRecente',
+                                child: ListTile(
+                                  leading: Icon(Icons.timer, size: iconSize),
+                                  title: const Text('Mais Recentes'),
+                                ),
+                              ),
+                            ],
+                          ),
+                          IconButton(
+                            iconSize: iconSize,
+                            style: ButtonStyle(
+                              backgroundColor: WidgetStatePropertyAll(
+                                theme.colorScheme.outline.withAlpha(100),
+                              ),
+                            ),
+
+                            icon: const Icon(FontAwesomeIcons.arrowsRotate),
+                            onPressed: () async=>
+                                vm.getArvoresUsuario(widget.userId),
+                          ),
+                        ],
+                      );
+                    },
                   ),
                 ],
               ),
