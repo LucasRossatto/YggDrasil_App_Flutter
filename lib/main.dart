@@ -28,11 +28,12 @@ Future<void> main() async {
   FlutterError.onError = (details) {
     FlutterError.presentError(details);
     // Se você tiver um handler customizado, pode chamar aqui
-    // myErrorsHandler.onErrorDetails(details);
+    ErrorScreen(details: details); 
   };
   // Configura handler global para erros não capturados
   PlatformDispatcher.instance.onError = (error, stack) {
-    // myErrorsHandler.onError(error, stack);
+    final details = FlutterErrorDetails(exception: error, stack: stack);
+    ErrorScreen(details: details);
     return true; // indica que o erro foi tratado
   };
 
