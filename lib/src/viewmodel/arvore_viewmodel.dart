@@ -12,11 +12,30 @@ class ArvoreViewModel extends ChangeNotifier {
   final int _size = 5;
   int qtdeTotal = 0;
 
+  List<ArvoreModel> _arvoresOriginais = [];
   List<ArvoreModel> arvores = [];
   ArvoreModel? arvore;
 
   void setLoading(bool value) {
     isLoading = value;
+    notifyListeners();
+  }
+
+  void ordenarPorAlfabetica() {
+    arvores = List.from(_arvoresOriginais)
+      ..sort((a, b) => a.nome.compareTo(b.nome));
+    notifyListeners();
+  }
+
+  void ordenarPorUltimaFiscalizacao() {
+    arvores = List.from(_arvoresOriginais)
+      ..sort((a, b) => b.ultimaFiscalizacao.compareTo(a.ultimaFiscalizacao));
+    notifyListeners();
+  }
+
+  void ordenarPorMaisRecente() {
+    arvores = List.from(_arvoresOriginais)
+      ..sort((a, b) => b.id.compareTo(a.id));
     notifyListeners();
   }
 
@@ -61,8 +80,11 @@ class ArvoreViewModel extends ChangeNotifier {
         erro = "TAG inválida";
         return null;
       }
-      final novaCriada =await getArvoreById(res.idArvore);
-       arvores.add(novaCriada!);
+      final novaCriada = await getArvoreById(res.idArvore);
+      if (novaCriada != null) {
+        _arvoresOriginais.add(novaCriada);
+        arvores = List.from(_arvoresOriginais);
+      }
       return res.idArvore;
     } catch (e) {
       erro = e.toString();
@@ -99,7 +121,8 @@ class ArvoreViewModel extends ChangeNotifier {
 
       final List<ArvoreModel> novas = resultado["arvores"];
       qtdeTotal = resultado["qtdeTotal"];
-      arvores.addAll(novas);
+      _arvoresOriginais.addAll(novas);
+      arvores = List.from(_arvoresOriginais);
     } on Exception catch (e) {
       erro = e.toString();
     } finally {
