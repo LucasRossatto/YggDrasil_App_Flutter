@@ -8,7 +8,7 @@ abstract class ConfiguracoesEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class CarregarPreferencias extends ConfiguracoesEvent {}
+class CarregarConfiguracoes extends ConfiguracoesEvent {}
 
 class AlternarModoEscuro extends ConfiguracoesEvent {
   final ThemeMode tema;
@@ -16,14 +16,6 @@ class AlternarModoEscuro extends ConfiguracoesEvent {
 
   @override
   List<Object?> get props => [tema];
-}
-
-class AlternarNotificacoes extends ConfiguracoesEvent {
-  final bool ativo;
-  const AlternarNotificacoes(this.ativo);
-
-  @override
-  List<Object?> get props => [ativo];
 }
 
 class AlterarIdioma extends ConfiguracoesEvent {

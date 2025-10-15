@@ -4,8 +4,12 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yggdrasil_app/src/blocs/auth/auth_bloc.dart';
 import 'package:yggdrasil_app/src/blocs/auth/auth_event.dart';
+import 'package:yggdrasil_app/src/blocs/configuracoes/configuracoes_bloc.dart';
+import 'package:yggdrasil_app/src/blocs/configuracoes/configuracoes_event.dart';
+import 'package:yggdrasil_app/src/blocs/configuracoes/configuracoes_state.dart';
 import 'package:yggdrasil_app/src/blocs/usuario/usuario_bloc.dart';
 import 'package:yggdrasil_app/src/blocs/usuario/usuario_event.dart';
+import 'package:yggdrasil_app/src/repository/configuracoes_repositorio.dart';
 import 'package:yggdrasil_app/src/repository/usuario_repositorio.dart';
 import 'package:yggdrasil_app/src/states/bottomnavigation_state.dart';
 import 'package:yggdrasil_app/src/view/screens/error_screen.dart';
@@ -40,6 +44,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   final usuarioRepository = UsuarioRepositorio();
+  final configuracoesRepositorio = ConfiguracoesRepositorio();
   final prefs = await SharedPreferences.getInstance();
   final idUsuario = prefs.getInt('usuario_id'); 
   final authBloc = AuthBloc(usuarioRepository);
@@ -65,6 +70,10 @@ Future<void> main() async {
           BlocProvider(
             create: (_) => UsuarioBloc(usuarioRepository)..add(LoadUsuario(idUsuario.toString())),
           ),
+          BlocProvider(
+            create: (_) => ConfiguracoesBloc(configuracoesRepositorio)
+              ..add(CarregarConfiguracoes()),
+          ),
         ],
         child: MyApp(initialScreen: initialScreen),
       ),
@@ -78,15 +87,33 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextTheme textTheme = createTextTheme(context, "Poppins", "Poppins");
-    final MaterialTheme theme = MaterialTheme(textTheme);
+    final textTheme = createTextTheme(context, "Poppins", "Poppins");
+    final materialTheme = MaterialTheme(textTheme);
 
-    return MaterialApp(
-      title: 'YggDrasil Alpha 0.1.0',
-      themeMode: ThemeMode.system,
-      theme: theme.light(),
-      darkTheme: theme.dark(),
-      home: initialScreen,
+    return BlocBuilder<ConfiguracoesBloc, ConfiguracoesState>(
+      builder: (context, state) {
+        ThemeMode currentMode;
+        switch (state.tema) {
+          case AppTema.claro:
+            currentMode = ThemeMode.light;
+            break;
+          case AppTema.escuro:
+            currentMode = ThemeMode.dark;
+            break;
+          case AppTema.sistema:
+          default:
+            currentMode = ThemeMode.system;
+        }
+
+        return MaterialApp(
+          title: 'YggDrasil Alpha 0.1.0',
+          debugShowCheckedModeBanner: false,
+          themeMode: currentMode,
+          theme: materialTheme.light(),
+          darkTheme: materialTheme.dark(),
+          home: initialScreen,
+        );
+      },
     );
   }
 }

@@ -3,6 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yggdrasil_app/src/blocs/auth/auth_bloc.dart';
 import 'package:yggdrasil_app/src/blocs/auth/auth_event.dart';
 import 'package:yggdrasil_app/src/blocs/auth/auth_state.dart';
+import 'package:yggdrasil_app/src/blocs/configuracoes/configuracoes_bloc.dart';
+import 'package:yggdrasil_app/src/blocs/configuracoes/configuracoes_event.dart';
+import 'package:yggdrasil_app/src/blocs/configuracoes/configuracoes_state.dart';
 import 'package:yggdrasil_app/src/shared/widgets/gradient_appbar.dart';
 import 'package:yggdrasil_app/src/view/screens/startup_screen.dart';
 import 'package:yggdrasil_app/src/view/widgets/transferir_button.dart';
@@ -27,7 +30,10 @@ class ConfiguracaoScreen extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
             ),
-            contentPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 24,
+              vertical: 20,
+            ),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -116,7 +122,8 @@ class ConfiguracaoScreen extends StatelessWidget {
                   child: ListView(
                     padding: EdgeInsets.symmetric(vertical: size.height * 0.02),
                     children: [
-        
+                      SeletorTema(theme: theme),
+
                       Text(
                         "Termos & Condições",
                         style: theme.textTheme.titleMedium?.copyWith(
@@ -133,11 +140,14 @@ class ConfiguracaoScreen extends StatelessWidget {
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (_) => const TermosECondicoes()),
+                            MaterialPageRoute(
+                              builder: (_) => const TermosECondicoes(),
+                            ),
                           );
                         },
                       ),
-        
+                      Hr(theme: theme),
+
                       // Política de Privacidade
                       ListTile(
                         leading: Icon(Icons.privacy_tip),
@@ -146,27 +156,20 @@ class ConfiguracaoScreen extends StatelessWidget {
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (_) => const PoliticaPrivacidadeScreen()),
+                            MaterialPageRoute(
+                              builder: (_) => const PoliticaPrivacidadeScreen(),
+                            ),
                           );
                         },
                       ),
-        
-                      Container(
-                        height: 1,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: theme.colorScheme.outline,
-                        ),
-                      ),
+
+                      Hr(theme: theme),
                     ],
                   ),
                 ),
-        
+
                 Padding(
-                  padding: EdgeInsets.only(
-                    bottom: size.height * 0.03,
-                    top: 8,
-                  ),
+                  padding: EdgeInsets.only(bottom: size.height * 0.03, top: 8),
                   child: TransferirButton(
                     onPressed: request,
                     text: "Sair da Conta",
@@ -177,6 +180,129 @@ class ConfiguracaoScreen extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class Hr extends StatelessWidget {
+  const Hr({super.key, required this.theme});
+
+  final ThemeData theme;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 1,
+      width: double.infinity,
+      decoration: BoxDecoration(color: theme.colorScheme.outline),
+    );
+  }
+}
+
+class SeletorTema extends StatelessWidget {
+  const SeletorTema({super.key, required this.theme});
+
+  final ThemeData theme;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<ConfiguracoesBloc, ConfiguracoesState>(
+      builder: (context, state) {
+        final colors = theme.colorScheme;
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Tema do aplicativo",
+              style: theme.textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: colors.onSurfaceVariant,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: colors.outline),
+              ),
+              child: DropdownButtonHideUnderline(
+                child: DropdownButton<AppTema>(
+                  value: state.tema,
+                  isExpanded: true,
+                  icon: Icon(
+                    Icons.keyboard_arrow_down,
+                    color: colors.onSurfaceVariant,
+                  ),
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: colors.onSurface,
+                  ),
+                  items: const [
+                    DropdownMenuItem(
+                      value: AppTema.claro,
+                      child: Row(
+                        children: [
+                          Icon(Icons.light_mode, color: Colors.amber),
+                          SizedBox(width: 8),
+                          Text("Tema Claro"),
+                        ],
+                      ),
+                    ),
+                    DropdownMenuItem(
+                      value: AppTema.escuro,
+                      child: Row(
+                        children: [
+                          Icon(Icons.dark_mode, color: Colors.blueGrey),
+                          SizedBox(width: 8),
+                          Text("Tema Escuro"),
+                        ],
+                      ),
+                    ),
+                    DropdownMenuItem(
+                      value: AppTema.sistema,
+                      child: Row(
+                        children: [
+                          Icon(Icons.computer_outlined, color: Colors.grey),
+                          SizedBox(width: 8),
+                          Text("Sistema"),
+                        ],
+                      ),
+                    ),
+                  ],
+                  onChanged: (AppTema? novoTema) {
+                    if (novoTema == null) return;
+
+                    ThemeMode modo;
+                    switch (novoTema) {
+                      case AppTema.claro:
+                        modo = ThemeMode.light;
+                        break;
+                      case AppTema.escuro:
+                        modo = ThemeMode.dark;
+                        break;
+                      case AppTema.sistema:
+                      default:
+                        modo = ThemeMode.system;
+                        break;
+                    }
+
+                    context.read<ConfiguracoesBloc>().add(
+                      AlternarModoEscuro(modo),
+                    );
+                  },
+                ),
+              ),
+            ),
+            Container(
+              height: 1,
+              width: double.infinity,
+              color: colors.outlineVariant,
+              margin: const EdgeInsets.symmetric(vertical: 16),
+            ),
+          ],
+        );
+      },
     );
   }
 }

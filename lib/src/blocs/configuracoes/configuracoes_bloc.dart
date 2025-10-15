@@ -8,27 +8,24 @@ class ConfiguracoesBloc extends Bloc<ConfiguracoesEvent, ConfiguracoesState> {
   final ConfiguracoesRepositorio repositorio;
 
   ConfiguracoesBloc(this.repositorio)
-      : super(const ConfiguracoesState(tema: ThemeMode.system)) {
-    on<CarregarPreferencias>(_aoCarregarPreferencias);
+      : super(const ConfiguracoesState(tema: AppTema.sistema)) {
+    on<CarregarConfiguracoes>(_aoCarregarPreferencias);
     on<AlternarModoEscuro>(_aoAlternarModoEscuro);
-    on<AlternarNotificacoes>(_aoAlternarNotificacoes);
     on<AlterarIdioma>(_aoAlterarIdioma);
   }
 
   Future<void> _aoCarregarPreferencias(
-    CarregarPreferencias evento,
+    CarregarConfiguracoes evento,
     Emitter<ConfiguracoesState> emitir,
   ) async {
     emitir(state.copyWith(carregando: true));
 
     final temaSalvo = await repositorio.obterTema();
-    final notificacoes = await repositorio.obterNotificacoes();
     final idioma = await repositorio.obterIdioma();
 
     emitir(
       ConfiguracoesState(
-        tema: temaSalvo ?? ThemeMode.system,
-        notificacoesAtivas: notificacoes,
+        tema: _converterThemeModeParaAppTema(temaSalvo ?? ThemeMode.system),
         idioma: idioma,
         carregando: false,
       ),
@@ -40,15 +37,7 @@ class ConfiguracoesBloc extends Bloc<ConfiguracoesEvent, ConfiguracoesState> {
     Emitter<ConfiguracoesState> emitir,
   ) async {
     await repositorio.definirTema(evento.tema);
-    emitir(state.copyWith(tema: evento.tema));
-  }
-
-  Future<void> _aoAlternarNotificacoes(
-    AlternarNotificacoes evento,
-    Emitter<ConfiguracoesState> emitir,
-  ) async {
-    await repositorio.definirNotificacoes(evento.ativo);
-    emitir(state.copyWith(notificacoesAtivas: evento.ativo));
+    emitir(state.copyWith(tema: _converterThemeModeParaAppTema(evento.tema)));
   }
 
   Future<void> _aoAlterarIdioma(
@@ -57,5 +46,16 @@ class ConfiguracoesBloc extends Bloc<ConfiguracoesEvent, ConfiguracoesState> {
   ) async {
     await repositorio.definirIdioma(evento.idioma);
     emitir(state.copyWith(idioma: evento.idioma));
+  }
+
+  AppTema _converterThemeModeParaAppTema(ThemeMode themeMode) {
+    switch (themeMode) {
+      case ThemeMode.light:
+        return AppTema.claro;
+      case ThemeMode.dark:
+        return AppTema.escuro;
+      case ThemeMode.system:
+      return AppTema.sistema;
+    }
   }
 }
