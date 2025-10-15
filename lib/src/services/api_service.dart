@@ -4,7 +4,9 @@ import 'dart:async'; // <- necessário para TimeoutException
 import 'package:http/http.dart' as http;
 
 class ApiService {
-  final String baseUrl  = 'https://api1.yggdrasil.eco.br/';
+static const String baseUrl = 'https://api1.yggdrasil.eco.br/'; // troque pelo seu IP
+  //final String baseUrl  = 'https://api1.yggdrasil.eco.br/';
+
   final http.Client client;
 
   ApiService({http.Client? client}) : client = client ?? http.Client();
@@ -14,7 +16,7 @@ class ApiService {
       final url = Uri.parse(baseUrl).replace(path: endpoint);
       final response = await client
           .get(url)
-          .timeout(const Duration(seconds: 10)); // timeout de 10s
+          .timeout(const Duration(seconds: 30)); // timeout de 10s
       return _handleResponse(response);
     } on SocketException {
       throw Exception("Sem conexão com a internet");
@@ -37,7 +39,7 @@ class ApiService {
 
       final response = await client
           .get(uri)
-          .timeout(const Duration(seconds: 10));
+          .timeout(const Duration(seconds: 30));
       return _handleResponse(response);
     } on SocketException {
       throw Exception("Sem conexão com a internet");
@@ -60,7 +62,7 @@ class ApiService {
             headers: {"Content-Type": "application/json"},
             body: jsonEncode(body),
           )
-          .timeout(const Duration(seconds: 20));
+          .timeout(const Duration(seconds: 30));
       return _handleResponse(response);
     } on SocketException {
       throw Exception("Sem conexão com a internet");
