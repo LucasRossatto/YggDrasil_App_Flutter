@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:yggdrasil_app/src/shared/widgets/custom_snackbar.dart';
 
 class CameraPage extends StatefulWidget {
   final List<CameraDescription>? cameras;
@@ -58,9 +59,11 @@ class _CameraPageState extends State<CameraPage> {
       Navigator.of(context).pop(base64Image);
     } catch (e) {
       debugPrint("Erro ao tirar foto: $e");
-      ScaffoldMessenger.of(
+      CustomSnackBar.show(
         context,
-      ).showSnackBar(const SnackBar(content: Text("Erro ao tirar foto")));
+        message: "Erro ao tirar foto",
+        profile: "error",
+      );
     }
   }
 
