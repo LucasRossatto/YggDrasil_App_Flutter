@@ -267,8 +267,9 @@ class _CadastroScreenState extends State<CadastroScreen> {
                                       .trim();
                                   final String nomeCompleto =
                                       "$nome $sobrenome";
-                                  if (!_formKey.currentState!.validate())
+                                  if (!_formKey.currentState!.validate()) {
                                     return;
+                                  }
 
                                   if (!_aceitouTermos) {
                                     CustomSnackBar.show(
