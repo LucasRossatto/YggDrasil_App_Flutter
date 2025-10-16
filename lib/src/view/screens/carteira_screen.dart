@@ -142,27 +142,30 @@ class CarteiraScreen extends StatelessWidget {
                 theme: theme,
                 question: "Como eu ganho moedas?",
                 answer:
-                    "Tokenizando uma árvore, e a partir disso, o você passa a possuir um ativo que gera SCC's ou (Save Credit Carbon), os quais o usuário tem a liberdade de vender",
+                    "YGG: Ganha ao fiscalizar as árvores tokenizadas.\n\n"
+                    "SCC: Ao tokenizar uma árvore, você passa a possuir um ativo que gera SCCs "
+                    "(Save Credit Carbon), que podem ser vendidos livremente ou enviadas para a Carteira Valhalla no painel do YggDrasil",
               ),
               _buildFaqTile(
                 theme: theme,
                 question: "Como sacar minhas moedas?",
-                answer:
-                    "Para sacar as moedas você deve acessar o painel do YggDrasil e lá podera coletar seus YggCoins e SCC's",
+                answer: """
+YGG: Ganha um tempo após fiscalizar árvores tokenizadas.\n
+SCC: Para sacar suas moedas, acesse o painel do YggDrasil, onde você poderá coletar seus YggCoins e SCCs.
+""",
               ),
               _buildFaqTile(
                 theme: theme,
 
                 question: "Como enviar moedas?",
                 answer:
-                    "Clique no botão 'Transferir', selecione a moeda e insira o endereço do destinatário junto com o valor.",
+                    "Clique no botão 'Transferir', selecione a moeda e insira a carteira do destinatário junto com o valor.",
               ),
               _buildFaqTile(
                 theme: theme,
-
                 question: "O que são YGG e SCC?",
                 answer:
-                    "YGG é a moeda principal da plataforma Yggdrasil, enquanto SCC é uma moeda que equile a 1 KG de CO2 liberado por uma árvore tageada",
+                    "YGG é a moeda principal da plataforma Yggdrasil, enquanto SCC é uma moeda que equile a 1 KG de dióxido de carbonoo(CO2) filtrados por uma árvore tokenizada",
               ),
             ],
           ),

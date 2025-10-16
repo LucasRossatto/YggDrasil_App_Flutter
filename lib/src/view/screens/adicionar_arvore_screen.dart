@@ -161,12 +161,10 @@ class _AdicionarArvoreScreen extends State<AdicionarArvoreScreen> {
                     final localizacaoAtual = await _localizacaoFormatada();
 
                     final arvoreComLocalizacao = arvore.copyWith(
-                      localizacao: localizacaoAtual.toString(),
+                      localizacao: localizacaoAtual ?? '',
                     );
 
-                    final tagVerificada = await arvoreVm.verificarTag(
-                      tagArvore.text,
-                    );
+                    final tagVerificada = await arvoreVm.verificarTag(tagArvore.text);
                     if (tagVerificada == false) {
                       CustomSnackBar.show(
                         context,
