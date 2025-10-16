@@ -15,14 +15,15 @@ class StartupScreen extends StatelessWidget {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is AuthAuthenticated) {
-          Navigator.pushReplacement(
+          Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (_) => const HomeScreen()),
+            (route) => false,
           );
         } else if (state is AuthUnauthenticated) {
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (_) =>  LoginScreen()),
+            MaterialPageRoute(builder: (_) => LoginScreen()),
           );
         }
       },
@@ -51,7 +52,7 @@ class StartupScreen extends StatelessWidget {
                 ),
               ),
             ),
-        
+
             Positioned(
               bottom: 20,
               left: 200,
@@ -73,7 +74,7 @@ class StartupScreen extends StatelessWidget {
                 ),
               ),
             ),
-        
+
             // Conteúdo da tela
             Padding(
               padding: const EdgeInsets.all(24.0),
@@ -107,7 +108,7 @@ class StartupScreen extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 16),
-                     SizedBox(
+                      SizedBox(
                         width: double.infinity,
                         child: Text(
                           "Monitore a vida e se junte à revolução verde",
@@ -118,13 +119,13 @@ class StartupScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-        
+
                       const SizedBox(height: 48),
-        
+
                       Image.asset('assets/images/logo-yggdrasil.png'),
-        
+
                       const SizedBox(height: 48),
-        
+
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
@@ -157,9 +158,9 @@ class StartupScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-        
+
                       const SizedBox(height: 22),
-        
+
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
