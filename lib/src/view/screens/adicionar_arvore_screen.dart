@@ -6,7 +6,7 @@ import 'package:yggdrasil_app/src/models/tag_model.dart';
 import 'package:yggdrasil_app/src/shared/widgets/custom_snackbar.dart';
 import 'package:yggdrasil_app/src/shared/widgets/gradient_appbar.dart';
 import 'package:yggdrasil_app/src/view/widgets/adicionar_arvore_form.dart';
-import 'package:yggdrasil_app/src/view/widgets/camera_button_wrapper.dart';
+import 'package:yggdrasil_app/src/shared/widgets/camera_button_wrapper.dart';
 import 'package:yggdrasil_app/src/view/widgets/scanner_screen.dart';
 import 'package:yggdrasil_app/src/viewmodel/arvore_viewmodel.dart';
 

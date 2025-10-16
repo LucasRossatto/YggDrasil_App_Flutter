@@ -6,7 +6,7 @@ import 'package:yggdrasil_app/src/shared/widgets/app_text_field.dart';
 import 'package:yggdrasil_app/src/shared/widgets/condicao_arvore_drowdownbutton.dart';
 import 'package:yggdrasil_app/src/shared/widgets/custom_snackbar.dart';
 import 'package:yggdrasil_app/src/shared/widgets/gradient_appbar.dart';
-import 'package:yggdrasil_app/src/view/widgets/camera_button_wrapper.dart';
+import 'package:yggdrasil_app/src/shared/widgets/camera_button_wrapper.dart';
 import 'package:yggdrasil_app/src/viewmodel/arvore_viewmodel.dart';
 
 class AvaliacaoDialog extends StatefulWidget {
