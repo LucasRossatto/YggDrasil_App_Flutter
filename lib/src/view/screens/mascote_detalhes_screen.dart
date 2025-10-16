@@ -77,7 +77,7 @@ class MascoteDetalhesScreen extends StatelessWidget {
                     children: [
                       _buildSectionTitle("Quem é Ratatosk", primary),
                       Text(
-                        "Ratatosk é o esquilo mensageiro da árvore Yggdrasil, a árvore do mundo na mitologia nórdica.\nEle corre incansavelmente entre os galhos e raízes, levando mensagens — e provocações — entre a águia no topo e o dragão Níðhöggr que vive nas profundezas.",
+                        "Ratatosk é o mascote do YggDrasil, guloso por nozes enormes, ele é brincalhão e carismático, sempre pronto para fazer amigos e espalhar alegria por onde passa. Seus olhinhos brilhantes refletem inteligência e carisma, e seu jeito ágil faz com que seja impossível não se encantar com cada salto e acrobacia que realiza",
                         style: TextStyle(
                           fontSize: isTablet ? 17 : 15,
                           height: 1.6,
@@ -92,8 +92,7 @@ class MascoteDetalhesScreen extends StatelessWidget {
                         icon: Icons.public,
                         title: "A ponte entre mundos",
                         text:
-                            "Representa a comunicação entre o céu e o submundo — entre sabedoria e caos. "
-                            "Ele simboliza a troca constante de informação e energia.",
+                            "Ratatorsk o esquilo mensageiro da árvore Yggdrasil, a árvore do mundo na mitologia nórdica.\nEle corre incansavelmente entre os galhos e raízes, levando mensagens — entre a águia no topo e o dragão Níðhöggr que vive nas profundezas.",
                         color: primary,
                         borderColor: borderColor,
                         isTablet: isTablet,
@@ -105,8 +104,8 @@ class MascoteDetalhesScreen extends StatelessWidget {
                         icon: Icons.psychology_alt_outlined,
                         title: "Curioso e provocador",
                         text:
-                            "Inteligente e travesso, Ratatosk adora espalhar rumores, testar limites e observar o impacto das palavras. "
-                            "Ele é ágil, falante e espirituoso.",
+                            "Inteligente e travesso, famingo por nozes enormes"
+                            "Ele é ágil, carismático e espirituoso.",
                         color: primary,
                         borderColor: borderColor,
                         isTablet: isTablet,
@@ -118,8 +117,8 @@ class MascoteDetalhesScreen extends StatelessWidget {
                         icon: Icons.bubble_chart_outlined,
                         title: "Comunicação e dualidade",
                         text:
-                            "Ratatosk representa a força das palavras — capazes de unir ou dividir. "
-                            "Ele reflete a natureza dual da linguagem: criadora e destrutiva.",
+                            "Ratatosk representa a força das palavras — capazes de unir. "
+                            "Ele reflete a natureza da linguagem criadora e extrovertida",
                         color: primary,
                         borderColor: borderColor,
                         isTablet: isTablet,
@@ -145,8 +144,7 @@ class MascoteDetalhesScreen extends StatelessWidget {
 
               // FOOTER + INDICADORES
               Container(
-                decoration: BoxDecoration(
-                ),
+                decoration: BoxDecoration(),
                 padding: EdgeInsets.symmetric(
                   vertical: 14,
                   horizontal: horizontalPadding,
@@ -157,7 +155,7 @@ class MascoteDetalhesScreen extends StatelessWidget {
                     _dot(primary, borderColor, false),
                     const SizedBox(width: 6),
                     _dot(primary, borderColor, true),
-                  ]
+                  ],
                 ),
               ),
             ],
@@ -243,10 +241,9 @@ class MascoteDetalhesScreen extends StatelessWidget {
                 Text(
                   text,
                   style: TextStyle(
-                    color: Theme.of(context)
-                        .colorScheme
-                        .onSurface
-                        .withAlpha((0.8 * 255).toInt()),
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.onSurface.withAlpha((0.8 * 255).toInt()),
                     fontSize: isTablet ? 15 : 14,
                     height: 1.5,
                   ),

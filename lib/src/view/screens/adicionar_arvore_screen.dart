@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
@@ -21,6 +23,7 @@ class AdicionarArvoreScreen extends StatefulWidget {
 
 class _AdicionarArvoreScreen extends State<AdicionarArvoreScreen> {
   late TextEditingController tagArvore;
+  bool _isLoadingLocation = false;
 
   @override
   void initState() {
@@ -40,18 +43,21 @@ class _AdicionarArvoreScreen extends State<AdicionarArvoreScreen> {
   Future<bool> _hasLocationPermission() async {
     if (!await Geolocator.isLocationServiceEnabled()) return false;
     LocationPermission permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.always ||
-        permission == LocationPermission.whileInUse) {
-      return true;
-    }
-    return false; 
+    return permission == LocationPermission.always ||
+        permission == LocationPermission.whileInUse;
   }
 
+  /// Obtém a localização formatada (lat, long)
   Future<String?> _localizacaoFormatada() async {
+    setState(() => _isLoadingLocation = true);
+
     final position = await _requestLocation(context);
+
+    setState(() => _isLoadingLocation = false);
+
     if (position != null) {
       final formatted = '${position.latitude}, ${position.longitude}';
-      debugPrint(formatted);
+      debugPrint('Localização: $formatted');
       return formatted;
     } else {
       CustomSnackBar.show(
@@ -63,46 +69,83 @@ class _AdicionarArvoreScreen extends State<AdicionarArvoreScreen> {
     }
   }
 
+  /// Solicita e obtém a posição atual com fallback e tratamento completo
   Future<Position?> _requestLocation(BuildContext context) async {
-    // Checa se já tem permissão
-    final hasPermission = await _hasLocationPermission();
-    if (!hasPermission) {
-      // Exibe o modal só se não tiver permissão
-      final confirmed = await showDialog<bool>(
-        context: context,
-        builder: (_) => AlertDialog(
-          title: const Text("Precisamos da sua localização"),
-          content: const Text(
-            "Para cadastrar a árvore automaticamente com a sua posição, precisamos acessar sua localização.",
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context, false),
-              child: const Text("Cancelar"),
-            ),
-            TextButton(
-              onPressed: () => Navigator.pop(context, true),
-              child: const Text("Continuar"),
-            ),
-          ],
-        ),
-      );
-
-      if (confirmed != true) return null;
-
-      // Solicita permissão caso ainda não tenha
-      LocationPermission permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied ||
-          permission == LocationPermission.deniedForever) {
-        return null; // Usuário negou
-      }
-    }
-
-    // Obtém a localização atual
     try {
-      return await Geolocator.getCurrentPosition();
+      // Verifica permissão
+      final hasPermission = await _hasLocationPermission();
+      if (!hasPermission) {
+        final confirmed = await showDialog<bool>(
+          context: context,
+          builder: (_) => AlertDialog(
+            title: const Text("Precisamos da sua localização"),
+            content: const Text(
+              "Para cadastrar a árvore automaticamente com a sua posição, precisamos acessar sua localização.",
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context, false),
+                child: const Text("Cancelar"),
+              ),
+              TextButton(
+                onPressed: () => Navigator.pop(context, true),
+                child: const Text("Continuar"),
+              ),
+            ],
+          ),
+        );
+
+        if (confirmed != true) return null;
+
+        LocationPermission permission = await Geolocator.requestPermission();
+        if (permission == LocationPermission.denied ||
+            permission == LocationPermission.deniedForever) {
+          CustomSnackBar.show(
+            context,
+            profile: "error",
+            message: "Permissão de localização negada.",
+          );
+          return null;
+        }
+      }
+
+      // 🧭 Obtém última posição conhecida como fallback
+      final lastKnown = await Geolocator.getLastKnownPosition();
+
+      // 🔄 Tenta obter a localização atual com timeout
+      final currentPosition = await Geolocator.getCurrentPosition(
+         locationSettings: LocationSettings(accuracy: LocationAccuracy.high)
+      ).timeout(const Duration(seconds: 10));
+
+      return currentPosition;
+    } on TimeoutException {
+      CustomSnackBar.show(
+        context,
+        profile: "error",
+        message: "Tempo limite ao buscar localização. Verifique o GPS.",
+      );
+      return await Geolocator.getLastKnownPosition();
+    } on LocationServiceDisabledException {
+      CustomSnackBar.show(
+        context,
+        profile: "error",
+        message: "Serviço de localização desativado.",
+      );
+      return null;
+    } on PermissionDeniedException {
+      CustomSnackBar.show(
+        context,
+        profile: "error",
+        message: "Permissão de localização negada.",
+      );
+      return null;
     } catch (e) {
       debugPrint('Erro ao obter localização: $e');
+      CustomSnackBar.show(
+        context,
+        profile: "error",
+        message: "Erro ao obter localização: $e",
+      );
       return null;
     }
   }
@@ -128,11 +171,25 @@ class _AdicionarArvoreScreen extends State<AdicionarArvoreScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: [
+              // 🔄 Loader de feedback de localização
+              if (_isLoadingLocation)
+                const Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Column(
+                    children: [
+                      CircularProgressIndicator(),
+                      SizedBox(height: 8),
+                      Text("Obtendo localização atual..."),
+                    ],
+                  ),
+                ),
+
               CameraButtonWrapper(
                 onImageCaptured: (base64Image) {
                   _base64Image = base64Image;
                 },
               ),
+
               ArvoreCreateForm(
                 tagIdController: tagArvore,
                 arvore: ArvoreModel(
@@ -164,7 +221,9 @@ class _AdicionarArvoreScreen extends State<AdicionarArvoreScreen> {
                       localizacao: localizacaoAtual ?? '',
                     );
 
-                    final tagVerificada = await arvoreVm.verificarTag(tagArvore.text);
+                    final tagVerificada = await arvoreVm.verificarTag(
+                      tagArvore.text,
+                    );
                     if (tagVerificada == false) {
                       CustomSnackBar.show(
                         context,
