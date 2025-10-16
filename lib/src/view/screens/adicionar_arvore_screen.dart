@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:yggdrasil_app/src/models/arvore_model.dart';
 import 'package:yggdrasil_app/src/models/tag_model.dart';
 import 'package:yggdrasil_app/src/shared/widgets/custom_snackbar.dart';
+import 'package:yggdrasil_app/src/shared/widgets/gradient_appbar.dart';
 import 'package:yggdrasil_app/src/view/widgets/adicionar_arvore_form.dart';
 import 'package:yggdrasil_app/src/view/widgets/camera_button_wrapper.dart';
 import 'package:yggdrasil_app/src/view/widgets/scanner_screen.dart';
@@ -123,23 +124,7 @@ class _AdicionarArvoreScreen extends State<AdicionarArvoreScreen> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Adicionar Árvore"),
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Color.fromRGBO(0, 166, 62, 1),
-                Color.fromRGBO(0, 122, 85, 1),
-              ],
-              stops: [0, 0.5],
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
-            ),
-          ),
-        ),
-      ),
-
+      appBar: GradientAppBar(title: "Adicionar Árvore"),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
