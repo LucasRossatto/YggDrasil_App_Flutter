@@ -12,11 +12,11 @@ class AuthLoading extends AuthState {}
 
 class AuthAuthenticated extends AuthState {
   final String? userId; // ou seu modelo de usuário
-  AuthAuthenticated({this.userId});
+  const AuthAuthenticated({this.userId});
 }
 class AuthUnauthenticated extends AuthState {}
 
 class AuthError extends AuthState {
   final String message;
-  AuthError(this.message);
+  const AuthError(this.message);
 }
