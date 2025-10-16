@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yggdrasil_app/src/blocs/usuario/usuario_bloc.dart';
 import 'package:yggdrasil_app/src/models/wallet_model.dart';
 import 'package:yggdrasil_app/src/blocs/usuario/usuario_state.dart';
+import 'package:yggdrasil_app/src/shared/widgets/qrcode_modal.dart';
 import 'package:yggdrasil_app/src/view/widgets/bottom_navigationbar.dart';
 import 'package:yggdrasil_app/src/view/widgets/home_header.dart';
 import 'package:yggdrasil_app/src/view/widgets/lista_arvores.dart';
@@ -12,49 +13,12 @@ import 'package:yggdrasil_app/src/view/widgets/qr_code.dart';
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
   void _showBottomSheet(BuildContext context, WalletModel wallet) {
-    showModalBottomSheet(
-      context: context,
-      useSafeArea: true,
-      showDragHandle: true,
-      isScrollControlled: true,
-      backgroundColor: Theme.of(context).colorScheme.surface,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
-      ),
-      builder: (BuildContext context) {
-        return Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                'Carteira',
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                "Este é seu código para receber Yggcoins ou SCC por Transferência",
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                ),
-              ),
-              const SizedBox(height: 24),
-              WalletQrCode(walletKey: wallet.key),
-              const SizedBox(height: 24),
-            ],
-          ),
-        );
-      },
-    );
+    qrcodeModal(context, wallet);
   }
 
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-
     return BlocBuilder<UsuarioBloc, UsuarioState>(
       builder: (context, state) {
         if (state is UsuarioLoading) {
@@ -90,7 +54,10 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
             ),
-            bottomNavigationBar: BottomNavigation(wallet: wallet),
+            bottomNavigationBar: BottomNavigation(
+              wallet: wallet,
+              usuario: usuario,
+            ),
             body: SingleChildScrollView(
               child: Column(
                 children: [

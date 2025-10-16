@@ -1,22 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:yggdrasil_app/src/models/usuario_model.dart';
 import 'package:yggdrasil_app/src/models/wallet_model.dart';
 import 'package:yggdrasil_app/src/states/bottomnavigation_state.dart';
 import 'package:yggdrasil_app/src/view/screens/carteira_screen.dart';
 import 'package:yggdrasil_app/src/view/screens/configuracao_screen.dart';
 import 'package:yggdrasil_app/src/view/screens/emdesenvolvimento_screen.dart';
+import 'package:yggdrasil_app/src/view/screens/perfil_screen.dart';
 
 class BottomNavigation extends StatelessWidget {
   final double iconSize;
   final double svgSize;
   final WalletModel wallet;
+  final UsuarioModel usuario;
 
   const BottomNavigation({
     super.key,
     this.iconSize = 30,
     this.svgSize = 30,
-    required this.wallet,
+    required this.wallet, required this.usuario,
   });
 
   @override
@@ -77,7 +80,7 @@ class BottomNavigation extends StatelessWidget {
                 navState.setIndex(3),
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (_) => EmDesenvolvimentoScreen()),
+                  MaterialPageRoute(builder: (_) => PerfilScreen(usuario: usuario,)),
                 ),
               },
             ),
