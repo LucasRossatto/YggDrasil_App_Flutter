@@ -37,16 +37,16 @@ class _CondicaoArvoreDropdownState extends State<CondicaoArvoreDropdown> {
       'description': 'Árvore com condições medianas',
     },
     {
-      'label': 'Muito ruim',
-      'icon': Icons.sentiment_very_dissatisfied,
-      'iconColor': Colors.red,
-      'description': 'Árvore em péssimo estado, precisa de atenção',
-    },
-    {
       'label': 'Ruim',
       'icon': Icons.sentiment_dissatisfied,
       'iconColor': Colors.orange,
       'description': 'Árvore em estado ruim, alguns problemas visíveis',
+    },
+    {
+      'label': 'Muito ruim',
+      'icon': Icons.sentiment_very_dissatisfied,
+      'iconColor': Colors.red,
+      'description': 'Árvore em péssimo estado, precisa de atenção',
     },
   ];
 
