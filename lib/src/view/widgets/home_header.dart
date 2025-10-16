@@ -5,8 +5,8 @@ import 'package:yggdrasil_app/src/models/wallet_model.dart';
 import 'package:yggdrasil_app/src/shared/widgets/custom_snackbar.dart';
 import 'package:yggdrasil_app/src/view/screens/adicionar_arvore_screen.dart';
 import 'package:yggdrasil_app/src/view/screens/detalhe_arvore_screen.dart';
-import 'package:yggdrasil_app/src/view/screens/emdesenvolvimento_screen.dart';
 import 'package:yggdrasil_app/src/view/screens/transferir_screen.dart';
+import 'package:yggdrasil_app/src/view/widgets/mascote_intro_modal.dart';
 import 'package:yggdrasil_app/src/view/widgets/navigationcard_icon.dart';
 import 'package:yggdrasil_app/src/view/widgets/navigationcard_svg.dart';
 import 'package:yggdrasil_app/src/view/widgets/scanner_screen.dart';
@@ -125,13 +125,9 @@ class HomeHeader extends StatelessWidget {
                   ),
                   NavigationCardSvg(
                     theme: theme,
-                    onTap: () => Navigator.of(context).push(
-                      MaterialPageRoute<void>(
-                        builder: (context) => EmDesenvolvimentoScreen(),
-                      ),
-                    ),
-                    svgAsset: 'assets/Icons/Icone_carbono.svg',
-                    label: 'Registrar Emissão',
+                    onTap: () => MascoteIntroModal.show(context),
+                    svgAsset: 'assets/Icons/vetor-minimalista-mascote.svg',
+                    label: 'Mascote',
                   ),
                   NavigationCardIcon(
                     theme: theme,
