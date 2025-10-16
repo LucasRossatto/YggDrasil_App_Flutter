@@ -8,7 +8,6 @@ import 'package:yggdrasil_app/src/view/widgets/bottom_navigationbar.dart';
 import 'package:yggdrasil_app/src/view/widgets/home_header.dart';
 import 'package:yggdrasil_app/src/view/widgets/lista_arvores.dart';
 import 'package:yggdrasil_app/src/view/widgets/overview_container.dart';
-import 'package:yggdrasil_app/src/view/widgets/qr_code.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});

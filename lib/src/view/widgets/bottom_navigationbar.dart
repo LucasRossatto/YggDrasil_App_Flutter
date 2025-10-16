@@ -6,7 +6,6 @@ import 'package:yggdrasil_app/src/models/wallet_model.dart';
 import 'package:yggdrasil_app/src/states/bottomnavigation_state.dart';
 import 'package:yggdrasil_app/src/view/screens/carteira_screen.dart';
 import 'package:yggdrasil_app/src/view/screens/configuracao_screen.dart';
-import 'package:yggdrasil_app/src/view/screens/emdesenvolvimento_screen.dart';
 import 'package:yggdrasil_app/src/view/screens/perfil_screen.dart';
 
 class BottomNavigation extends StatelessWidget {
