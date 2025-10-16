@@ -55,6 +55,21 @@ class _ListaArvoresState extends State<ListaArvores> {
           );
         }
 
+        if (vm.arvores.isEmpty) {
+          return Center(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(
+                "Nenhuma árvore cadastrada.",
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
+              ),
+            ),
+          );
+        }
+
         return Column(
           children: [
             Padding(
@@ -153,7 +168,7 @@ class _ListaArvoresState extends State<ListaArvores> {
                             ),
 
                             icon: const Icon(FontAwesomeIcons.arrowsRotate),
-                            onPressed: () async=>
+                            onPressed: () async =>
                                 vm.getArvoresUsuario(widget.userId),
                           ),
                         ],
