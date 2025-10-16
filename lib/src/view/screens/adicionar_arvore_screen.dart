@@ -158,7 +158,7 @@ class _AdicionarArvoreScreen extends State<AdicionarArvoreScreen> {
                 abrirScanner: abrirScanner,
                 onSubmit: (arvore) async {
                   try {
-                    final localizacaoAtual = _localizacaoFormatada;
+                    final localizacaoAtual = await _localizacaoFormatada();
 
                     final arvoreComLocalizacao = arvore.copyWith(
                       localizacao: localizacaoAtual.toString(),
