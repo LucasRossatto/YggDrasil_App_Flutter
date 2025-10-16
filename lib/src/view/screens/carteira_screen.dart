@@ -67,7 +67,8 @@ class CarteiraScreen extends StatelessWidget {
                   Expanded(
                     child: _buildActionButton(
                       'Transferir',
-                      Colors.green,
+                      theme.colorScheme.primary,
+                      textColor: theme.colorScheme.surface,
                       onPressed: () {
                         Navigator.of(context).push(
                           MaterialPageRoute<void>(
@@ -82,6 +83,7 @@ class CarteiraScreen extends StatelessWidget {
                   Expanded(
                     child: _buildActionButton(
                       'Receber',
+                      textColor: theme.colorScheme.surface,
                       Colors.blue,
                       onPressed: () {
                         showDialog(
@@ -239,7 +241,7 @@ class CarteiraScreen extends StatelessWidget {
                       Text(
                         subtitle,
                         style: TextStyle(
-                          color: Colors.white.withOpacity(0.8),
+                          color: Colors.white.withAlpha(8),
                           fontSize: 12,
                         ),
                       ),
@@ -261,7 +263,7 @@ class CarteiraScreen extends StatelessWidget {
                   Text(
                     approx ?? '',
                     style: TextStyle(
-                      color: Colors.white.withOpacity(0.8),
+                      color: Colors.white.withAlpha(8),
                       fontSize: 12,
                     ),
                   ),
@@ -305,10 +307,7 @@ Widget _buildFaqTile({
     color: theme.colorScheme.surface,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(8),
-      side: BorderSide(
-        color: theme.colorScheme.outline,
-        width: 1.2,
-      ),
+      side: BorderSide(color: theme.colorScheme.outline, width: 1.2),
     ),
     child: ExpansionTile(
       tilePadding: const EdgeInsets.symmetric(horizontal: 16),
