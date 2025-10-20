@@ -40,7 +40,7 @@ class _AvaliacaoDialogState extends State<AvaliacaoDialog> {
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         content: Text(
-          "As informações que você inseriu não serão salvas.\nTem certeza que deseja sair?",
+          "As informações que você inseriu não serão salvas.",
         ),
         actions: [
           TextButton(
@@ -51,12 +51,12 @@ class _AvaliacaoDialogState extends State<AvaliacaoDialog> {
             onPressed: () => Navigator.pop(context, true),
             style: ButtonStyle(
               backgroundColor: WidgetStatePropertyAll(
-                Theme.of(context).colorScheme.primary,
+                Theme.of(context).colorScheme.error,
               ),
             ),
             child: Text(
               "Descartar",
-              style: TextStyle(color: Theme.of(context).colorScheme.surface),
+              style: TextStyle(color: Theme.of(context).colorScheme.errorContainer),
             ),
           ),
         ],
