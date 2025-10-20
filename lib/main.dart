@@ -13,6 +13,7 @@ import 'package:yggdrasil_app/src/repository/usuario_repositorio.dart';
 import 'package:yggdrasil_app/src/services/secure_storage_service.dart';
 import 'package:yggdrasil_app/src/states/bottomnavigation_state.dart';
 import 'package:yggdrasil_app/src/storage/user_storage.dart';
+import 'package:yggdrasil_app/src/view/screens/cadastro_screen.dart';
 import 'package:yggdrasil_app/src/view/screens/error_screen.dart';
 import 'package:yggdrasil_app/src/view/screens/home_screen.dart';
 import 'package:yggdrasil_app/src/view/screens/startup_screen.dart';
@@ -33,7 +34,7 @@ Future<void> main() async {
   FlutterError.onError = (details) {
     FlutterError.presentError(details);
     // Se você tiver um handler customizado, pode chamar aqui
-    ErrorScreen(details: details); 
+    ErrorScreen(details: details);
   };
   // Configura handler global para erros não capturados
   PlatformDispatcher.instance.onError = (error, stack) {
@@ -47,7 +48,7 @@ Future<void> main() async {
   final configuracoesRepositorio = ConfiguracoesRepositorio();
   final storage = UserStorage();
 
-  final idUsuario = await storage.getUserId(); 
+  final idUsuario = await storage.getUserId();
   final authBloc = AuthBloc(usuarioRepository);
   authBloc.add(AppStarted());
 
@@ -61,19 +62,21 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (_) => UsuarioViewModel()),
         ChangeNotifierProvider(create: (_) => ArvoreViewModel()),
         ChangeNotifierProvider(create: (_) => WalletViewmodel()),
-        ChangeNotifierProvider(
-          create: (_) => BottomNavigationState(),
-        ), // controller
+        ChangeNotifierProvider(create: (_) => BottomNavigationState()),
+        ChangeNotifierProvider(create: (_) => UsuarioViewModel()),
       ],
       child: MultiBlocProvider(
         providers: [
           BlocProvider(create: (_) => AuthBloc(usuarioRepository)),
           BlocProvider(
-            create: (_) => UsuarioBloc(usuarioRepository)..add(LoadUsuario(idUsuario.toString())),
+            create: (_) =>
+                UsuarioBloc(usuarioRepository)
+                  ..add(LoadUsuario(idUsuario.toString())),
           ),
           BlocProvider(
-            create: (_) => ConfiguracoesBloc(configuracoesRepositorio)
-              ..add(CarregarConfiguracoes()),
+            create: (_) =>
+                ConfiguracoesBloc(configuracoesRepositorio)
+                  ..add(CarregarConfiguracoes()),
           ),
         ],
         child: MyApp(initialScreen: initialScreen),

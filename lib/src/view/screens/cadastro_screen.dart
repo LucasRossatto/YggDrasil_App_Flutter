@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yggdrasil_app/src/repository/usuario_repositorio.dart';
 import 'package:yggdrasil_app/src/shared/widgets/app_text_field.dart';
 import 'package:yggdrasil_app/src/shared/widgets/password_field.dart';
@@ -29,7 +30,7 @@ class _CadastroScreenState extends State<CadastroScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final vm = UsuarioViewModel();
+    final vm = context.watch<UsuarioViewModel>();
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: Stack(
