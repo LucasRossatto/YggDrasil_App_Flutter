@@ -21,6 +21,7 @@ class CustomSnackBar {
     final snackBarColor = backgroundColor ?? profileData["color"] as Color;
 
     final snackBar = SnackBar(
+      
       content: Row(
         children: [
           Icon(snackBarIcon, color: Colors.white),
