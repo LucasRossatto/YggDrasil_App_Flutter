@@ -29,18 +29,25 @@ class UsuarioViewModel extends ChangeNotifier {
     return null;
   }
 
-  Future<void> cadastrarUsuario(String nome, String email, String senha) async {
+  Future<CadastroResponse> cadastrarUsuario(
+    String nome,
+    String email,
+    String senha,
+  ) async {
     isLoading = true;
-    erro = null;
     notifyListeners();
-    try {
-      usuario = await _repo.cadastrarUsuario(nome, email, senha);
-    } catch (e) {
-      erro = e.toString();
-    } finally {
-      isLoading = false;
-      notifyListeners();
+
+    final resposta = await _repo.cadastrarUsuario(nome, email, senha);
+    if (resposta.isSuccess) {
+      debugPrint("Usuário cadastrado com sucesso!");
+    } else if (resposta.isDuplicate) {
+      debugPrint("Usuário já existe!");
+    } else {
+      debugPrint("Erro no cadastro: ${resposta.message}");
     }
+    isLoading = false;
+    notifyListeners();
+    return resposta;
   }
 
   Future<UsuarioResponse?> getInformacoesUsuario(String id) async {
@@ -51,12 +58,11 @@ class UsuarioViewModel extends ChangeNotifier {
     try {
       final response = await _repo.getInformacoesUsuario(id);
 
-       usuario = response.usuario;
-       wallet = response.wallet;
-       qtdeTagsTotal = response.qtdeTagsTotal;
+      usuario = response.usuario;
+      wallet = response.wallet;
+      qtdeTagsTotal = response.qtdeTagsTotal;
 
-       return response;
-
+      return response;
     } catch (e) {
       erro = e.toString();
     } finally {

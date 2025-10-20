@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:yggdrasil_app/src/models/usuario_model.dart';
 import 'package:yggdrasil_app/src/models/wallet_model.dart';
 import 'package:yggdrasil_app/src/services/api_service.dart';
@@ -23,21 +24,45 @@ class UsuarioResponse {
   }
 }
 
+class CadastroResponse {
+  final int success;
+  final String message;
+
+  CadastroResponse({required this.success, required this.message});
+
+  factory CadastroResponse.fromJson(Map<String, dynamic> json) {
+    return CadastroResponse(
+      success: json['success'] ?? 0,
+      message: json['message'] ?? json['Message'] ?? '',
+    );
+  }
+
+  bool get isSuccess => success == 1;
+  bool get isDuplicate => success == 2;
+  bool get isError => success == 0;
+}
+
 class UsuarioRepositorio {
   final ApiService _api = ApiService();
   final UserStorage _storage = UserStorage();
 
-  Future<UsuarioModel> cadastrarUsuario(
+  Future<CadastroResponse> cadastrarUsuario(
     String nome,
     String email,
     String senha,
   ) async {
-    final data = await _api.post("/CadastrarUsuario", {
-      "nome": nome,
-      "email": email,
-      "senha": senha,
-    });
-    return UsuarioModel.fromJson(data);
+    try {
+      final response = await _api.post("/CadastrarUsuario", {
+        "Nome": nome,
+        "Email": email,
+        "Senha": senha,
+      });
+
+      return CadastroResponse.fromJson(response);
+    } catch (e, stack) {
+      debugPrint('Erro ao cadastrar usuário: $e\n$stack');
+      return CadastroResponse(success: 0, message: "Erro de conexão ou servidor");
+    }
   }
 
   Future<int?> login(String email, String senha) async {

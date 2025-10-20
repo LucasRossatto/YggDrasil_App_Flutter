@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:yggdrasil_app/src/repository/usuario_repositorio.dart';
 import 'package:yggdrasil_app/src/shared/widgets/app_text_field.dart';
 import 'package:yggdrasil_app/src/shared/widgets/password_field.dart';
 import 'package:yggdrasil_app/src/shared/widgets/custom_snackbar.dart';
@@ -22,9 +23,8 @@ class _CadastroScreenState extends State<CadastroScreen> {
   final _emailController = TextEditingController();
   final _senhaController = TextEditingController();
   final _confirmarSenhaController = TextEditingController();
-    bool _aceitouTermos = false; // ✅ mover para cá
+  bool _aceitouTermos = false; // ✅ mover para cá
 
-  final bool _isLoading = false;
   RegExp get _emailRegex => RegExp(r'^\S+@\S+$');
 
   @override
@@ -255,7 +255,7 @@ class _CadastroScreenState extends State<CadastroScreen> {
                               SizedBox(height: 16),
 
                               CadastroButton(
-                                isLoading: _isLoading,
+                                isLoading: vm.isLoading,
                                 onPressed: () async {
                                   if (!_formKey.currentState!.validate()) {
                                     return;
@@ -276,47 +276,64 @@ class _CadastroScreenState extends State<CadastroScreen> {
                                       context,
                                       message:
                                           "Você deve aceitar os Termos e Condições antes de continuar.",
-                                      icon: Icons.warning_amber_rounded,
-                                      backgroundColor: Theme.of(
-                                        context,
-                                      ).colorScheme.errorContainer,
+                                      profile: 'warning',
                                     );
                                     return;
                                   }
 
-                                  final theme = Theme.of(context).colorScheme;
-
                                   try {
-                                    await vm.cadastrarUsuario(
-                                      nomeCompleto,
-                                      email,
-                                      senha,
-                                    );
+                                    final CadastroResponse resposta = await vm
+                                        .cadastrarUsuario(
+                                          nomeCompleto,
+                                          email,
+                                          senha,
+                                        );
 
                                     if (!context.mounted) return;
+
+                                    if (resposta.isSuccess) {
+                                      CustomSnackBar.show(
+                                        context,
+                                        message: resposta.message.isNotEmpty
+                                            ? resposta.message
+                                            : "Cadastro realizado com sucesso!",
+                                      );
+
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (_) => LoginScreen(),
+                                        ),
+                                      );
+                                    } else if (resposta.isDuplicate) {
+                                      CustomSnackBar.show(
+                                        context,
+                                        message: resposta.message.isNotEmpty
+                                            ? resposta.message
+                                            : "Usuário já cadastrado",
+                                        profile: 'error',
+                                      );
+                                    } else {
+                                      CustomSnackBar.show(
+                                        context,
+                                        message: resposta.message.isNotEmpty
+                                            ? resposta.message
+                                            : "Erro ao criar conta",
+                                        profile: 'error',
+                                      );
+                                    }
+                                  } catch (e, stack) {
+                                    if (!context.mounted) return;
+
+                                    debugPrint(
+                                      "Erro inesperado no cadastro: $e\n$stack",
+                                    );
 
                                     CustomSnackBar.show(
                                       context,
                                       message:
-                                          "Cadastro realizado com sucesso!",
-                                      icon: Icons.check,
-                                      backgroundColor: theme.primaryContainer,
-                                    );
-
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (_) => LoginScreen(),
-                                      ),
-                                    );
-                                  } catch (e) {
-                                    if (!context.mounted) return;
-
-                                    CustomSnackBar.show(
-                                      context,
-                                      message: "Erro ao Criar conta: $e",
-                                      icon: Icons.error_outline_outlined,
-                                      backgroundColor: theme.errorContainer,
+                                          "Erro inesperado ao criar conta. Tente novamente.",
+                                      profile: 'error',
                                     );
                                   }
                                 },

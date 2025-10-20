@@ -49,4 +49,6 @@ class UsuarioModel extends Equatable{
 
   @override
   List<Object?> get props => [id,nome, email];
+
+  void operator [](String other) {}
 }
