@@ -177,7 +177,7 @@ class _AdicionarArvoreScreen extends State<AdicionarArvoreScreen> {
                   padding: EdgeInsets.all(16.0),
                   child: Column(
                     children: [
-                      CircularProgressIndicator(),
+                      LinearProgressIndicator(),
                       SizedBox(height: 8),
                       Text("Obtendo localização atual..."),
                     ],
