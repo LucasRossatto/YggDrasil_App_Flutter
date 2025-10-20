@@ -141,8 +141,19 @@ class HomeHeader extends StatelessWidget {
 
                       if (qrCode == null) return;
 
+                      // --- Mostra loading ---
+                      showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (_) =>
+                            const Center(child: CircularProgressIndicator()),
+                      );
+
                       try {
                         final arvore = await arvoreVm.getArvoreByQrCode(qrCode);
+
+                        // Fecha o loading
+                        if (context.mounted) Navigator.pop(context);
 
                         if (arvore == null) {
                           if (context.mounted) {
@@ -154,7 +165,7 @@ class HomeHeader extends StatelessWidget {
                               backgroundColor: theme.colorScheme.errorContainer,
                             );
                           }
-                          return; // não navega
+                          return;
                         } else {
                           if (context.mounted) {
                             CustomSnackBar.show(
@@ -176,6 +187,8 @@ class HomeHeader extends StatelessWidget {
                           );
                         }
                       } catch (e) {
+                        if (context.mounted)
+                          Navigator.pop(context); // fecha loading em erro
                         if (context.mounted) {
                           CustomSnackBar.show(
                             context,
@@ -189,6 +202,7 @@ class HomeHeader extends StatelessWidget {
                     icon: Icons.search_rounded,
                     label: 'Ler tag de Árvore',
                   ),
+
                   NavigationCardSvg(
                     theme: theme,
                     onTap: () {
