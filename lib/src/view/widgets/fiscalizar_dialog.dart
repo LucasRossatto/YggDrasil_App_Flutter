@@ -75,9 +75,7 @@ class _AvaliacaoDialogState extends State<AvaliacaoDialog> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final theme = Theme.of(context);
-    final vmArvore = context.read<ArvoreViewModel>();
-    final bool isLoading = vmArvore.isLoading;
-
+    final vmArvore = context.watch<ArvoreViewModel>();
     return Dialog(
       insetPadding: EdgeInsets.zero,
       child: SizedBox(
@@ -203,9 +201,7 @@ class _AvaliacaoDialogState extends State<AvaliacaoDialog> {
                             theme.colorScheme.primary,
                           ),
                         ),
-                        onPressed: isLoading
-                            ? null
-                            : () async {
+                        onPressed: () async {
                                 if (!_formKey.currentState!.validate()) return;
 
                                 // Valida imagem
@@ -260,7 +256,7 @@ class _AvaliacaoDialogState extends State<AvaliacaoDialog> {
                                   );
                                 }
                               },
-                        child: isLoading
+                        child: vmArvore.isLoading
                             ? SizedBox(
                                 height: 17,
                                 width: 17,

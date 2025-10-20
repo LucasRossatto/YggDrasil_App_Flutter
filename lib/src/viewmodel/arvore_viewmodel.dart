@@ -235,8 +235,9 @@ class ArvoreViewModel extends ChangeNotifier {
   }
 
   Future<int?> fiscalizar(AvaliacaoModel avaliacao) async {
-    setLoading(true);
+    isLoading = true;
     erro = null;
+    notifyListeners();
     try {
       final res = await _repo.fiscalizar(avaliacao);
       if (res?.message == "Essa etiqueta não foi vinculada a nenhuma arvore") {
@@ -258,7 +259,7 @@ class ArvoreViewModel extends ChangeNotifier {
       erro = "Erro interno ao enviar imagem. ,$e";
       return null;
     } finally {
-      setLoading(false);
+      isLoading = false;
       notifyListeners();
     }
   }
