@@ -38,6 +38,7 @@ class CarteiraScreen extends StatelessWidget {
                       name: 'YGG',
                       subtitle: 'Yggdrasil Coin',
                       iconPath: 'assets/Icons/Icone_YGG.svg',
+                      iconCardPath:'assets/Icons/vetor-minimalista-mascote.svg',
                       amount: '${carteira.yggCoin} YGG',
                       width: cardWidth,
                       height: cardHeight,
@@ -50,6 +51,7 @@ class CarteiraScreen extends StatelessWidget {
                       name: 'SCC',
                       subtitle: 'SCC Token',
                       iconPath: 'assets/Icons/Icone_SCC.svg',
+                      iconCardPath:'assets/Icons/vetor-minimalista-mascote.svg',
                       amount: '${carteira.scc} SCC',
                       width: cardWidth,
                       height: cardHeight,
@@ -180,6 +182,7 @@ SCC: Para sacar suas moedas, acesse o painel do YggDrasil, onde você poderá co
     required String name,
     required String subtitle,
     required String iconPath,
+    required String iconCardPath,
     required String amount,
     String? approx,
     required double width,
@@ -214,7 +217,7 @@ SCC: Para sacar suas moedas, acesse o painel do YggDrasil, onde você poderá co
             child: Opacity(
               opacity: 0.15,
               child: SvgPicture.asset(
-                iconPath,
+                iconCardPath,
                 width: 80,
                 height: 80,
                 color: Colors.white,
