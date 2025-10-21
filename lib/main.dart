@@ -13,7 +13,6 @@ import 'package:yggdrasil_app/src/repository/usuario_repositorio.dart';
 import 'package:yggdrasil_app/src/services/secure_storage_service.dart';
 import 'package:yggdrasil_app/src/states/bottomnavigation_state.dart';
 import 'package:yggdrasil_app/src/storage/user_storage.dart';
-import 'package:yggdrasil_app/src/view/screens/cadastro_screen.dart';
 import 'package:yggdrasil_app/src/view/screens/error_screen.dart';
 import 'package:yggdrasil_app/src/view/screens/home_screen.dart';
 import 'package:yggdrasil_app/src/view/screens/startup_screen.dart';
