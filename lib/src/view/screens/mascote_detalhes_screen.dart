@@ -42,21 +42,21 @@ class MascoteDetalhesScreen extends StatelessWidget {
                     InkWell(
                       borderRadius: BorderRadius.circular(50),
                       onTap: () => Navigator.pop(context),
-                      child: const Padding(
+                      child: Padding(
                         padding: EdgeInsets.all(8.0),
                         child: Icon(
                           Icons.arrow_back_ios_new,
                           size: 22,
-                          color: Colors.white,
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
                         ),
                       ),
                     ),
-                    const Text(
+                    Text(
                       "Conhecendo Ratatosk",
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
                         letterSpacing: 0.5,
                       ),
                     ),
