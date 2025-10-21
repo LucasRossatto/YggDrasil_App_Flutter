@@ -146,31 +146,34 @@ class PerfilScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildInfoRow(String label, String value, ThemeData theme) {
-    return Container(
-      height: 56,
-      color: Colors.transparent,
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Row(
-        children: [
-          Expanded(
-            child: Text(
-              label,
-              style: TextStyle(
-                color: theme.colorScheme.onSurfaceVariant,
-                fontSize: 16,
-              ),
-            ),
+Widget _buildInfoRow(String label, String value, ThemeData theme) {
+  return Container(
+    color: Colors.transparent,
+    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          '$label: ',
+          style: TextStyle(
+            color: theme.colorScheme.onSurfaceVariant,
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
           ),
-          Text(
+        ),
+        Expanded(
+          child: Text(
             value,
             style: TextStyle(
               color: theme.colorScheme.onSurfaceVariant,
               fontSize: 16,
             ),
+            softWrap: true,
+            overflow: TextOverflow.visible,
           ),
-        ],
-      ),
-    );
-  }
+        ),
+      ],
+    ),
+  );
+}
 }
