@@ -161,7 +161,7 @@ class InfoContainer2 extends StatelessWidget {
             "Localização",
             style: TextStyle(
               fontWeight: FontWeight.bold,
-              fontSize: 14,
+              fontSize: 16,
               color: theme.colorScheme.onSurfaceVariant,
             ),
           ),
