@@ -55,10 +55,7 @@
 	<string>Este app precisa acessar a câmera para tirar fotos da árvore.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Este app precisa acessar a galeria para salvar fotos.</string>
-	<key>NSAppTransportSecurity</key>
-	<dict>
-    <key>NSAllowsArbitraryLoads</key>
-    <true/>
+	
 </dict>
 </dict>
 </plist>
