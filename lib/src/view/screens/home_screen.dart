@@ -31,7 +31,7 @@ class HomeScreen extends StatelessWidget {
 
           return Scaffold(
             appBar: AppBar(
-              title: const Text("YggDrasil Alpha 0.1.0"),
+              title: const Text("YggDrasil 1.0"),
               automaticallyImplyLeading: false,
             ),
             floatingActionButtonLocation:
