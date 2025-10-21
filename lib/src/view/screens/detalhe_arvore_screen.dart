@@ -49,7 +49,7 @@ class DetalheArvoreScreen extends StatelessWidget {
                 height: 260,
                 fit: BoxFit.cover,
                 backgroundColor: theme.colorScheme.outline,
-        
+
                 placeholder: Icon(
                   Icons.image_not_supported_outlined,
                   size: 50,
@@ -91,8 +91,10 @@ class DetalheArvoreScreen extends StatelessWidget {
                     onPressed: () async {
                       final result = await showDialog(
                         context: context,
-                        builder: (context) =>
-                            AvaliacaoDialog(usuarioId: usuarioId, arvore: arvore),
+                        builder: (context) => AvaliacaoDialog(
+                          usuarioId: usuarioId,
+                          arvore: arvore,
+                        ),
                       );
                     },
                     text: "Fiscalizar Árvore",
@@ -166,7 +168,6 @@ class InfoContainer2 extends StatelessWidget {
           SizedBox(height: 10),
 
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
@@ -177,12 +178,18 @@ class InfoContainer2 extends StatelessWidget {
                   color: theme.colorScheme.onSurfaceVariant,
                 ),
               ),
-              Text(
-                arvore.localizacao,
-                style: TextStyle(
-                  fontWeight: FontWeight.normal,
-                  fontSize: 14,
-                  color: theme.colorScheme.onSurfaceVariant,
+              SizedBox(width: 8),
+              Flexible(
+                child: Text(
+                  arvore.localizacao,
+                  style: TextStyle(
+                    fontWeight: FontWeight.normal,
+                    fontSize: 14,
+                    color: theme.colorScheme.onSurfaceVariant,
+                  ),
+                  softWrap: true,
+                  overflow: TextOverflow
+                      .ellipsis,
                 ),
               ),
             ],
