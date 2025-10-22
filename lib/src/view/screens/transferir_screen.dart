@@ -34,6 +34,7 @@ class _TransferScreenState extends State<TransferScreen> {
     }
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Text("Transferir"),
         flexibleSpace: Container(

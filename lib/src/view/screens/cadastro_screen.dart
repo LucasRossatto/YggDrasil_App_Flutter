@@ -32,343 +32,347 @@ class _CadastroScreenState extends State<CadastroScreen> {
   Widget build(BuildContext context) {
     final vm = context.watch<UsuarioViewModel>();
     return Scaffold(
-      resizeToAvoidBottomInset: true,
-      body: Stack(
-        children: [
-          Container(color: Theme.of(context).colorScheme.surface),
-          BlurGradient1(),
-          BlurGradient2(),
-
-          SingleChildScrollView(
-            child: Padding(
-              padding: EdgeInsets.all(24.0),
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Row(
+      resizeToAvoidBottomInset: false,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Stack(
+            children: [
+              Container(color: Theme.of(context).colorScheme.surface),
+              BlurGradient1(),
+              BlurGradient2(),
+          
+              SingleChildScrollView(
+                child: Padding(
+                  padding: EdgeInsets.all(24.0),
+                  child: Center(
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        SizedBox(
-                          height: 39,
-                          width: 39,
-                          child: Image.asset(
-                            'assets/images/logo-yggdrasil.png',
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              height: 39,
+                              width: 39,
+                              child: Image.asset(
+                                'assets/images/logo-yggdrasil.png',
+                              ),
+                            ),
+                            Text(
+                              "YggDrasil",
+                              style: TextStyle(
+                                fontSize: 22,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                            ),
+                          ],
                         ),
-                        Text(
-                          "YggDrasil",
-                          style: TextStyle(
-                            fontSize: 22,
-                            color: Theme.of(context).colorScheme.primary,
+                        SizedBox(height: 24),
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Theme.of(context).colorScheme.surface,
+                          ),
+                          child: Form(
+                            key: _formKey,
+                            child: Padding(
+                              padding: const EdgeInsets.all(20.0),
+                              child: Column(
+                                children: [
+                                  SizedBox(height: 24),
+                                  Text(
+                                    "Bem vindo de volta",
+                                    style: TextStyle(
+                                      fontSize: 26,
+                                      color: Theme.of(context).colorScheme.primary,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  SizedBox(height: 24),
+          
+                                  Text(
+                                    "Entre para explorar nosso aplicativo",
+                                    style: TextStyle(
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.secondary,
+                                    ),
+                                  ),
+                                  SizedBox(height: 24),
+                                  Row(
+                                    spacing: 10,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Expanded(
+                                        child: AppTextField(
+                                          controller: _nomeController,
+                                          extraLabel: 'Nome',
+                                          label: 'Digite seu nome',
+                                          validator: (value) {
+                                            if (value == null || value.isEmpty) {
+                                              return "Informe um nome";
+                                            }
+                                            return null;
+                                          },
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: AppTextField(
+                                          controller: _sobrenomeController,
+                                          extraLabel: 'Sobrenome',
+                                          label: 'Digite seu sobrenome',
+                                          validator: (value) {
+                                            if (value == null || value.isEmpty) {
+                                              return "Informe um Sobrenome";
+                                            }
+                                            return null;
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 24),
+          
+                                  AppTextField(
+                                    controller: _emailController,
+                                    keyboardType: TextInputType.emailAddress,
+                                    extraLabel: "Email",
+                                    label: "Digite seu email",
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return "Informe um email";
+                                      }
+                                      if (!_emailRegex.hasMatch(value)) {
+                                        return "Endereço de e-mail não é válido";
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                  SizedBox(height: 24),
+          
+                                  PasswordField(
+                                    controller: _senhaController,
+                                    label: "Digite sua senha",
+                                    extraLabel: "Senha",
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return "Informe sua senha";
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                  SizedBox(height: 24),
+                                  PasswordField(
+                                    controller: _confirmarSenhaController,
+                                    label: "Confirme sua senha",
+                                    extraLabel: "Confirmar Senha",
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return "Confirme sua senha";
+                                      } else if (value != _senhaController.text) {
+                                        return 'As senhas não coincidem';
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                  SizedBox(height: 24),
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Checkbox(
+                                        value: _aceitouTermos,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            _aceitouTermos = value ?? false;
+                                          });
+                                        },
+                                        activeColor: Theme.of(
+                                          context,
+                                        ).colorScheme.primary,
+                                      ),
+                                      Expanded(
+                                        child: RichText(
+                                          text: TextSpan(
+                                            style: TextStyle(
+                                              color: Theme.of(
+                                                context,
+                                              ).colorScheme.onSurfaceVariant,
+                                              fontSize: 13,
+                                            ),
+                                            children: [
+                                              const TextSpan(
+                                                text: 'Li e aceito os ',
+                                              ),
+                                              TextSpan(
+                                                text: 'Termos de Uso',
+                                                style: TextStyle(
+                                                  color: Theme.of(
+                                                    context,
+                                                  ).colorScheme.primary,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                                recognizer: TapGestureRecognizer()
+                                                  ..onTap = () {
+                                                    // 👉 Aqui você abre sua tela de Termos
+                                                    Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                        builder: (_) =>
+                                                            const TermosECondicoes(),
+                                                      ),
+                                                    );
+                                                  },
+                                              ),
+                                              const TextSpan(text: ' e a '),
+                                              TextSpan(
+                                                text: 'Política de Privacidade',
+                                                style: TextStyle(
+                                                  color: Theme.of(
+                                                    context,
+                                                  ).colorScheme.primary,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                                recognizer: TapGestureRecognizer()
+                                                  ..onTap = () {
+                                                    // 👉 Aqui você abre sua política existente
+                                                    Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                        builder: (_) =>
+                                                            const PoliticaPrivacidadeScreen(),
+                                                      ),
+                                                    );
+                                                  },
+                                              ),
+                                              const TextSpan(text: '.'),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 16),
+          
+                                  CadastroButton(
+                                    isLoading: vm.isLoading,
+                                    onPressed: () async {
+                                      if (!_formKey.currentState!.validate()) {
+                                        return;
+                                      }
+                                      String email = _emailController.text.trim();
+                                      String senha = _senhaController.text.trim();
+                                      String nome = _nomeController.text.trim();
+                                      String sobrenome = _sobrenomeController.text
+                                          .trim();
+                                      final String nomeCompleto =
+                                          "$nome $sobrenome";
+                                      if (!_formKey.currentState!.validate()) {
+                                        return;
+                                      }
+          
+                                      if (!_aceitouTermos) {
+                                        CustomSnackBar.show(
+                                          context,
+                                          message:
+                                              "Você deve aceitar os Termos e Condições antes de continuar.",
+                                          profile: 'warning',
+                                        );
+                                        return;
+                                      }
+          
+                                      try {
+                                        final CadastroResponse resposta = await vm
+                                            .cadastrarUsuario(
+                                              nomeCompleto,
+                                              email,
+                                              senha,
+                                            );
+          
+                                        if (!context.mounted) return;
+          
+                                        if (resposta.isSuccess) {
+                                          CustomSnackBar.show(
+                                            context,
+                                            message: resposta.message.isNotEmpty
+                                                ? resposta.message
+                                                : "Cadastro realizado com sucesso!",
+                                          );
+          
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (_) => LoginScreen(),
+                                            ),
+                                          );
+                                        } else if (resposta.isDuplicate) {
+                                          CustomSnackBar.show(
+                                            context,
+                                            message: resposta.message.isNotEmpty
+                                                ? resposta.message
+                                                : "Usuário já cadastrado",
+                                            profile: 'error',
+                                          );
+                                        } else {
+                                          CustomSnackBar.show(
+                                            context,
+                                            message: resposta.message.isNotEmpty
+                                                ? resposta.message
+                                                : "Erro ao criar conta",
+                                            profile: 'error',
+                                          );
+                                        }
+                                      } catch (e, stack) {
+                                        if (!context.mounted) return;
+          
+                                        debugPrint(
+                                          "Erro inesperado no cadastro: $e\n$stack",
+                                        );
+          
+                                        CustomSnackBar.show(
+                                          context,
+                                          message:
+                                              "Erro inesperado ao criar conta. Tente novamente.",
+                                          profile: 'error',
+                                        );
+                                      }
+                                    },
+                                  ),
+          
+                                  SizedBox(height: 24),
+          
+                                  Row(
+                                    children: [
+                                      Text("Já possui uma conta?"),
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (_) => LoginScreen(),
+                                            ),
+                                          );
+                                        },
+                                        child: Text("Entrar"),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
                         ),
                       ],
                     ),
-                    SizedBox(height: 24),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Theme.of(context).colorScheme.surface,
-                      ),
-                      child: Form(
-                        key: _formKey,
-                        child: Padding(
-                          padding: const EdgeInsets.all(20.0),
-                          child: Column(
-                            children: [
-                              SizedBox(height: 24),
-                              Text(
-                                "Bem vindo de volta",
-                                style: TextStyle(
-                                  fontSize: 26,
-                                  color: Theme.of(context).colorScheme.primary,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              SizedBox(height: 24),
-
-                              Text(
-                                "Entre para explorar nosso aplicativo",
-                                style: TextStyle(
-                                  color: Theme.of(
-                                    context,
-                                  ).colorScheme.secondary,
-                                ),
-                              ),
-                              SizedBox(height: 24),
-                              Row(
-                                spacing: 10,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Expanded(
-                                    child: AppTextField(
-                                      controller: _nomeController,
-                                      extraLabel: 'Nome',
-                                      label: 'Digite seu nome',
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return "Informe um nome";
-                                        }
-                                        return null;
-                                      },
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: AppTextField(
-                                      controller: _sobrenomeController,
-                                      extraLabel: 'Sobrenome',
-                                      label: 'Digite seu sobrenome',
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return "Informe um Sobrenome";
-                                        }
-                                        return null;
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 24),
-
-                              AppTextField(
-                                controller: _emailController,
-                                keyboardType: TextInputType.emailAddress,
-                                extraLabel: "Email",
-                                label: "Digite seu email",
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return "Informe um email";
-                                  }
-                                  if (!_emailRegex.hasMatch(value)) {
-                                    return "Endereço de e-mail não é válido";
-                                  }
-                                  return null;
-                                },
-                              ),
-                              SizedBox(height: 24),
-
-                              PasswordField(
-                                controller: _senhaController,
-                                label: "Digite sua senha",
-                                extraLabel: "Senha",
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return "Informe sua senha";
-                                  }
-                                  return null;
-                                },
-                              ),
-                              SizedBox(height: 24),
-                              PasswordField(
-                                controller: _confirmarSenhaController,
-                                label: "Confirme sua senha",
-                                extraLabel: "Confirmar Senha",
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return "Confirme sua senha";
-                                  } else if (value != _senhaController.text) {
-                                    return 'As senhas não coincidem';
-                                  }
-                                  return null;
-                                },
-                              ),
-                              SizedBox(height: 24),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Checkbox(
-                                    value: _aceitouTermos,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        _aceitouTermos = value ?? false;
-                                      });
-                                    },
-                                    activeColor: Theme.of(
-                                      context,
-                                    ).colorScheme.primary,
-                                  ),
-                                  Expanded(
-                                    child: RichText(
-                                      text: TextSpan(
-                                        style: TextStyle(
-                                          color: Theme.of(
-                                            context,
-                                          ).colorScheme.onSurfaceVariant,
-                                          fontSize: 13,
-                                        ),
-                                        children: [
-                                          const TextSpan(
-                                            text: 'Li e aceito os ',
-                                          ),
-                                          TextSpan(
-                                            text: 'Termos de Uso',
-                                            style: TextStyle(
-                                              color: Theme.of(
-                                                context,
-                                              ).colorScheme.primary,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                            recognizer: TapGestureRecognizer()
-                                              ..onTap = () {
-                                                // 👉 Aqui você abre sua tela de Termos
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (_) =>
-                                                        const TermosECondicoes(),
-                                                  ),
-                                                );
-                                              },
-                                          ),
-                                          const TextSpan(text: ' e a '),
-                                          TextSpan(
-                                            text: 'Política de Privacidade',
-                                            style: TextStyle(
-                                              color: Theme.of(
-                                                context,
-                                              ).colorScheme.primary,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                            recognizer: TapGestureRecognizer()
-                                              ..onTap = () {
-                                                // 👉 Aqui você abre sua política existente
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (_) =>
-                                                        const PoliticaPrivacidadeScreen(),
-                                                  ),
-                                                );
-                                              },
-                                          ),
-                                          const TextSpan(text: '.'),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 16),
-
-                              CadastroButton(
-                                isLoading: vm.isLoading,
-                                onPressed: () async {
-                                  if (!_formKey.currentState!.validate()) {
-                                    return;
-                                  }
-                                  String email = _emailController.text.trim();
-                                  String senha = _senhaController.text.trim();
-                                  String nome = _nomeController.text.trim();
-                                  String sobrenome = _sobrenomeController.text
-                                      .trim();
-                                  final String nomeCompleto =
-                                      "$nome $sobrenome";
-                                  if (!_formKey.currentState!.validate()) {
-                                    return;
-                                  }
-
-                                  if (!_aceitouTermos) {
-                                    CustomSnackBar.show(
-                                      context,
-                                      message:
-                                          "Você deve aceitar os Termos e Condições antes de continuar.",
-                                      profile: 'warning',
-                                    );
-                                    return;
-                                  }
-
-                                  try {
-                                    final CadastroResponse resposta = await vm
-                                        .cadastrarUsuario(
-                                          nomeCompleto,
-                                          email,
-                                          senha,
-                                        );
-
-                                    if (!context.mounted) return;
-
-                                    if (resposta.isSuccess) {
-                                      CustomSnackBar.show(
-                                        context,
-                                        message: resposta.message.isNotEmpty
-                                            ? resposta.message
-                                            : "Cadastro realizado com sucesso!",
-                                      );
-
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (_) => LoginScreen(),
-                                        ),
-                                      );
-                                    } else if (resposta.isDuplicate) {
-                                      CustomSnackBar.show(
-                                        context,
-                                        message: resposta.message.isNotEmpty
-                                            ? resposta.message
-                                            : "Usuário já cadastrado",
-                                        profile: 'error',
-                                      );
-                                    } else {
-                                      CustomSnackBar.show(
-                                        context,
-                                        message: resposta.message.isNotEmpty
-                                            ? resposta.message
-                                            : "Erro ao criar conta",
-                                        profile: 'error',
-                                      );
-                                    }
-                                  } catch (e, stack) {
-                                    if (!context.mounted) return;
-
-                                    debugPrint(
-                                      "Erro inesperado no cadastro: $e\n$stack",
-                                    );
-
-                                    CustomSnackBar.show(
-                                      context,
-                                      message:
-                                          "Erro inesperado ao criar conta. Tente novamente.",
-                                      profile: 'error',
-                                    );
-                                  }
-                                },
-                              ),
-
-                              SizedBox(height: 24),
-
-                              Row(
-                                children: [
-                                  Text("Já possui uma conta?"),
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (_) => LoginScreen(),
-                                        ),
-                                      );
-                                    },
-                                    child: Text("Entrar"),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               ),
-            ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
