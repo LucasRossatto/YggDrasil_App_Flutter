@@ -1,4 +1,4 @@
-package com.example.yggdrasil_app
+package com.yggdrasil_app
 
 import io.flutter.embedding.android.FlutterActivity
 
