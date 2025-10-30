@@ -9,7 +9,7 @@ import 'package:yggdrasil_app/src/blocs/configuracoes/configuracoes_state.dart';
 import 'package:yggdrasil_app/src/shared/widgets/gradient_appbar.dart';
 import 'package:yggdrasil_app/src/view/screens/startup_screen.dart';
 import 'package:yggdrasil_app/src/view/widgets/transferir_button.dart';
-import 'package:yggdrasil_app/src/view/widgets/termos_politica.dart'; // ← import das telas
+import 'package:yggdrasil_app/src/view/widgets/termos_politica.dart';
 
 class ConfiguracaoScreen extends StatelessWidget {
   const ConfiguracaoScreen({super.key});
@@ -19,7 +19,8 @@ class ConfiguracaoScreen extends StatelessWidget {
     final theme = Theme.of(context);
     final size = MediaQuery.of(context).size;
 
-    Future<void> request() async {
+    // === ALERTA DE LOGOUT ===
+    Future<void> requestLogout() async {
       await showDialog<bool>(
         context: context,
         builder: (context) {
@@ -52,7 +53,7 @@ class ConfiguracaoScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  "Você terá que fazer login novamente para acessar sua conta.",
+                  "Você precisará fazer login novamente para acessar sua conta.",
                   textAlign: TextAlign.center,
                   style: textTheme.bodySmall?.copyWith(
                     color: colors.onSurfaceVariant,
@@ -78,10 +79,86 @@ class ConfiguracaoScreen extends StatelessWidget {
                   context.read<AuthBloc>().add(LoggedOut());
                 },
                 style: ButtonStyle(
-                  backgroundColor: MaterialStatePropertyAll(colors.error),
+                  backgroundColor: WidgetStatePropertyAll(colors.error),
                 ),
                 child: Text(
                   "Sair da Conta",
+                  style: textTheme.labelLarge?.copyWith(
+                    color: colors.errorContainer,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ],
+          );
+        },
+      );
+    }
+
+    // === ALERTA DE EXCLUSÃO DE CONTA ===
+    Future<void> requestDeleteAccount() async {
+      await showDialog<bool>(
+        context: context,
+        builder: (context) {
+          final colors = theme.colorScheme;
+          final textTheme = theme.textTheme;
+
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 24,
+              vertical: 20,
+            ),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Image.asset(
+                  'assets/images/mascote-on-error.png',
+                  height: size.height * 0.12,
+                ),
+                const SizedBox(height: 20),
+                Text(
+                  "Tem certeza que deseja excluir sua conta?",
+                  textAlign: TextAlign.center,
+                  style: textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: colors.onSurface,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  "Essa ação é permanente e todos os seus dados serão removidos. Não será possível recuperá-los depois.",
+                  textAlign: TextAlign.center,
+                  style: textTheme.bodySmall?.copyWith(
+                    color: colors.onSurfaceVariant,
+                  ),
+                ),
+              ],
+            ),
+            actionsPadding: const EdgeInsets.only(right: 12, bottom: 8),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context, false),
+                child: Text(
+                  "Cancelar",
+                  style: textTheme.labelLarge?.copyWith(
+                    color: colors.onSurfaceVariant,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  context.read<AuthBloc>().add(DeleteAccountRequested());
+                },
+                style: ButtonStyle(
+                  backgroundColor: WidgetStatePropertyAll(colors.error),
+                ),
+                child: Text(
+                  "Excluir Conta",
                   style: textTheme.labelLarge?.copyWith(
                     color: colors.errorContainer,
                     fontWeight: FontWeight.w600,
@@ -109,7 +186,7 @@ class ConfiguracaoScreen extends StatelessWidget {
           appBar: GradientAppBar(
             title: "Configurações",
             leading: IconButton(
-              icon: Icon(Icons.close),
+              icon: const Icon(Icons.close),
               color: theme.colorScheme.surface,
               onPressed: () => Navigator.of(context).pop(),
             ),
@@ -123,7 +200,6 @@ class ConfiguracaoScreen extends StatelessWidget {
                     padding: EdgeInsets.symmetric(vertical: size.height * 0.02),
                     children: [
                       SeletorTema(theme: theme),
-
                       Text(
                         "Termos & Condições",
                         style: theme.textTheme.titleMedium?.copyWith(
@@ -132,47 +208,50 @@ class ConfiguracaoScreen extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: size.height * 0.02),
-                      // Termos de Uso
                       ListTile(
-                        leading: Icon(Icons.article),
-                        title: Text("Termos de Uso"),
-                        trailing: Icon(Icons.chevron_right),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => const TermosECondicoes(),
-                            ),
-                          );
-                        },
+                        leading: const Icon(Icons.article),
+                        title: const Text("Termos de Uso"),
+                        trailing: const Icon(Icons.chevron_right),
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const TermosECondicoes(),
+                          ),
+                        ),
                       ),
                       Hr(theme: theme),
-
-                      // Política de Privacidade
                       ListTile(
-                        leading: Icon(Icons.privacy_tip),
-                        title: Text("Política de Privacidade"),
-                        trailing: Icon(Icons.chevron_right),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => const PoliticaPrivacidadeScreen(),
-                            ),
-                          );
-                        },
+                        leading: const Icon(Icons.privacy_tip),
+                        title: const Text("Política de Privacidade"),
+                        trailing: const Icon(Icons.chevron_right),
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const PoliticaPrivacidadeScreen(),
+                          ),
+                        ),
                       ),
-
                       Hr(theme: theme),
                     ],
                   ),
                 ),
 
+                // === BOTÕES DE AÇÃO ===
                 Padding(
                   padding: EdgeInsets.only(bottom: size.height * 0.03, top: 8),
-                  child: TransferirButton(
-                    onPressed: request,
-                    text: "Sair da Conta",
+                  child: Column(
+                    children: [
+                      TransferirButton(
+                        onPressed: requestLogout,
+                        text: "Sair da Conta",
+                      ),
+                      const SizedBox(height: 12),
+                      TransferirButton(
+                        onPressed: requestDeleteAccount,
+                          colorProfile: ButtonColorProfile.error,
+                        text: "Excluir Conta",
+                      ),
+                    ],
                   ),
                 ),
               ],
@@ -186,7 +265,6 @@ class ConfiguracaoScreen extends StatelessWidget {
 
 class Hr extends StatelessWidget {
   const Hr({super.key, required this.theme});
-
   final ThemeData theme;
 
   @override
@@ -201,7 +279,6 @@ class Hr extends StatelessWidget {
 
 class SeletorTema extends StatelessWidget {
   const SeletorTema({super.key, required this.theme});
-
   final ThemeData theme;
 
   @override
@@ -209,7 +286,6 @@ class SeletorTema extends StatelessWidget {
     return BlocBuilder<ConfiguracoesBloc, ConfiguracoesState>(
       builder: (context, state) {
         final colors = theme.colorScheme;
-
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -231,13 +307,8 @@ class SeletorTema extends StatelessWidget {
                 child: DropdownButton<AppTema>(
                   value: state.tema,
                   isExpanded: true,
-                  icon: Icon(
-                    Icons.keyboard_arrow_down,
-                    color: colors.onSurfaceVariant,
-                  ),
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: colors.onSurface,
-                  ),
+                  icon: Icon(Icons.keyboard_arrow_down, color: colors.onSurfaceVariant),
+                  style: theme.textTheme.bodyMedium?.copyWith(color: colors.onSurface),
                   items: const [
                     DropdownMenuItem(
                       value: AppTema.claro,
@@ -272,7 +343,6 @@ class SeletorTema extends StatelessWidget {
                   ],
                   onChanged: (AppTema? novoTema) {
                     if (novoTema == null) return;
-
                     ThemeMode modo;
                     switch (novoTema) {
                       case AppTema.claro:
@@ -286,10 +356,7 @@ class SeletorTema extends StatelessWidget {
                         modo = ThemeMode.system;
                         break;
                     }
-
-                    context.read<ConfiguracoesBloc>().add(
-                      AlternarModoEscuro(modo),
-                    );
+                    context.read<ConfiguracoesBloc>().add(AlternarModoEscuro(modo));
                   },
                 ),
               ),

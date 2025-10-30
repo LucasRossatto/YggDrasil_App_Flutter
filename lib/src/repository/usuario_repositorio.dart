@@ -104,5 +104,12 @@ class UsuarioRepositorio {
 
   Future<void> logout() async {
     await _storage.clearAll();
+  }  
+
+  Future<CadastroResponse> deletarConta (String id) async {
+    final encodedId = Uri.encodeComponent(id);
+    final data = await _api.post("/PostRemoverUsuario/$encodedId", {});
+    final response = CadastroResponse.fromJson(data);
+    return response;
   }
 }

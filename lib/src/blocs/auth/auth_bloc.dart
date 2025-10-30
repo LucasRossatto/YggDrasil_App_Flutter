@@ -14,6 +14,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AppStarted>(_onAppStarted);
     on<LoggedIn>(_onLoggedIn);
     on<LoggedOut>(_onLoggedOut);
+    on<DeleteAccountRequested>(_onDeleteAccountRequested);
   }
 
   Future<void> _onAppStarted(AppStarted event, Emitter<AuthState> emit) async {
@@ -72,6 +73,35 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(AuthError('Erro ao logar usuário: $e'));
     }
   }
+
+  Future<void> _onDeleteAccountRequested(
+  DeleteAccountRequested event,
+  Emitter<AuthState> emit,
+) async {
+  emit(AuthLoading());
+
+  try {
+    final userId = await _secureStorage.getInt('usuario_id');
+
+    if (userId == null) {
+      debugPrint('AuthBloc: ID do usuário não encontrado');
+      emit(const AuthError('ID de usuário inválido'));
+      return;
+    }
+
+    await repositorio.deletarConta(userId.toString());
+    await UserStorage().clearAll();
+
+    debugPrint('AuthBloc: Conta deletada e dados limpos para userId $userId');
+
+    emit(AuthUnauthenticated());
+  } catch (e, stack) {
+    debugPrint('Erro ao deletar conta: $e');
+    debugPrint(stack.toString());
+    emit(AuthError('Erro ao remover conta: ${e.toString()}'));
+  }
+}
+
 
   Future<void> _onLoggedOut(LoggedOut event, Emitter<AuthState> emit) async {
     debugPrint('AuthBloc: LoggedOut event recebido');

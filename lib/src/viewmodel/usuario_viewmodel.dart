@@ -50,18 +50,13 @@ class UsuarioViewModel extends ChangeNotifier {
     return resposta;
   }
 
-  Future<UsuarioResponse?> getInformacoesUsuario(String id) async {
+  Future<CadastroResponse?> getInformacoesUsuario(String id) async {
     isLoading = true;
     erro = null;
     notifyListeners();
 
     try {
-      final response = await _repo.getInformacoesUsuario(id);
-
-      usuario = response.usuario;
-      wallet = response.wallet;
-      qtdeTagsTotal = response.qtdeTagsTotal;
-
+      final response = await _repo.deletarConta(id);
       return response;
     } catch (e) {
       erro = e.toString();
