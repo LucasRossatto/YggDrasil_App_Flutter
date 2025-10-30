@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:yggdrasil_app/src/models/usuario_model.dart';
+import 'package:YggDrasil/src/models/usuario_model.dart';
 
 class PerfilScreen extends StatelessWidget {
   final UsuarioModel usuario;

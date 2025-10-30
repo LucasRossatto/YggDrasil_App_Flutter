@@ -1,7 +1,7 @@
 import 'dart:convert';
-import 'package:yggdrasil_app/src/models/usuario_model.dart';
-import 'package:yggdrasil_app/src/models/wallet_model.dart';
-import 'package:yggdrasil_app/src/services/secure_storage_service.dart';
+import 'package:YggDrasil/src/models/usuario_model.dart';
+import 'package:YggDrasil/src/models/wallet_model.dart';
+import 'package:YggDrasil/src/services/secure_storage_service.dart';
 
 class UserStorage {
   final SecureStorageService storageService = SecureStorageService();

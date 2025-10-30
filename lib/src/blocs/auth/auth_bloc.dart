@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:yggdrasil_app/src/blocs/auth/auth_event.dart';
-import 'package:yggdrasil_app/src/blocs/auth/auth_state.dart';
-import 'package:yggdrasil_app/src/repository/usuario_repositorio.dart';
-import 'package:yggdrasil_app/src/services/secure_storage_service.dart';
-import 'package:yggdrasil_app/src/storage/user_storage.dart';
+import 'package:YggDrasil/src/blocs/auth/auth_event.dart';
+import 'package:YggDrasil/src/blocs/auth/auth_state.dart';
+import 'package:YggDrasil/src/repository/usuario_repositorio.dart';
+import 'package:YggDrasil/src/services/secure_storage_service.dart';
+import 'package:YggDrasil/src/storage/user_storage.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final UsuarioRepositorio repositorio;

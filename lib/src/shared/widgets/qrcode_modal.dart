@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:yggdrasil_app/src/models/wallet_model.dart';
-import 'package:yggdrasil_app/src/view/widgets/qr_code.dart';
+import 'package:YggDrasil/src/models/wallet_model.dart';
+import 'package:YggDrasil/src/view/widgets/qr_code.dart';
 
 Future<dynamic> qrcodeModal(BuildContext context, WalletModel wallet) {
     return showModalBottomSheet(

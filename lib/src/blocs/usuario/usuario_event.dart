@@ -1,4 +1,4 @@
-import 'package:yggdrasil_app/src/models/usuario_model.dart';
+import 'package:YggDrasil/src/models/usuario_model.dart';
 
 abstract class UsuarioEvent {}
 

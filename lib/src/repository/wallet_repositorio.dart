@@ -1,4 +1,4 @@
-import 'package:yggdrasil_app/src/services/api_service.dart';
+import 'package:YggDrasil/src/services/api_service.dart';
 
 class ApiResponse {
   final int success;

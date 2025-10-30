@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:yggdrasil_app/src/blocs/configuracoes/configuracoes_event.dart';
-import 'package:yggdrasil_app/src/blocs/configuracoes/configuracoes_state.dart';
-import 'package:yggdrasil_app/src/repository/configuracoes_repositorio.dart';
+import 'package:YggDrasil/src/blocs/configuracoes/configuracoes_event.dart';
+import 'package:YggDrasil/src/blocs/configuracoes/configuracoes_state.dart';
+import 'package:YggDrasil/src/repository/configuracoes_repositorio.dart';
 
 class ConfiguracoesBloc extends Bloc<ConfiguracoesEvent, ConfiguracoesState> {
   final ConfiguracoesRepositorio repositorio;

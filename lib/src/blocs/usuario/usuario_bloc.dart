@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:yggdrasil_app/src/blocs/usuario/usuario_event.dart';
-import 'package:yggdrasil_app/src/blocs/usuario/usuario_state.dart';
-import 'package:yggdrasil_app/src/repository/usuario_repositorio.dart';
+import 'package:YggDrasil/src/blocs/usuario/usuario_event.dart';
+import 'package:YggDrasil/src/blocs/usuario/usuario_state.dart';
+import 'package:YggDrasil/src/repository/usuario_repositorio.dart';
 
 class UsuarioBloc extends Bloc<UsuarioEvent, UsuarioState> {
   final UsuarioRepositorio repository;

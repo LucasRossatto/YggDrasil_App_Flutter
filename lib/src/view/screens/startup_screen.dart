@@ -1,11 +1,11 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:yggdrasil_app/src/blocs/auth/auth_bloc.dart';
-import 'package:yggdrasil_app/src/blocs/auth/auth_state.dart';
-import 'package:yggdrasil_app/src/view/screens/cadastro_screen.dart';
-import 'package:yggdrasil_app/src/view/screens/home_screen.dart';
-import 'package:yggdrasil_app/src/view/screens/login_screen.dart';
+import 'package:YggDrasil/src/blocs/auth/auth_bloc.dart';
+import 'package:YggDrasil/src/blocs/auth/auth_state.dart';
+import 'package:YggDrasil/src/view/screens/cadastro_screen.dart';
+import 'package:YggDrasil/src/view/screens/home_screen.dart';
+import 'package:YggDrasil/src/view/screens/login_screen.dart';
 
 class StartupScreen extends StatelessWidget {
   const StartupScreen({super.key});

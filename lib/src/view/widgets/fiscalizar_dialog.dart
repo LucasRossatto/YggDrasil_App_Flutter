@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:yggdrasil_app/src/models/arvore_model.dart';
-import 'package:yggdrasil_app/src/models/avaliacao_model.dart';
-import 'package:yggdrasil_app/src/shared/widgets/app_text_field.dart';
-import 'package:yggdrasil_app/src/shared/widgets/condicao_arvore_drowdownbutton.dart';
-import 'package:yggdrasil_app/src/shared/widgets/custom_snackbar.dart';
-import 'package:yggdrasil_app/src/shared/widgets/gradient_appbar.dart';
-import 'package:yggdrasil_app/src/shared/widgets/camera_button_wrapper.dart';
-import 'package:yggdrasil_app/src/viewmodel/arvore_viewmodel.dart';
+import 'package:YggDrasil/src/models/arvore_model.dart';
+import 'package:YggDrasil/src/models/avaliacao_model.dart';
+import 'package:YggDrasil/src/shared/widgets/app_text_field.dart';
+import 'package:YggDrasil/src/shared/widgets/condicao_arvore_drowdownbutton.dart';
+import 'package:YggDrasil/src/shared/widgets/custom_snackbar.dart';
+import 'package:YggDrasil/src/shared/widgets/gradient_appbar.dart';
+import 'package:YggDrasil/src/shared/widgets/camera_button_wrapper.dart';
+import 'package:YggDrasil/src/viewmodel/arvore_viewmodel.dart';
 
 class AvaliacaoDialog extends StatefulWidget {
   final int usuarioId;

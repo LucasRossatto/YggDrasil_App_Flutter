@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:yggdrasil_app/src/blocs/auth/auth_bloc.dart';
-import 'package:yggdrasil_app/src/blocs/auth/auth_event.dart';
-import 'package:yggdrasil_app/src/blocs/auth/auth_state.dart';
-import 'package:yggdrasil_app/src/blocs/configuracoes/configuracoes_bloc.dart';
-import 'package:yggdrasil_app/src/blocs/configuracoes/configuracoes_event.dart';
-import 'package:yggdrasil_app/src/blocs/configuracoes/configuracoes_state.dart';
-import 'package:yggdrasil_app/src/shared/widgets/gradient_appbar.dart';
-import 'package:yggdrasil_app/src/view/screens/startup_screen.dart';
-import 'package:yggdrasil_app/src/view/widgets/transferir_button.dart';
-import 'package:yggdrasil_app/src/view/widgets/termos_politica.dart';
+import 'package:YggDrasil/src/blocs/auth/auth_bloc.dart';
+import 'package:YggDrasil/src/blocs/auth/auth_event.dart';
+import 'package:YggDrasil/src/blocs/auth/auth_state.dart';
+import 'package:YggDrasil/src/blocs/configuracoes/configuracoes_bloc.dart';
+import 'package:YggDrasil/src/blocs/configuracoes/configuracoes_event.dart';
+import 'package:YggDrasil/src/blocs/configuracoes/configuracoes_state.dart';
+import 'package:YggDrasil/src/shared/widgets/gradient_appbar.dart';
+import 'package:YggDrasil/src/view/screens/startup_screen.dart';
+import 'package:YggDrasil/src/view/widgets/transferir_button.dart';
+import 'package:YggDrasil/src/view/widgets/termos_politica.dart';
 
 class ConfiguracaoScreen extends StatelessWidget {
   const ConfiguracaoScreen({super.key});

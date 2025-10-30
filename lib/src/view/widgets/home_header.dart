@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:yggdrasil_app/src/models/usuario_model.dart';
-import 'package:yggdrasil_app/src/models/wallet_model.dart';
-import 'package:yggdrasil_app/src/shared/widgets/custom_snackbar.dart';
-import 'package:yggdrasil_app/src/view/screens/adicionar_arvore_screen.dart';
-import 'package:yggdrasil_app/src/view/screens/detalhe_arvore_screen.dart';
-import 'package:yggdrasil_app/src/view/screens/transferir_screen.dart';
-import 'package:yggdrasil_app/src/view/widgets/mascote_intro_modal.dart';
-import 'package:yggdrasil_app/src/view/widgets/navigationcard_icon.dart';
-import 'package:yggdrasil_app/src/view/widgets/navigationcard_svg.dart';
-import 'package:yggdrasil_app/src/view/widgets/scanner_screen.dart';
-import 'package:yggdrasil_app/src/viewmodel/arvore_viewmodel.dart';
+import 'package:YggDrasil/src/models/usuario_model.dart';
+import 'package:YggDrasil/src/models/wallet_model.dart';
+import 'package:YggDrasil/src/shared/widgets/custom_snackbar.dart';
+import 'package:YggDrasil/src/view/screens/adicionar_arvore_screen.dart';
+import 'package:YggDrasil/src/view/screens/detalhe_arvore_screen.dart';
+import 'package:YggDrasil/src/view/screens/transferir_screen.dart';
+import 'package:YggDrasil/src/view/widgets/mascote_intro_modal.dart';
+import 'package:YggDrasil/src/view/widgets/navigationcard_icon.dart';
+import 'package:YggDrasil/src/view/widgets/navigationcard_svg.dart';
+import 'package:YggDrasil/src/view/widgets/scanner_screen.dart';
+import 'package:YggDrasil/src/viewmodel/arvore_viewmodel.dart';
 
 class HomeHeader extends StatelessWidget {
   final String nome;

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:yggdrasil_app/src/models/wallet_model.dart';
-import 'package:yggdrasil_app/src/view/widgets/scanner_screen.dart';
-import 'package:yggdrasil_app/src/view/widgets/transferir_scc_form.dart';
-import 'package:yggdrasil_app/src/view/widgets/transferir_ygg_form.dart';
+import 'package:YggDrasil/src/models/wallet_model.dart';
+import 'package:YggDrasil/src/view/widgets/scanner_screen.dart';
+import 'package:YggDrasil/src/view/widgets/transferir_scc_form.dart';
+import 'package:YggDrasil/src/view/widgets/transferir_ygg_form.dart';
 
 class TransferScreen extends StatefulWidget {
   final WalletModel carteira;

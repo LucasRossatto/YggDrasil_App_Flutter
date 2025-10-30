@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:yggdrasil_app/src/shared/widgets/custom_snackbar.dart';
+import 'package:YggDrasil/src/shared/widgets/custom_snackbar.dart';
 
 class CameraPage extends StatefulWidget {
   final List<CameraDescription>? cameras;

@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
-import 'package:yggdrasil_app/src/models/usuario_model.dart';
-import 'package:yggdrasil_app/src/models/wallet_model.dart';
-import 'package:yggdrasil_app/src/services/api_service.dart';
-import 'package:yggdrasil_app/src/storage/user_storage.dart';
+import 'package:YggDrasil/src/models/usuario_model.dart';
+import 'package:YggDrasil/src/models/wallet_model.dart';
+import 'package:YggDrasil/src/services/api_service.dart';
+import 'package:YggDrasil/src/storage/user_storage.dart';
 
 class UsuarioResponse {
   final UsuarioModel usuario;

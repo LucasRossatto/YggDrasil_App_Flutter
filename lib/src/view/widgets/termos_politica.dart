@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:yggdrasil_app/src/shared/widgets/gradient_appbar.dart';
+import 'package:YggDrasil/src/shared/widgets/gradient_appbar.dart';
 
 class TermosECondicoes extends StatelessWidget {
   const TermosECondicoes({super.key});

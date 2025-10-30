@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:yggdrasil_app/src/shared/widgets/formatar_data.dart';
-import 'package:yggdrasil_app/src/view/screens/detalhe_arvore_screen.dart';
-import 'package:yggdrasil_app/src/viewmodel/arvore_viewmodel.dart';
+import 'package:YggDrasil/src/shared/widgets/formatar_data.dart';
+import 'package:YggDrasil/src/view/screens/detalhe_arvore_screen.dart';
+import 'package:YggDrasil/src/viewmodel/arvore_viewmodel.dart';
 
 class ListaArvores extends StatefulWidget {
   final int userId;

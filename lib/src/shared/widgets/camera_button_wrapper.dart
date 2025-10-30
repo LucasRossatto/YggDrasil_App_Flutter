@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
-import 'package:yggdrasil_app/src/view/widgets/camera_screen.dart';
+import 'package:YggDrasil/src/view/widgets/camera_screen.dart';
 
 class CameraButtonWrapper extends StatefulWidget {
   final Function(String) onImageCaptured;

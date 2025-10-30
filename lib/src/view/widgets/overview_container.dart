@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:yggdrasil_app/src/models/wallet_model.dart';
+import 'package:YggDrasil/src/models/wallet_model.dart';
 
 class OverviewContainer extends StatelessWidget {
   final ThemeData theme;

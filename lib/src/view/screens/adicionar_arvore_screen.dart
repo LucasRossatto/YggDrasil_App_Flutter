@@ -3,14 +3,14 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
-import 'package:yggdrasil_app/src/models/arvore_model.dart';
-import 'package:yggdrasil_app/src/models/tag_model.dart';
-import 'package:yggdrasil_app/src/shared/widgets/custom_snackbar.dart';
-import 'package:yggdrasil_app/src/shared/widgets/gradient_appbar.dart';
-import 'package:yggdrasil_app/src/view/widgets/adicionar_arvore_form.dart';
-import 'package:yggdrasil_app/src/shared/widgets/camera_button_wrapper.dart';
-import 'package:yggdrasil_app/src/view/widgets/scanner_screen.dart';
-import 'package:yggdrasil_app/src/viewmodel/arvore_viewmodel.dart';
+import 'package:YggDrasil/src/models/arvore_model.dart';
+import 'package:YggDrasil/src/models/tag_model.dart';
+import 'package:YggDrasil/src/shared/widgets/custom_snackbar.dart';
+import 'package:YggDrasil/src/shared/widgets/gradient_appbar.dart';
+import 'package:YggDrasil/src/view/widgets/adicionar_arvore_form.dart';
+import 'package:YggDrasil/src/shared/widgets/camera_button_wrapper.dart';
+import 'package:YggDrasil/src/view/widgets/scanner_screen.dart';
+import 'package:YggDrasil/src/viewmodel/arvore_viewmodel.dart';
 
 class AdicionarArvoreScreen extends StatefulWidget {
   final int usuarioId;

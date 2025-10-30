@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-import 'package:yggdrasil_app/src/models/usuario_model.dart';
-import 'package:yggdrasil_app/src/models/wallet_model.dart';
-import 'package:yggdrasil_app/src/states/bottomnavigation_state.dart';
-import 'package:yggdrasil_app/src/view/screens/carteira_screen.dart';
-import 'package:yggdrasil_app/src/view/screens/configuracao_screen.dart';
-import 'package:yggdrasil_app/src/view/screens/perfil_screen.dart';
+import 'package:YggDrasil/src/models/usuario_model.dart';
+import 'package:YggDrasil/src/models/wallet_model.dart';
+import 'package:YggDrasil/src/states/bottomnavigation_state.dart';
+import 'package:YggDrasil/src/view/screens/carteira_screen.dart';
+import 'package:YggDrasil/src/view/screens/configuracao_screen.dart';
+import 'package:YggDrasil/src/view/screens/perfil_screen.dart';
 
 class BottomNavigation extends StatelessWidget {
   final double iconSize;

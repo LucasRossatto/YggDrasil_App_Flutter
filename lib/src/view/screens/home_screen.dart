@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:yggdrasil_app/src/blocs/usuario/usuario_bloc.dart';
-import 'package:yggdrasil_app/src/models/wallet_model.dart';
-import 'package:yggdrasil_app/src/blocs/usuario/usuario_state.dart';
-import 'package:yggdrasil_app/src/shared/widgets/qrcode_modal.dart';
-import 'package:yggdrasil_app/src/view/widgets/bottom_navigationbar.dart';
-import 'package:yggdrasil_app/src/view/widgets/home_header.dart';
-import 'package:yggdrasil_app/src/view/widgets/lista_arvores.dart';
-import 'package:yggdrasil_app/src/view/widgets/overview_container.dart';
+import 'package:YggDrasil/src/blocs/usuario/usuario_bloc.dart';
+import 'package:YggDrasil/src/models/wallet_model.dart';
+import 'package:YggDrasil/src/blocs/usuario/usuario_state.dart';
+import 'package:YggDrasil/src/shared/widgets/qrcode_modal.dart';
+import 'package:YggDrasil/src/view/widgets/bottom_navigationbar.dart';
+import 'package:YggDrasil/src/view/widgets/home_header.dart';
+import 'package:YggDrasil/src/view/widgets/lista_arvores.dart';
+import 'package:YggDrasil/src/view/widgets/overview_container.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});

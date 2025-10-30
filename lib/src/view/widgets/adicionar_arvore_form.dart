@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-import 'package:yggdrasil_app/src/models/arvore_model.dart';
-import 'package:yggdrasil_app/src/shared/widgets/app_numeric_field.dart';
-import 'package:yggdrasil_app/src/shared/widgets/app_text_field.dart';
-import 'package:yggdrasil_app/src/shared/widgets/custom_snackbar.dart';
-import 'package:yggdrasil_app/src/shared/widgets/tipo_arvore_segmentedbutton.dart';
-import 'package:yggdrasil_app/src/view/widgets/transferir_button.dart';
-import 'package:yggdrasil_app/src/viewmodel/arvore_viewmodel.dart';
+import 'package:YggDrasil/src/models/arvore_model.dart';
+import 'package:YggDrasil/src/shared/widgets/app_numeric_field.dart';
+import 'package:YggDrasil/src/shared/widgets/app_text_field.dart';
+import 'package:YggDrasil/src/shared/widgets/custom_snackbar.dart';
+import 'package:YggDrasil/src/shared/widgets/tipo_arvore_segmentedbutton.dart';
+import 'package:YggDrasil/src/view/widgets/transferir_button.dart';
+import 'package:YggDrasil/src/viewmodel/arvore_viewmodel.dart';
 
 class ArvoreCreateForm extends StatefulWidget {
   final ArvoreModel arvore;

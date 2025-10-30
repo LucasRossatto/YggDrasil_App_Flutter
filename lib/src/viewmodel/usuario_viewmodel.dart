@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:yggdrasil_app/src/models/usuario_model.dart';
-import 'package:yggdrasil_app/src/models/wallet_model.dart';
-import 'package:yggdrasil_app/src/repository/usuario_repositorio.dart';
+import 'package:YggDrasil/src/models/usuario_model.dart';
+import 'package:YggDrasil/src/models/wallet_model.dart';
+import 'package:YggDrasil/src/repository/usuario_repositorio.dart';
 
 class UsuarioViewModel extends ChangeNotifier {
   final UsuarioRepositorio _repo = UsuarioRepositorio();

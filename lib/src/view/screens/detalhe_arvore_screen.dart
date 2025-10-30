@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:yggdrasil_app/src/models/arvore_model.dart';
-import 'package:yggdrasil_app/src/shared/widgets/base64_image.dart';
-import 'package:yggdrasil_app/src/shared/widgets/formatar_data.dart';
-import 'package:yggdrasil_app/src/shared/widgets/mapa.dart';
-import 'package:yggdrasil_app/src/view/widgets/fiscalizar_dialog.dart';
-import 'package:yggdrasil_app/src/view/widgets/transferir_button.dart';
+import 'package:YggDrasil/src/models/arvore_model.dart';
+import 'package:YggDrasil/src/shared/widgets/base64_image.dart';
+import 'package:YggDrasil/src/shared/widgets/formatar_data.dart';
+import 'package:YggDrasil/src/shared/widgets/mapa.dart';
+import 'package:YggDrasil/src/view/widgets/fiscalizar_dialog.dart';
+import 'package:YggDrasil/src/view/widgets/transferir_button.dart';
 
 class DetalheArvoreScreen extends StatelessWidget {
   final ArvoreModel arvore;

@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:yggdrasil_app/src/models/tag_model.dart';
+import 'package:YggDrasil/src/models/tag_model.dart';
 
 class ArvoreModel extends Equatable {
   final int id;

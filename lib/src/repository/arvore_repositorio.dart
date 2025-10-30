@@ -1,8 +1,8 @@
 import 'package:flutter/widgets.dart';
-import 'package:yggdrasil_app/src/models/arvore_model.dart';
-import 'package:yggdrasil_app/src/models/avaliacao_model.dart';
-import 'package:yggdrasil_app/src/models/tag_model.dart';
-import 'package:yggdrasil_app/src/services/api_service.dart';
+import 'package:YggDrasil/src/models/arvore_model.dart';
+import 'package:YggDrasil/src/models/avaliacao_model.dart';
+import 'package:YggDrasil/src/models/tag_model.dart';
+import 'package:YggDrasil/src/services/api_service.dart';
 
 class ApiResponse {
   final int success;

@@ -3,14 +3,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
-import 'package:yggdrasil_app/src/models/wallet_model.dart';
-import 'package:yggdrasil_app/src/repository/wallet_repositorio.dart';
-import 'package:yggdrasil_app/src/shared/widgets/app_numeric_field.dart';
-import 'package:yggdrasil_app/src/shared/widgets/app_text_field.dart';
-import 'package:yggdrasil_app/src/shared/widgets/custom_snackbar.dart';
-import 'package:yggdrasil_app/src/view/widgets/saldo_wallet_card.dart';
-import 'package:yggdrasil_app/src/view/widgets/transferir_button.dart';
-import 'package:yggdrasil_app/src/viewmodel/wallet_viewmodel.dart';
+import 'package:YggDrasil/src/models/wallet_model.dart';
+import 'package:YggDrasil/src/repository/wallet_repositorio.dart';
+import 'package:YggDrasil/src/shared/widgets/app_numeric_field.dart';
+import 'package:YggDrasil/src/shared/widgets/app_text_field.dart';
+import 'package:YggDrasil/src/shared/widgets/custom_snackbar.dart';
+import 'package:YggDrasil/src/view/widgets/saldo_wallet_card.dart';
+import 'package:YggDrasil/src/view/widgets/transferir_button.dart';
+import 'package:YggDrasil/src/viewmodel/wallet_viewmodel.dart';
 
 class SccTransferirForm extends StatelessWidget {
   final WalletModel carteiraUsuario;

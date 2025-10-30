@@ -2,13 +2,13 @@ import 'dart:ui';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:yggdrasil_app/src/repository/usuario_repositorio.dart';
-import 'package:yggdrasil_app/src/shared/widgets/app_text_field.dart';
-import 'package:yggdrasil_app/src/shared/widgets/password_field.dart';
-import 'package:yggdrasil_app/src/shared/widgets/custom_snackbar.dart';
-import 'package:yggdrasil_app/src/view/screens/login_screen.dart';
-import 'package:yggdrasil_app/src/view/widgets/termos_politica.dart';
-import 'package:yggdrasil_app/src/viewmodel/usuario_viewmodel.dart';
+import 'package:YggDrasil/src/repository/usuario_repositorio.dart';
+import 'package:YggDrasil/src/shared/widgets/app_text_field.dart';
+import 'package:YggDrasil/src/shared/widgets/password_field.dart';
+import 'package:YggDrasil/src/shared/widgets/custom_snackbar.dart';
+import 'package:YggDrasil/src/view/screens/login_screen.dart';
+import 'package:YggDrasil/src/view/widgets/termos_politica.dart';
+import 'package:YggDrasil/src/viewmodel/usuario_viewmodel.dart';
 
 class CadastroScreen extends StatefulWidget {
   const CadastroScreen({super.key});

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:yggdrasil_app/src/models/wallet_model.dart';
-import 'package:yggdrasil_app/src/shared/widgets/gradient_appbar.dart';
-import 'package:yggdrasil_app/src/view/screens/transferir_screen.dart';
-import 'package:yggdrasil_app/src/view/widgets/qr_code.dart';
+import 'package:YggDrasil/src/models/wallet_model.dart';
+import 'package:YggDrasil/src/shared/widgets/gradient_appbar.dart';
+import 'package:YggDrasil/src/view/screens/transferir_screen.dart';
+import 'package:YggDrasil/src/view/widgets/qr_code.dart';
 
 class CarteiraScreen extends StatelessWidget {
   final WalletModel carteira;

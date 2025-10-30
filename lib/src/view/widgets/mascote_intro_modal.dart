@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:yggdrasil_app/src/view/screens/mascote_detalhes_screen.dart';
+import 'package:YggDrasil/src/view/screens/mascote_detalhes_screen.dart';
 
 class MascoteIntroModal extends StatefulWidget {
   const MascoteIntroModal({super.key});

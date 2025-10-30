@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:yggdrasil_app/src/models/arvore_model.dart';
-import 'package:yggdrasil_app/src/models/avaliacao_model.dart';
-import 'package:yggdrasil_app/src/repository/arvore_repositorio.dart';
+import 'package:YggDrasil/src/models/arvore_model.dart';
+import 'package:YggDrasil/src/models/avaliacao_model.dart';
+import 'package:YggDrasil/src/repository/arvore_repositorio.dart';
 
 class ArvoreViewModel extends ChangeNotifier {
   final ArvoreRepositorio _repo = ArvoreRepositorio();
