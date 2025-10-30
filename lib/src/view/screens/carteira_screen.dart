@@ -167,7 +167,7 @@ SCC: Para sacar suas moedas, acesse o painel do YggDrasil, onde você poderá co
                 theme: theme,
                 question: "O que são YGG e SCC?",
                 answer:
-                    "YGG é a moeda principal da plataforma Yggdrasil, enquanto SCC é uma moeda que equile a 1 KG de dióxido de carbonoo(CO2) filtrados por uma árvore tokenizada",
+                    "YGG é a moeda principal da plataforma Yggdrasil, enquanto SCC é uma moeda que equivale a 1 KG de dióxido de carbonoo(CO2) filtrados por uma árvore tokenizada",
               ),
             ],
           ),
